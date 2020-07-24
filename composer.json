@@ -20,6 +20,13 @@
             "Tiuswebs\\ConstructorCore\\": "src/"
         }
     },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Tiuswebs\\ConstructorCore\\ServiceProvider"
+            ]
+        }
+    },
     "config": {
         "sort-packages": true
     },

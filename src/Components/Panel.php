@@ -14,7 +14,7 @@ class Panel extends Component
 	public function formHtml($use_front_view = false)
 	{
 		$panel = $this;
-		return view('constructor.panel-form', compact('panel'));
+		return view('constructor::panel-form', compact('panel'));
 	}
 
 	public function showHtml($object)
@@ -22,14 +22,14 @@ class Panel extends Component
 		$panel = $this;
 		$field = $this->fields()->first();
 		$is_input = is_object($field) ? $field->is_input : false;
-		return view('constructor.panel', compact('panel', 'object', 'is_input'));
+		return view('constructor::panel', compact('panel', 'object', 'is_input'));
 	}
 
 	public function html()
 	{
 		$input = $this;
 		$value = $this->showHtml(null);
-		return view('constructor.input-outer', compact('value', 'input'))->render();
+		return view('constructor::input-outer', compact('value', 'input'))->render();
 	}
 
 	public function getValue($object)

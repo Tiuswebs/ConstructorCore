@@ -106,7 +106,7 @@ class Input
 	public function formHtml($use_front_view = false)
 	{
 		$input = $this;
-		$view = $use_front_view ? 'front::input-form' : 'constructor.input-form';
+		$view = $use_front_view ? 'front::input-form' : 'constructor::input-form';
 		$html = view($view, compact('input'))->render();
 		return $this->form_before.$html.$this->form_after;
 	}
@@ -114,7 +114,7 @@ class Input
 	public function showHtml($object)
 	{
 		$input = $this;
-		$html = view('constructor.input-show', compact('input', 'object'))->render();
+		$html = view('constructor::input-show', compact('input', 'object'))->render();
 		return $this->validateConditional($object) ? $html : null;
 	}
 
