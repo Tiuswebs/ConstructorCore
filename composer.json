@@ -1,0 +1,28 @@
+{
+    "name": "tiuswebs/constructor_core",
+    "description": "Constructor Core for tiuswebs",
+    "keywords": [
+        "laravel",
+        "admin"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Carlos Escobar",
+            "email": "carlosescobar@weblabor.mx"
+        }
+    ],
+    "require": {
+        "php": ">=7.1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Tiuswebs\\ConstructorCore\\": "src/"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
