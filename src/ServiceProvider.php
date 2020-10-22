@@ -17,11 +17,12 @@ class ServiceProvider extends Provider
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'constructor');
 
         Blade::directive('pushonce', function ($expression) {
-		    $isDisplayed = '__pushonce_'.trim(substr($expression, 2, -2));
-		    return "<?php if(!isset(\$__env->{$isDisplayed})): \$__env->{$isDisplayed} = true; \$__env->startPush{$expression}; ?>";
-		});
-		Blade::directive('endpushonce', function ($expression) {
-		    return '<?php $__env->stopPush(); endif; ?>';
-		});
+            $var = '$__env->{"__pushonce_" . md5(__FILE__ . ":" . __LINE__)}';
+            return "<?php if(!isset({$var})): {$var} = true; \$__env->startPush({$expression}); ?>";
+        });
+
+        Blade::directive('endpushonce', function ($expression) {
+            return '<?php $__env->stopPush(); endif; ?>';
+        });
     }
 }
