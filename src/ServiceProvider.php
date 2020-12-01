@@ -24,5 +24,14 @@ class ServiceProvider extends Provider
         Blade::directive('endpushonce', function ($expression) {
             return '<?php $__env->stopPush(); endif; ?>';
         });
+        
+        Blade::directive('pushoncebykey', function ($expression) {
+            $var = "\$__env->{'__pushoncebykey_' . explode(':', {$expression})[1]}";
+            return "<?php if(!isset({$var})): {$var} = true; \$__env->startPush(explode(':', {$expression})[0]); ?>";
+        });
+
+        Blade::directive('endpushoncebykey', function ($expression) {
+            return '<?php $__env->stopPush(); endif; ?>';
+        });
     }
 }
