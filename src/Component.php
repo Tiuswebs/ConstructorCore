@@ -37,9 +37,15 @@ abstract class Component
 		//
 	}
 
+	public function baseFields()
+	{
+		return [];
+	}
+
 	public function getFields()
 	{
-		return collect($this->fields())->flatten(1)->map(function($item) {
+		$fields = collect($this->fields())->prepend($this->baseFields())->whereNotNull()->flatten(1);
+		return $fields->map(function($item) {
 			$column = $item->column;
 		
 			if(!is_array($column) && isset($this->data->$column )) {

@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Http;
 class Result extends Component
 {
     public $category = 'result';
+    public $default_limit = 10;
+    public $default_sort = 'latest';
 
     public function load()
     {
@@ -18,9 +20,17 @@ class Result extends Component
             $this->elements = $this->contents->$sort()->paginate($this->values->limit);
         } else {
             $url = "http://app.tiuswebs.com/api/example_data/{$relation}";
-            $this->elements = collect(Http::get($url)->json())->map(function($item) {
+            $elements = collect(Http::get($url)->json())->map(function($item) {
                 return (object) $item;
-            })->take($this->values->limit);
+            });
+            if($this->values->sort=='latest') {
+                $elements = $elements->sortByDesc('created_at');
+            } else if($this->values->sort=='oldest') {
+                $elements = $elements->sortBy('created_at');
+            } else if($this->values->sort=='random') {
+                $elements = $elements->random($this->values->limit);
+            }
+            $this->elements = $elements->take($this->values->limit);
         }
     }
 
@@ -28,8 +38,8 @@ class Result extends Component
     {
         return [
             Select::make('Show')->default($this->showDefault())->options($this->showOptions()),
-            Select::make('Sort')->default('latest')->options(['latest' => __('Latest'), 'oldest' => __('Oldest')]),
-            Number::make('Limit of results', 'limit')->default(10),
+            Select::make('Sort')->default($this->default_sort)->options(['latest' => __('Latest'), 'oldest' => __('Oldest'), 'random' => __('Random')]),
+            Number::make('Limit of results', 'limit')->default($this->default_limit),
         ];
             
     }
