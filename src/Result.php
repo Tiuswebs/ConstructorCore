@@ -30,7 +30,7 @@ class Result extends Component
             } else if($this->values->sort=='random') {
                 $elements = $elements->random($this->values->limit);
             }
-            $this->elements = $elements->take($this->values->limit);
+            $this->elements = $elements->take($this->values->limit)->values();
         }
     }
 
