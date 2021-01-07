@@ -17,6 +17,7 @@ class Input
 	public $form_before = '';
 	public $form_after = '';
 	public $data_classes = '';
+	public $original_title;
 	public $title;
 	public $set_title_executed = false;
 	public $needs_to_be_on_panel = true;
@@ -28,6 +29,7 @@ class Input
 
 	public function __construct($title = null, $column = null, $extra = null, $source = null)
 	{
+		$this->original_title = $title;
 		$this->title = __($title);
 		$this->column = $column;
 		$this->extra = $extra;

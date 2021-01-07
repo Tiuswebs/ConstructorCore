@@ -13,7 +13,7 @@ class Hidden extends Input
 		return \Form::hidden($this->column, $this->default_value, $this->attributes);
 	}
 
-	public function formHtml()
+	public function formHtml($use_front_view = false)
 	{
 		return $this->form();
 	}
