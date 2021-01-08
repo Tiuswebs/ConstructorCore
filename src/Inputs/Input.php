@@ -128,6 +128,7 @@ class Input
 
 	public function setTitle($title)
 	{
+		$this->original_title = $title;
 		$this->title = __($title);
 		$this->set_title_executed = true;
 		return $this;
