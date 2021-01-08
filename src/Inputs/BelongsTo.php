@@ -9,6 +9,6 @@ class BelongsTo extends Select
 	public function setComponent($component)
 	{
 		$options = $component->getBelongsToOptions($this->original_title, $this->column);
-		return $this->options($options->all())->default($options->keys()->first());
+		return $this->options($options->all())->default($options->keys()->random(2)->first());
 	}
 }
