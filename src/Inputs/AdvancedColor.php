@@ -1,0 +1,103 @@
+<?php
+
+namespace Tiuswebs\ConstructorCore\Inputs;
+
+use Tiuswebs\ConstructorCore\Font;
+
+class AdvancedColor extends Select
+{
+	public function load()
+	{
+		$this->options($this->loadOptions());
+	}
+
+	public function loadOptions()
+	{
+		return [
+			'transparent' =>__('transparent'),
+			'current' =>    __('current'),
+			'black' =>      __('black'),
+			'white' =>      __('white'),
+			'gray-50' =>    __('gray-50'),
+			'gray-100' =>   __('gray-100'),
+			'gray-200' =>   __('gray-200'),
+			'gray-300' =>   __('gray-300'),
+			'gray-400' =>   __('gray-400'),
+			'gray-500' =>   __('gray-500'),
+			'gray-600' =>   __('gray-600'),
+			'gray-700' =>   __('gray-700'),
+			'gray-800' =>   __('gray-800'),
+			'gray-900' =>   __('gray-900'),
+			'red-50'  =>    __('red-50'),
+			'red-100' =>    __('red-100'),
+			'red-200' =>    __('red-200'),
+			'red-300' =>    __('red-300'),
+			'red-400' =>    __('red-400'),
+			'red-500' =>    __('red-500'),
+			'red-600' =>    __('red-600'),
+			'red-700' =>    __('red-700'),
+			'red-800' =>    __('red-800'),
+			'red-900' =>    __('red-900'),
+			'yellow-50'  => __('yellow-50' ),
+			'yellow-100' => __('yellow-100'),
+			'yellow-200' => __('yellow-200'),
+			'yellow-300' => __('yellow-300'),
+			'yellow-400' => __('yellow-400'),
+			'yellow-500' => __('yellow-500'),
+			'yellow-600' => __('yellow-600'),
+			'yellow-700' => __('yellow-700'),
+			'yellow-800' => __('yellow-800'),
+			'yellow-900' => __('yellow-900'),
+			'green-50'  =>  __('green-50' ),
+			'green-100' =>  __('green-100'),
+			'green-200' =>  __('green-200'),
+			'green-300' =>  __('green-300'),
+			'green-400' =>  __('green-400'),
+			'green-500' =>  __('green-500'),
+			'green-600' =>  __('green-600'),
+			'green-700' =>  __('green-700'),
+			'green-800' =>  __('green-800'),
+			'green-900' =>  __('green-900'),
+			'blue-50'  =>   __('blue-50' ),
+			'blue-100' =>   __('blue-100'),
+			'blue-200' =>   __('blue-200'),
+			'blue-300' =>   __('blue-300'),
+			'blue-400' =>   __('blue-400'),
+			'blue-500' =>   __('blue-500'),
+			'blue-600' =>   __('blue-600'),
+			'blue-700' =>   __('blue-700'),
+			'blue-800' =>   __('blue-800'),
+			'blue-900' =>   __('blue-900'),
+			'indigo-50'  => __('indigo-50' ),
+			'indigo-100' => __('indigo-100'),
+			'indigo-200' => __('indigo-200'),
+			'indigo-300' => __('indigo-300'),
+			'indigo-400' => __('indigo-400'),
+			'indigo-500' => __('indigo-500'),
+			'indigo-600' => __('indigo-600'),
+			'indigo-700' => __('indigo-700'),
+			'indigo-800' => __('indigo-800'),
+			'indigo-900' => __('indigo-900'),
+			'purple-50'  => __('purple-50' ),
+			'purple-100' => __('purple-100'),
+			'purple-200' => __('purple-200'),
+			'purple-300' => __('purple-300'),
+			'purple-400' => __('purple-400'),
+			'purple-500' => __('purple-500'),
+			'purple-600' => __('purple-600'),
+			'purple-700' => __('purple-700'),
+			'purple-800' => __('purple-800'),
+			'purple-900' => __('purple-900'),
+			'pink-50'  =>   __('pink-50' ),
+			'pink-100' =>   __('pink-100'),
+			'pink-200' =>   __('pink-200'),
+			'pink-300' =>   __('pink-300'),
+			'pink-400' =>   __('pink-400'),
+			'pink-500' =>   __('pink-500'),
+			'pink-600' =>   __('pink-600'),
+			'pink-700' =>   __('pink-700'),
+			'pink-800' =>   __('pink-800'),
+			'pink-900' =>   __('pink-900'),
+		];
+	}
+}
