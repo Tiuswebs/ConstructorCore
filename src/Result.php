@@ -8,9 +8,12 @@ use Illuminate\Support\Facades\Http;
 
 class Result extends Component
 {
-    public $category = 'result';
     public $default_limit = 10;
     public $default_sort = 'latest';
+    public $default_result = null;
+    public $show_options = true;
+    public $include_options = null;
+    public $exclude_options = null;
 
     public function load()
     {
@@ -19,10 +22,9 @@ class Result extends Component
         if($relation=='contents' && !is_bool($this->contents)) {
             $this->elements = $this->contents->$sort()->paginate($this->values->limit);
         } else {
-            $url = "http://app.tiuswebs.com/api/example_data/{$relation}";
-            $elements = collect(Http::get($url)->json())->map(function($item) {
-                return (object) $item;
-            });
+            $url = config('app.tiuswebs_api');
+            $url = "{$url}/api/example_data/{$relation}";
+            $elements = collect(json_decode(Http::get($url)->body()));
             if($this->values->sort=='latest') {
                 $elements = $elements->sortByDesc('created_at');
             } else if($this->values->sort=='oldest') {
@@ -46,16 +48,34 @@ class Result extends Component
 
     private function showOptions()
     {
-        $options = [
+        $options = collect([
             'partners' => __('Partners'), 
             'promotions' => __('Promotions'), 
             'products' => __('Products'),
             'banners' => __('Banners'), 
-        ];
+            'jobs' => __('Jobs'),
+            'multimedia' => __('Multimedia'),
+            'documentations' => __('Documentation'),
+            'offices' => __('Offices'),
+            'testimonials' => __('Testimonials'),
+        ]);
         if($this->contents) {
             $options['contents'] = __('Content');
         }
-        return $options;
+
+        // Filter if use of include of exclude on class
+        if(isset($this->include_options)) {
+            $options = $options->filter(function($title, $key) {
+                return in_array($key, $this->include_options);
+            });
+        }
+
+        if(isset($this->exclude_options)) {
+            $options = $options->filter(function($title, $key) {
+                return !in_array($key, $this->exclude_options);
+            });
+        }
+        return $options->sort()->all();
     }
 
     private function showDefault()
@@ -66,6 +86,6 @@ class Result extends Component
         if($this->contents) {
             return 'contents';
         }
-        return 'products';
+        return collect($this->showOptions())->keys()->first();
     }
 }
