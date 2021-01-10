@@ -3,6 +3,8 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Tiuswebs\ConstructorCore\Inputs\Text;
 
 abstract class Component
 {
@@ -12,6 +14,8 @@ abstract class Component
 	public $values;
 	public $constructor;
 	public $contents = false;
+	public $belongs_to_data = [];
+	public $belongs_to_list = [];
 
 	public function __construct($constructor = null) 
 	{
@@ -19,6 +23,7 @@ abstract class Component
 		$this->constructor = $constructor;
 		$this->loadValues();
 		$this->load();
+		$this->loadBelongsToData();
 		return;
 	}
 
@@ -46,6 +51,15 @@ abstract class Component
 	{
 		$fields = collect($this->fields())->prepend($this->baseFields())->whereNotNull()->flatten(1);
 		return $fields->map(function($item) {
+			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo') {
+				$item = $item->setComponent($this);
+				return [
+					$item,
+					Text::make($item->title_nt.' Id', $item->column.'_id')
+				];
+			}
+			return $item;
+		})->flatten()->map(function($item) {
 			$column = $item->column;
 		
 			if(!is_array($column) && isset($this->data->$column )) {
@@ -119,4 +133,41 @@ abstract class Component
 
 		return $value;
     }
+
+    public function getBelongsToOptions($model, $column)
+	{
+		if(isset($this->belongs_to_list[$column])) {
+			return $this->belongs_to_list[$column];
+		}
+
+		$relation = Str::plural(str_replace('_', ' ', Str::snake($model)));
+        $url = config('app.tiuswebs_api')."/api/example_data/{$relation}";
+        $elements = collect(json_decode(Http::get($url)->body()));
+        $return = $elements->random($elements->count() > 10 ? 10 : $elements->count());
+
+        $main_field = collect($return->first())->keys()[2];
+        $this->belongs_to_data[$column] = $return;
+        $return = $return->pluck($main_field, 'id');
+        $this->belongs_to_list[$column] = $return;
+        return $return;
+	}
+
+	public function loadBelongsToData()
+	{
+		collect($this->getFields())->filter(function($item) {
+    		return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo';
+    	})->each(function($item) {
+    		$column = $item->column;
+    		$get = $column;
+    		if(!isset($this->values->$column)) {
+    			$get = $column.'_id';
+    		}
+    		if($this->values->$get=='contents') {
+    			$result = $this->contents;
+    		} else {
+    			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
+    		}
+    		$this->$column = $result;
+    	});
+	}
 }
