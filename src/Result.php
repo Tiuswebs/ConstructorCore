@@ -49,12 +49,15 @@ class Result extends Component
     private function showOptions()
     {
         $options = collect([
+            'faqs' => __('Faq'),
             'partners' => __('Partners'), 
             'promotions' => __('Promotions'), 
             'products' => __('Products'),
             'banners' => __('Banners'), 
             'jobs' => __('Jobs'),
             'multimedia' => __('Multimedia'),
+            'music_albums' => __('Music Album'),
+            'music_songs' => __('Music Song'),
             'documentations' => __('Documentation'),
             'offices' => __('Offices'),
             'testimonials' => __('Testimonials'),
