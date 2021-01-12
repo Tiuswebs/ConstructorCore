@@ -58,6 +58,7 @@ class Result extends Component
             'multimedia' => __('Multimedia'),
             'music_albums' => __('Music Album'),
             'music_songs' => __('Music Song'),
+            'news' => __('News'),
             'documentations' => __('Documentation'),
             'offices' => __('Offices'),
             'testimonials' => __('Testimonials'),
