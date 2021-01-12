@@ -14,6 +14,7 @@ abstract class Component
 	public $values;
 	public $constructor;
 	public $contents = false;
+	public $team;
 	public $belongs_to_data = [];
 	public $belongs_to_list = [];
 
@@ -21,6 +22,7 @@ abstract class Component
 	{
 		$this->name = str_replace($this->base_namespace, '', get_class($this));
 		$this->constructor = $constructor;
+		$this->loadTeam();
 		$this->loadValues();
 		$this->load();
 		$this->loadBelongsToData();
@@ -40,6 +42,15 @@ abstract class Component
 	public function load()
 	{
 		//
+	}
+
+	public function loadTeam()
+	{
+		$team = \Cache::remember('loadTeam', now()->addDay(), function() {
+			$url = config('app.tiuswebs_api')."/api/example_data/teams";
+	        return collect(json_decode(Http::get($url)->body()))->random();
+		});
+		$this->team = $team;
 	}
 
 	public function baseFields()
