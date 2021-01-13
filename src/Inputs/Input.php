@@ -13,6 +13,7 @@ class Input
 	use InputSetters, InputRules, WithWidth;
 
 	public $is_input = true;
+	public $show = true;
 	public $is_panel = false;
 	public $form_before = '';
 	public $form_after = '';
@@ -107,8 +108,20 @@ class Input
 		return;
 	}
 
+	public function show($result)
+    {
+    	if(!is_string($result) && is_callable($result)) {
+            $result = $result();
+        } 
+        $this->show = $result;
+        return $this;
+    }
+
 	public function formHtml($use_front_view = false)
 	{
+		if(!$this->show) {
+			return;
+		}
 		$input = $this;
 		$view = $use_front_view ? 'front::input-form' : 'constructor::input-form';
 		$html = view($view, compact('input'))->render();
@@ -117,6 +130,9 @@ class Input
 
 	public function showHtml($object)
 	{
+		if(!$this->show) {
+			return;
+		}
 		$input = $this;
 		$html = view('constructor::input-show', compact('input', 'object'))->render();
 		return $this->validateConditional($object) ? $html : null;
