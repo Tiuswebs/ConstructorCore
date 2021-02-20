@@ -131,28 +131,7 @@ abstract class Component
 
     private function replaceResults($value)
     {
-    	if(!Str::contains($value, '{')) {
-    		return $value;
-    	}
-
-    	// Show attributes based on controller
-		$data = collect($this->getAllData())->filter(function($item) {
-			return is_string($item);
-		});
-		foreach ($data as $key => $replace) {
-			$value = str_replace('{'.$key.'}', $replace, $value);
-		}
-
-    	// Show attributes from page object
-    	$object = $this->getMainObject();
-		$data = is_object($object) ? collect($object->toArray())->filter(function($item) {
-			return !is_object($item) && !is_array($item);
-		}) : [];
-		foreach ($data as $key => $replace) {
-			$value = str_replace('{'.$key.'}', $replace, $value);
-		}
-
-		return $value;
+    	return $value;
     }
 
     public function getBelongsToOptions($model, $column)

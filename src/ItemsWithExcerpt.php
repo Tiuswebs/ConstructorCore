@@ -9,5 +9,5 @@ Load cruds with title, image, description, excerpt
 class ItemsWithExcerpt extends Result
 {
     public $default_limit = 6;
-    public $include_options = ['products', 'jobs', 'partners', 'promotions', 'news'];
+    public $include_options = ['products', 'partners', 'promotions', 'news'];
 }
