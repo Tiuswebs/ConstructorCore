@@ -5,6 +5,7 @@ namespace Tiuswebs\ConstructorCore;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Tiuswebs\ConstructorCore\Inputs\Text;
+use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
 abstract class Component
 {
@@ -117,6 +118,15 @@ abstract class Component
             $key = str_replace('_', '-', $key);
             return $key.': '.$item.' !important';
         })->implode('; ');
+    }
+
+    public function useFont($font_column)
+    {
+    	$font = (new FontFamily)->getFonts()->firstWhere('slug', $this->values->$font_column);
+    	if(!isset($font) || $font->slug=='inherit') {
+    		return;
+    	}
+    	return view('constructor::font-insert', compact('font'));
     }
 
     private function replaceResults($value)
