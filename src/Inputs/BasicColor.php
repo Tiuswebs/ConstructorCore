@@ -14,6 +14,8 @@ class BasicColor extends Select
 	public function loadOptions()
 	{
 		return [
+			'black'     => __('Black'),
+			'white'     => __('White'),
 			'gray'      => __('Gray'),
 			'blue-gray' => __('Blue Gray'),
 			'cool-gray' => __('Cool Gray'),
