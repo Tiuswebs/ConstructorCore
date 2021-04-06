@@ -66,6 +66,8 @@ class Input
 		return $this;
 	}
 
+	// Value to show on CRUDS
+
 	public function getValue($object)
 	{
 		if(isset($this->value)) {
@@ -84,6 +86,8 @@ class Input
 		return $return;
 	}
 
+	// Value to show on Panel
+
 	public function getValueProcessed($object)
 	{
 		$return = $this->getValue($object);
@@ -101,6 +105,13 @@ class Input
 			$return = $function($return);
 		}
 		return $return;
+	}
+
+	// Value to show on components view
+
+	public function formatValue()
+	{
+		return $this->value ?? null;
 	}
 
 	public function form()

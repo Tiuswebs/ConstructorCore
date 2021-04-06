@@ -4,16 +4,20 @@ namespace Tiuswebs\ConstructorCore\Inputs;
 
 use Illuminate\Support\Str;
 
-class Items extends TextArea
+class Items extends Trix
 {
 	public function load()
 	{
-		$this->default_value = '<ul><li>List 1</li><li>List 2</li><li>List 3</li></ul>'
+		$this->default_value = '<ul><li>List 1</li><li>List 2</li><li>List 3</li></ul>';
 	}
 	
-	public function getValue($object)
+	public function formatValue()
 	{
-		$value = parent::getValue($object);
-		return $value;
+		$value = parent::formatValue();
+		$dom = new \DOMDocument;
+	    $dom->loadHTML( $value );
+	    return collect($dom->getELementsByTagName('li'))->map(function($item){
+	    	return $item->nodeValue;
+	    });
 	}
 }
