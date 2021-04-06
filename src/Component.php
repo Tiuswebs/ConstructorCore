@@ -103,7 +103,9 @@ abstract class Component
 				return $item;
 			}
 			return $item->column;
-		})->flatten()->pluck('value', 'column')->map(function($value) {
+		})->flatten()->mapWithKeys(function($item) {
+			return [$item->column => $item->formatValue()];
+		})->map(function($value) {
 			return $this->replaceResults($value);
 		})->all();
 		$this->values = $values;
