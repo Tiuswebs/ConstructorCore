@@ -23,9 +23,11 @@ abstract class Core
 	public $values;
 	public $constructor;
 	public $team;
+	public $id;
 
 	public function __construct($constructor = null) 
 	{
+		$this->id = rand();
 		$this->name = str_replace($this->base_namespace, '', get_class($this));
 		$this->constructor = $constructor;
 		$this->loadTeam();
@@ -72,12 +74,13 @@ abstract class Core
 			'background_color' => 'inherit',
 			'padding_top' => '',
 			'padding_bottom' => '',
+			'padding_tailwind' => 'py-24',
 		]);
 		$values = $this->default_values;
 		return $default_values->merge($values);
 	}
 
-	public function getFields()
+	public function getAllFields()
 	{
 		$default_values = $this->getDefaults();
 		$initial_fields = [];
@@ -89,19 +92,37 @@ abstract class Core
 			$initial_fields[] = Text::make('Padding Bottom')->default($default_values['padding_bottom']);
 		}
 		if($this->have_container) {
-			$initial_fields[] = Boolean::make('With Container')->default(true);
+			$initial_fields[] = Boolean::make('With Container')->default($default_values['with_container']);
 		}
-		$fields = collect($initial_fields)->merge($this->baseFields())->merge($this->fields())->whereNotNull()->flatten(1);
-		return $fields->map(function($item) {
+		$fields = collect($this->fields())->map(function($item) {
 			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo') {
 				$item = $item->setComponent($this);
 				return [
 					$item,
 					Text::make($item->title_nt.' Id', $item->column.'_id')
 				];
+			} else if(isset($item->is_group) && $item->is_group) {
+				return $item->theFields();
 			}
 			return $item;
-		})->flatten()->map(function($item) {
+		});
+		return collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
+	}
+
+	public function filterFields($name) 
+	{
+		return $this->getAllFields()->filter(function($item) use ($name) {
+			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
+		})->mapWithKeys(function($item) {
+			$column = $item->column;
+			return [$column => $this->values->$column];
+		});
+	}
+
+	public function getFields()
+	{
+		$fields = $this->getAllFields();
+		return $fields->flatten()->map(function($item) {
 			$column = $item->column;
 		
 			if(!is_array($column) && isset($this->data->$column )) {
