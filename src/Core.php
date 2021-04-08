@@ -5,6 +5,7 @@ namespace Tiuswebs\ConstructorCore;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Tiuswebs\ConstructorCore\Inputs\Text;
+use Tiuswebs\ConstructorCore\Inputs\Boolean;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
 abstract class Core
@@ -12,9 +13,11 @@ abstract class Core
 	public $base_namespace = 'Tiuswebs\Modules\Elements\\';
 	public $have_background_color = true;
 	public $have_paddings = true;
+	public $have_container = false;
 	public $contents = false;
 	public $belongs_to_data = [];
 	public $belongs_to_list = [];
+	public $default_values = [];
 	public $name = '';
 	public $data;
 	public $values;
@@ -63,15 +66,30 @@ abstract class Core
 		return [];
 	}
 
+	public function getDefaults()
+	{
+		$default_values = collect([
+			'background_color' => 'inherit',
+			'padding_top' => '',
+			'padding_bottom' => '',
+		]);
+		$values = $this->default_values;
+		return $default_values->merge($values);
+	}
+
 	public function getFields()
 	{
+		$default_values = $this->getDefaults();
 		$initial_fields = [];
 		if($this->have_background_color) {
-			$initial_fields[] = Text::make('Background Color')->default('inherit');
+			$initial_fields[] = Text::make('Background Color')->default($default_values['background_color']);
 		}
 		if($this->have_paddings) {
-			$initial_fields[] = Text::make('Padding Top')->default('');
-			$initial_fields[] = Text::make('Padding Bottom')->default('');
+			$initial_fields[] = Text::make('Padding Top')->default($default_values['padding_top']);
+			$initial_fields[] = Text::make('Padding Bottom')->default($default_values['padding_bottom']);
+		}
+		if($this->have_container) {
+			$initial_fields[] = Boolean::make('With Container')->default(true);
 		}
 		$fields = collect($initial_fields)->merge($this->baseFields())->merge($this->fields())->whereNotNull()->flatten(1);
 		return $fields->map(function($item) {
