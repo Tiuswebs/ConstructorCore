@@ -6,7 +6,7 @@ use Tiuswebs\ConstructorCore\Inputs\Select;
 use Tiuswebs\ConstructorCore\Inputs\Number;
 use Illuminate\Support\Facades\Http;
 
-class Result extends Component
+class Result extends Core
 {
     public $default_limit = 10;
     public $default_sort = 'latest';

@@ -2,7 +2,7 @@
 
 namespace Tiuswebs\ConstructorCore\Components;
 
-class Panel extends Component
+class Panel extends Core
 {
 	public $is_panel = true;
 	

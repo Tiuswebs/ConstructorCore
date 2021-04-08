@@ -4,7 +4,7 @@ namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\BelongsTo;
 
-class MultimediaItem extends Component
+class MultimediaItem extends Core
 {
 	public $category = 'gallery';
 

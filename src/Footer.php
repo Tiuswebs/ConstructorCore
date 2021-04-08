@@ -4,7 +4,7 @@ namespace Tiuswebs\ConstructorCore;
 
 use Illuminate\Support\Facades\Http;
 
-class Footer extends Result
+class Footer extends Core
 {
     public $category = 'footer';
     public $columns = 4;

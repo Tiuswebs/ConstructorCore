@@ -4,7 +4,7 @@ namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\BelongsTo;
 
-class Form extends Component
+class Form extends Core
 {
 	public $category = 'form';
 
