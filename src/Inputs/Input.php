@@ -28,6 +28,7 @@ class Input
 	public $source; 
 	public $value;
 	public $size;
+	public $parent;
 
 	public function __construct($title = null, $column = null, $extra = null, $source = null)
 	{
@@ -160,6 +161,12 @@ class Input
 		$this->title_nt = $title;
 		$this->title = __($title);
 		$this->set_title_executed = true;
+		return $this;
+	}
+
+	public function setParent($parent)
+	{
+		$this->parent = $parent;
 		return $this;
 	}
 

@@ -164,14 +164,35 @@ abstract class Core
 		})->all();
 	}
 
-	public function getFieldsByInput($name) 
+	public function getInlineStyles()
+	{
+		$styles = [];
+		$styles[] = $this->getStylesByInput('TextColor', 'color');
+		$styles[] = $this->getStylesByInput('BackgroundColor', 'background-color');
+		$styles = collect($styles)->flatten(1)->groupBy('class');
+		return $styles;
+	}
+
+	public function getStylesByInput($name, $attribute) 
 	{
 		return $this->getAllFields()->filter(function($item) use ($name) {
 			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
-		})->mapWithKeys(function($item) {
-			$column = $item->column;
-			return [$column => $this->values->$column];
-		});
+		})->map(function($item) use ($attribute) {
+			$name = $item->column;
+			$value = $this->values->$name;
+			$parent = $item->parent;
+			$name = str_replace('_', '-', $name);
+
+			$class = '#section-'.$this->id.' .'.$name.', #section-'.$this->id.' .'.$name.' > a';
+			if(Str::contains($name, 'hover')) {
+				$class = '#section-'.$this->id.' .'.$name.':hover, #section-'.$this->id.' .'.$name.' > a:hover';
+			}
+			if(isset($parent)) {
+				$parent = str_replace('_', '-', $parent);
+				$class = str_replace($name, $parent, $class);
+			}
+			return compact('name', 'value', 'attribute', 'class', 'parent');
+		})->values();
 	}
 
 	public function loadValues()

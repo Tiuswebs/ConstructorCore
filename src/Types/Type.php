@@ -8,6 +8,7 @@ class Type
 {
 	public $default;
 	public $is_group = true;
+	public $ignore = [];
 	public $values;
 
 	public function __construct($title = null, $column = null)
@@ -33,6 +34,15 @@ class Type
 		return $this;
 	}
 
+	public function ignore($array)
+	{
+		if(!is_array($array)) {
+			$array = [$array];
+		}
+		$this->ignore = $array;
+		return $this;
+	}
+
 	public function getDefault()
 	{
 		$default = $this->default;
@@ -46,8 +56,17 @@ class Type
 			$column_name = $this->column.'_';
 			$default_column = class_basename($this->original_title);
 			$default_column = Str::snake($default_column).'_';
-			return $item->setColumn(str_replace($default_column, $column_name, $item->column));
-		})->map(function($item) use ($defaults) {
+			$column = str_replace($default_column, $column_name, $item->column);
+
+			// Ignore adding a column is set on ignore
+			if(collect($this->ignore)->count() > 0) {
+				$type = str_replace($column_name, '', $column);
+				if(in_array($type, $this->ignore)) {
+					return;
+				}
+			}
+			return $item->setColumn($column)->setParent($this->column);
+		})->whereNotNull()->map(function($item) use ($defaults) {
 			$column = trim(str_replace($this->column, '', $item->column), '_');
 			if(isset($defaults[$column])) {
 				$item = $item->default($defaults[$column]);
