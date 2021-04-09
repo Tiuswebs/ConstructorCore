@@ -2,7 +2,7 @@
 
 namespace Tiuswebs\ConstructorCore\Components;
 
-class Panel extends Core
+class Panel extends Component
 {
 	public $is_panel = true;
 	
@@ -52,6 +52,11 @@ class Panel extends Core
 		$where = $where=='store' ? 'create' : $where;
 		return collect($this->column)->filter(function($item) {
 			return isset($item);
+		})->flatten()->map(function($item) {
+			if(isset($item->is_group) && $item->is_group) {
+				return $item->theFields();
+			}
+			return $item;
 		})->flatten()->map(function($item) use ($model) {
 			return $item->setDefaultValueFromAttributes($model);
 		});

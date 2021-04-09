@@ -80,7 +80,8 @@ abstract class Core
 		return $default_values->merge($values);
 	}
 
-	public function getAllFields()
+	// Get fields processed, shows the child of the types and extra inputs added automatically
+	public function getProcessedFields($show_childs = true)
 	{
 		$default_values = $this->getDefaults();
 		$initial_fields = [];
@@ -94,7 +95,29 @@ abstract class Core
 		if($this->have_container) {
 			$initial_fields[] = Boolean::make('With Container')->default($default_values['with_container']);
 		}
-		$fields = collect($this->fields())->map(function($item) {
+		
+		$fields = $this->fields($show_childs);
+		if($show_childs) {
+			$fields = $this->showChildsOnFields($fields);
+		}
+		return collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
+	}
+
+	// Get all the fields in one line, no panels, no types, only direct inputs
+	public function getAllFields()
+	{
+		return $this->getProcessedFields()->map(function($item) {
+			if(isset($item->is_panel) && $item->is_panel) {
+				return $this->showChildsOnFields($item->column);
+			}
+			return $item;
+		})->flatten();
+	}
+
+	// Make modifications on fields
+	public function showChildsOnFields($fields)
+	{
+		return collect($fields)->map(function($item) {
 			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo') {
 				$item = $item->setComponent($this);
 				return [
@@ -105,24 +128,13 @@ abstract class Core
 				return $item->theFields();
 			}
 			return $item;
-		});
-		return collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
+		})->flatten();
 	}
 
-	public function filterFields($name) 
+	public function getFields($show_childs = true)
 	{
-		return $this->getAllFields()->filter(function($item) use ($name) {
-			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
-		})->mapWithKeys(function($item) {
-			$column = $item->column;
-			return [$column => $this->values->$column];
-		});
-	}
-
-	public function getFields()
-	{
-		$fields = $this->getAllFields();
-		return $fields->flatten()->map(function($item) {
+		$fields = $this->getProcessedFields();
+		return $fields->map(function($item) use ($show_childs) {
 			$column = $item->column;
 		
 			if(!is_array($column) && isset($this->data->$column )) {
@@ -132,7 +144,12 @@ abstract class Core
 			} else if (!is_array($column) && !isset($this->data->$column)) {
 				return $item->setValue($item->default_value);
 			} elseif (isset($column)) {
-				$item->column = collect($item->column)->map(function($item) {
+				// if is a panel
+				$value = $item->column;
+				if($show_childs) {
+					$value = $this->showChildsOnFields($value);
+				}
+				$item->column = $value->map(function($item) {
 					$column = $item->column;
 					if(isset($this->data->$column)) {
 						$item->setValue($this->data->$column);
@@ -147,9 +164,20 @@ abstract class Core
 		})->all();
 	}
 
+	public function getFieldsByInput($name) 
+	{
+		return $this->getAllFields()->filter(function($item) use ($name) {
+			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
+		})->mapWithKeys(function($item) {
+			$column = $item->column;
+			return [$column => $this->values->$column];
+		});
+	}
+
 	public function loadValues()
 	{
-		$values = (object) collect($this->getFields())->map(function($item) {
+		// Get normal values
+		$values = collect($this->getFields())->map(function($item) {
 			if(!$item->is_panel) {
 				return $item;
 			}
@@ -158,11 +186,28 @@ abstract class Core
 			return [$item->column => $item->formatValue()];
 		})->map(function($value) {
 			return $this->replaceResults($value);
-		})->all();
-		$this->values = $values;
+		});
+
+		// Get only types to see if there extra data to put
+		$types = collect($this->getProcessedFields(false))->map(function($item) {
+			if(isset($item->is_panel) && $item->is_panel) {
+				return $item->column;
+			}
+			return $item;
+		})->flatten()->filter(function($item) {
+			if(isset($item->is_group) && $item->is_group) {
+				return true;
+			}
+			return false;
+		})->mapWithKeys(function($item) use ($values) {
+			return [$item->column => $item->setValues($values)->formatValue()];
+		})->whereNotNull();
+
+		$values = $values->merge($types)->all();
+		$this->values = (object) $values;
 	}
 
-	public function getStyle()
+	public function getPaddingStyle()
     {
         $styles = ['padding_top', 'padding_bottom'];
         return collect($this->values)->filter(function($item, $key) use ($styles) {
