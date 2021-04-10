@@ -2,7 +2,6 @@
 
 namespace Tiuswebs\ConstructorCore\Types;
 
-use Tiuswebs\ConstructorCore\Inputs\BackgroundColor;
 use Tiuswebs\ConstructorCore\Inputs\TextColor;
 use Tiuswebs\ConstructorCore\Inputs\Text;
 

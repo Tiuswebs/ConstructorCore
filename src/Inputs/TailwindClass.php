@@ -2,7 +2,7 @@
 
 namespace Tiuswebs\ConstructorCore\Inputs;
 
-class Icon extends Text
+class TailwindClass extends Text
 {
-	// Do nothing for now
+	//
 }

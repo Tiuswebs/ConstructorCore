@@ -40,11 +40,13 @@ abstract class Core
 	public function render()
 	{
 		$component = $this;
-		$data =compact('component');
+		$values = $this->values;
+		$data = compact('component', 'values');
 		if(isset($this->constructor)) {
 			$data = collect($data)->merge($this->constructor->data)->all();
 		}
 		$value = view($this->view, $data)->render();
+		$value = $this->updateViewRender($value);
 		$core = $this;
 		return view('constructor::module-outer', compact('core', 'value', 'component'));
 	}
@@ -174,7 +176,7 @@ abstract class Core
 		return $styles;
 	}
 
-	public function getStylesByInput($name, $attribute) 
+	public function getStylesByInput($name, $attribute = null) 
 	{
 		return $this->getAllFields()->filter(function($item) use ($name) {
 			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
@@ -190,7 +192,7 @@ abstract class Core
 			}
 			if(isset($parent)) {
 				$parent = str_replace('_', '-', $parent);
-				$class = str_replace($name, $parent, $class);
+				$class = str_replace($name, $parent.'-class', $class);
 			}
 			return compact('name', 'value', 'attribute', 'class', 'parent');
 		})->values();
@@ -289,5 +291,23 @@ abstract class Core
     		}
     		$this->$column = $result;
     	});
+	}
+
+	public function updateViewRender($html)
+	{
+		$values = $this->getStylesByInput('TailwindClass')->groupBy('parent')->mapWithKeys(function($item, $key) {
+			return [$key.'-class' => $item->pluck('value')->whereNotNull()->filter(function($item) {
+				return strlen($item) > 0;
+			})->implode(' ')];
+		});
+		foreach ($values as $key => $value) {
+			$before = ' ';
+			$html = str_replace($before.$key, $before.$key.' '.$value, $html);
+			$before = '"';
+			$html = str_replace($before.$key, $before.$key.' '.$value, $html);
+			$before = "'";
+			$html = str_replace($before.$key, $before.$key.' '.$value, $html);
+		}
+		return $html;
 	}
 }
