@@ -295,11 +295,16 @@ abstract class Core
 
 	public function updateViewRender($html)
 	{
-		$fonts = $this->getStylesByInput('FontFamily')->whereNotNull('value')->mapWithKeys(function($item) {
+		$fonts = $this->getStylesByInput('FontFamily')->whereNotNull('value')->filter(function($item) {
+			return strlen($item['name']) > 0;
+		})->mapWithKeys(function($item) {
 			$render = $this->useFont(str_replace('-', '_', $item['name']));
+			if(!isset($render)) {
+				return [0 => null];
+			}
 			$value = trim($render->render(), "\n");
 			return [$item['parent'].'-class' => $value];
-		});
+		})->whereNotNull();
 		$values = $this->getStylesByInput('TailwindClass')->groupBy('parent')->mapWithKeys(function($item, $key) use ($fonts) {
 			$key = $key.'-class';
 			$classes = $item->pluck('value')->whereNotNull()->filter(function($item) {
