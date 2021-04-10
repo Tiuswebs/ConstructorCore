@@ -23,8 +23,8 @@ class Result extends Core
             $this->elements = $this->contents->$sort()->paginate($this->values->limit);
         } else {
             $url = config('app.tiuswebs_api');
-            $url = "{$url}/api/example_data/{$relation}";
-            $elements = collect(json_decode(Http::get($url)->body()));
+            $endpoint = "{$url}/api/example_data/{$relation}";
+            $elements = collect(json_decode(Http::get($endpoint)->body()));
             if($this->values->sort=='latest') {
                 $elements = $elements->sortByDesc('created_at');
             } else if($this->values->sort=='oldest') {
@@ -34,6 +34,9 @@ class Result extends Core
             }
             $this->elements = $elements->take($this->values->limit)->values();
         }
+        // Get category
+        $endpoint = "{$url}/api/example_data/categories";
+        $this->category = collect(json_decode(Http::get($endpoint)->body()))->random(1)->first();
     }
 
     public function baseFields()
