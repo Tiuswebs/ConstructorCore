@@ -295,11 +295,22 @@ abstract class Core
 
 	public function updateViewRender($html)
 	{
-		$values = $this->getStylesByInput('TailwindClass')->groupBy('parent')->mapWithKeys(function($item, $key) {
-			return [$key.'-class' => $item->pluck('value')->whereNotNull()->filter(function($item) {
-				return strlen($item) > 0;
-			})->implode(' ')];
+		$fonts = $this->getStylesByInput('FontFamily')->whereNotNull('value')->mapWithKeys(function($item) {
+			$render = $this->useFont(str_replace('-', '_', $item['name']));
+			$value = trim($render->render(), "\n");
+			return [$item['parent'].'-class' => $value];
 		});
+		$values = $this->getStylesByInput('TailwindClass')->groupBy('parent')->mapWithKeys(function($item, $key) use ($fonts) {
+			$key = $key.'-class';
+			$classes = $item->pluck('value')->whereNotNull()->filter(function($item) {
+				return strlen($item) > 0;
+			});
+			if(isset($fonts[$key])) {
+				$classes[] = $fonts[$key];
+			}
+			return [$key => $classes->implode(' ')];
+		});
+		
 		foreach ($values as $key => $value) {
 			$before = ' ';
 			$html = str_replace($before.$key, $before.$key.' '.$value, $html);
