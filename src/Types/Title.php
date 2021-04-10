@@ -6,6 +6,7 @@ use Tiuswebs\ConstructorCore\Inputs\TailwindClass;
 use Tiuswebs\ConstructorCore\Inputs\TextColor;
 use Tiuswebs\ConstructorCore\Inputs\Text;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
+use Tiuswebs\ConstructorCore\Inputs\FontWeight;
 
 class Title extends Type
 {
@@ -16,6 +17,7 @@ class Title extends Type
 			TextColor::make($this->title.' Color')->default('#111827'),
 			TailwindClass::make($this->title.' Size')->default('text-3xl'),
 			FontFamily::make($this->title.' Font'),
+			FontWeight::make($this->title.' Height'),
 		];
 	}
 }

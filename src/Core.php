@@ -172,6 +172,7 @@ abstract class Core
 		$styles[] = $this->getStylesByInput('TextColor', 'color');
 		$styles[] = $this->getStylesByInput('BackgroundColor', 'background-color');
 		$styles[] = $this->getStylesByInput('BorderColor', 'border-color');
+		$styles[] = $this->getStylesByInput('FontWeight', 'font-weight');
 		$styles = collect($styles)->flatten(1)->groupBy('class');
 		return $styles;
 	}
