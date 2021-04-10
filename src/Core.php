@@ -18,6 +18,7 @@ abstract class Core
 	public $belongs_to_data = [];
 	public $belongs_to_list = [];
 	public $default_values = [];
+	public $show_view = true;
 	public $name = '';
 	public $data;
 	public $values;
@@ -44,6 +45,9 @@ abstract class Core
 		$data = compact('component', 'values');
 		if(isset($this->constructor)) {
 			$data = collect($data)->merge($this->constructor->data)->all();
+		}
+		if(!$this->show_view) {
+			return;
 		}
 		$value = view($this->view, $data)->render();
 		$value = $this->updateViewRender($value);
@@ -77,6 +81,7 @@ abstract class Core
 			'padding_top' => '',
 			'padding_bottom' => '',
 			'padding_tailwind' => 'py-24',
+			'with_container' => true,
 		]);
 		$values = $this->default_values;
 		return $default_values->merge($values);
@@ -120,12 +125,14 @@ abstract class Core
 	public function showChildsOnFields($fields)
 	{
 		return collect($fields)->map(function($item) {
-			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo') {
+			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && $item->show_id) {
 				$item = $item->setComponent($this);
 				return [
 					$item,
 					Text::make($item->title_nt.' Id', $item->column.'_id')
 				];
+			} else if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && !$item->show_id) {
+				return $item->setComponent($this);
 			} else if(isset($item->is_group) && $item->is_group) {
 				return $item->theFields();
 			}
