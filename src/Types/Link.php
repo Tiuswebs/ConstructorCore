@@ -12,8 +12,8 @@ class Link extends Type
 		return [
 			Text::make($this->title.' Text')->default('Click here'),
 			Text::make($this->title.' Link')->default('#'),
-			TextColor::make($this->title.' Text Color')->default('#fff'),
-			TextColor::make($this->title.' Text Color Hover')->default('#000'),
+			TextColor::make($this->title.' Color')->default('#fff'),
+			TextColor::make($this->title.' Color Hover')->default('#000'),
 		];
 	}
 }
