@@ -104,11 +104,11 @@ abstract class Core
 		}
 		
 		$fields = $this->fields($show_childs);
-		$fields = collect($initial_fields)->merge($this->baseFields())->merge($fields);
+		$fields = collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
 		if($show_childs) {
 			$fields = $this->showChildsOnFields($fields);
 		}
-		return $fields->whereNotNull()->flatten(1);
+		return $fields;
 	}
 
 	// Get all the fields in one line, no panels, no types, only direct inputs
@@ -275,8 +275,10 @@ abstract class Core
         $url = config('app.tiuswebs_api')."/api/example_data/{$relation}";
         $elements = collect(json_decode(Http::get($url)->body()));
         $return = $elements->random($elements->count() > 10 ? 10 : $elements->count());
-
-        $main_field = collect($return->first())->keys()[2];
+        $keys = collect($return->first())->keys()->all();
+        $main_field = collect(['front_title', 'title', 'name'])->filter(function($item) use ($keys) {
+        	return in_array($item, $keys);
+        })->first();
         $this->belongs_to_data[$column] = $return;
         $return = $return->pluck($main_field, 'id');
         $this->belongs_to_list[$column] = $return;
