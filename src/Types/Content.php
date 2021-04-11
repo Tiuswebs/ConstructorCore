@@ -12,10 +12,10 @@ class Content extends Type
 	public function fields() 
 	{
 		return [
-			Trix::make($this->title.' Text')->default('<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis modi alias architecto commodi blanditiis voluptates quod ex ea, nisi, neque dicta nemo nulla, enim soluta perspiciatis quam animi et! Quasi.</p><br /><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis modi alias architecto commodi blanditiis voluptates quod ex ea, nisi, neque dicta nemo nulla, enim soluta perspiciatis quam animi et! Quasi.</p>'),
-			TextColor::make($this->title.' Color')->default('#6B7280'),
-			TailwindClass::make($this->title.' Size')->default('text-base'),
-			FontFamily::make($this->title.' Font'),
+			Trix::make($this->original_title.' Text')->default('<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis modi alias architecto commodi blanditiis voluptates quod ex ea, nisi, neque dicta nemo nulla, enim soluta perspiciatis quam animi et! Quasi.</p><br /><p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis modi alias architecto commodi blanditiis voluptates quod ex ea, nisi, neque dicta nemo nulla, enim soluta perspiciatis quam animi et! Quasi.</p>'),
+			TextColor::make($this->original_title.' Color')->default('#6B7280'),
+			TailwindClass::make($this->original_title.' Size')->default('text-base'),
+			FontFamily::make($this->original_title.' Font'),
 		];
 	}
 }

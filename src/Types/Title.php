@@ -13,11 +13,11 @@ class Title extends Type
 	public function fields() 
 	{
 		return [
-			Text::make($this->title.' Text')->default('Title'),
-			TextColor::make($this->title.' Color')->default('#111827'),
-			TailwindClass::make($this->title.' Size')->default('text-3xl'),
-			FontFamily::make($this->title.' Font'),
-			FontWeight::make($this->title.' Height'),
+			Text::make($this->original_title.' Text')->default('Title'),
+			TextColor::make($this->original_title.' Color')->default('#111827'),
+			TailwindClass::make($this->original_title.' Size')->default('text-3xl'),
+			FontFamily::make($this->original_title.' Font'),
+			FontWeight::make($this->original_title.' Height'),
 		];
 	}
 }

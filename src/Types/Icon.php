@@ -11,9 +11,9 @@ class Icon extends Type
 	public function fields() 
 	{
 		return [
-			Text::make($this->title.' Icon')->default('fa fa-book'),
-			Text::make($this->title.' Height')->default('20px'),
-			TextColor::make($this->title.' Color')->default('#335EEA'),
+			Text::make($this->original_title.' Icon')->default('fa fa-book'),
+			Text::make($this->original_title.' Height')->default('20px'),
+			TextColor::make($this->original_title.' Color')->default('#335EEA'),
 		];
 	}
 

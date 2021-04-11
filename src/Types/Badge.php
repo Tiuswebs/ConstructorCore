@@ -11,9 +11,9 @@ class Badge extends Type
 	public function fields() 
 	{
 		return [
-			Text::make($this->title.' Text')->default('Important'),
-			TextColor::make($this->title.' Text Color')->default('#fff'),
-			BackgroundColor::make($this->title.' Background Color')->default('#333'),
+			Text::make($this->original_title.' Text')->default('Important'),
+			TextColor::make($this->original_title.' Text Color')->default('#fff'),
+			BackgroundColor::make($this->original_title.' Background Color')->default('#333'),
 		];
 	}
 }

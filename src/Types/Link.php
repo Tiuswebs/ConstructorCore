@@ -10,10 +10,10 @@ class Link extends Type
 	public function fields() 
 	{
 		return [
-			Text::make($this->title.' Text')->default('Click here'),
-			Text::make($this->title.' Link')->default('#'),
-			TextColor::make($this->title.' Color')->default('#fff'),
-			TextColor::make($this->title.' Color Hover')->default('#000'),
+			Text::make($this->original_title.' Text')->default('Click here'),
+			Text::make($this->original_title.' Link')->default('#'),
+			TextColor::make($this->original_title.' Color')->default('#fff'),
+			TextColor::make($this->original_title.' Color Hover')->default('#000'),
 		];
 	}
 }

@@ -12,10 +12,10 @@ class Paragraph extends Type
 	public function fields() 
 	{
 		return [
-			Text::make($this->title.' Text')->default('Makes your pages look beautiful.'),
-			TextColor::make($this->title.' Color')->default('#6B7280'),
-			TailwindClass::make($this->title.' Size')->default('text-base'),
-			FontFamily::make($this->title.' Font'),
+			Text::make($this->original_title.' Text')->default('Makes your pages look beautiful.'),
+			TextColor::make($this->original_title.' Color')->default('#6B7280'),
+			TailwindClass::make($this->original_title.' Size')->default('text-base'),
+			FontFamily::make($this->original_title.' Font'),
 		];
 	}
 }
