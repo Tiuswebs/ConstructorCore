@@ -2,9 +2,6 @@
 
 namespace Tiuswebs\ConstructorCore;
 
-use WeblaborMX\FileModifier\Helper;
-use Illuminate\Support\Str;
-
 class Builder
 {
 	public $components = [];

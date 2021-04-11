@@ -104,10 +104,11 @@ abstract class Core
 		}
 		
 		$fields = $this->fields($show_childs);
+		$fields = collect($initial_fields)->merge($this->baseFields())->merge($fields);
 		if($show_childs) {
 			$fields = $this->showChildsOnFields($fields);
 		}
-		return collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
+		return $fields->whereNotNull()->flatten(1);
 	}
 
 	// Get all the fields in one line, no panels, no types, only direct inputs
@@ -289,12 +290,13 @@ abstract class Core
     	})->each(function($item) {
     		$column = $item->column;
     		$get = $column;
-    		if(!isset($this->values->$column)) {
+    		if(!isset($this->values->$column) && $item->show_id) {
     			$get = $column.'_id';
     		}
-    		if($this->values->$get=='contents') {
-    			$result = $this->contents;
-    		} else {
+    		$result = null;
+    		if(isset($this->values->$get) && $this->values->$get=='item') {
+    			$result = $this->item;
+    		} else if (isset($this->values->$get) && isset($this->belongs_to_data[$column])) {
     			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
     		}
     		$this->$column = $result;
