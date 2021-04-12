@@ -33,8 +33,8 @@ abstract class Core
 		$this->constructor = $constructor;
 		$this->loadTeam();
 		$this->loadValues();
-		$this->load();
 		$this->loadBelongsToData();
+		$this->load();
 		return;
 	}
 
@@ -260,7 +260,7 @@ abstract class Core
     	return view('constructor::font-insert', compact('font'));
     }
 
-    private function replaceResults($value)
+    public function replaceResults($value)
     {
     	return $value;
     }
