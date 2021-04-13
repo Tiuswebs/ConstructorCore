@@ -86,10 +86,10 @@ class Type
 		return $this;
 	}
 
-	public function getValue($name)
+	public function getValue($name, $default = null)
 	{
 		$column = $this->getColumnName($name);
-		return $this->values->$column;
+		return $this->values->$column ?? $default;
 	}
 
 	public function getColumnName($name)
@@ -99,6 +99,9 @@ class Type
 
 	public function getClassName($name)
 	{
+		if(is_null($this->getValue($name))) {
+			return '';
+		}
 		return str_replace('_', '-', $this->getColumnName($name));
 	}
 }

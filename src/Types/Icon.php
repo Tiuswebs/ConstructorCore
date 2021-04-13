@@ -14,17 +14,19 @@ class Icon extends Type
 			Text::make($this->original_title.' Icon')->default('fa fa-book'),
 			Text::make($this->original_title.' Height')->default('20px'),
 			TextColor::make($this->original_title.' Color')->default('#335EEA'),
+			Text::make($this->original_title.' Classes')->default(''),
 		];
 	}
 
 	public function formatValue()
 	{
 		$icon = $this->getValue('icon');
-		$height = $this->getValue('height');
+		$height = $this->getValue('height', 'inherit');
 		$color = $this->getClassName('color');
+		$classes = $this->getValue('classes');
 		if(Str::startsWith($icon, 'http')) {
-			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$color.'" />';
+			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$color.' '.$classes.'" />';
 		}
-		return '<i class="'.$icon.' '.$color.'" style="font-size: '.$height.'"></i>';
+		return '<i class="'.$icon.' '.$color.' '.$classes.'" style="font-size: '.$height.'"></i>';
 	}
 }
