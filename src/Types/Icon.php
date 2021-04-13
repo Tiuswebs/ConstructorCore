@@ -22,11 +22,12 @@ class Icon extends Type
 	{
 		$icon = $this->getValue('icon');
 		$height = $this->getValue('height', 'inherit');
-		$color = $this->getClassName('color');
 		$classes = $this->getValue('classes');
+		$class = $this->column;
+		$class = str_replace('_', '-', $class).'-class';
 		if(Str::startsWith($icon, 'http')) {
-			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$color.' '.$classes.'" />';
+			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$classes.' '.$class.'" />';
 		}
-		return '<i class="'.$icon.' '.$color.' '.$classes.'" style="font-size: '.$height.'"></i>';
+		return '<i class="'.$icon.' '.$classes.' '.$class.'" style="font-size: '.$height.'"></i>';
 	}
 }
