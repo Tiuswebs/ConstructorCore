@@ -17,7 +17,7 @@ class Title extends Type
 			TextColor::make($this->original_title.' Color')->default('#111827'),
 			TailwindClass::make($this->original_title.' Size')->default('text-3xl'),
 			FontFamily::make($this->original_title.' Font'),
-			FontWeight::make($this->original_title.' Height'),
+			FontWeight::make($this->original_title.' Weight'),
 		];
 	}
 }
