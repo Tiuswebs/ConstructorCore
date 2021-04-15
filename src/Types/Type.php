@@ -67,7 +67,7 @@ class Type
 			}
 			return $item->setColumn($column)->setParent($this->column);
 		})->whereNotNull()->map(function($item) use ($defaults) {
-			$column = trim(str_replace($this->column, '', $item->column), '_');
+			$column = str_replace($this->column.'_', '', $item->column);
 			if(isset($defaults[$column])) {
 				$item = $item->default($defaults[$column]);
 			};

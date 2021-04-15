@@ -18,6 +18,7 @@ class Title extends Type
 			TailwindClass::make($this->original_title.' Size')->default('text-3xl'),
 			FontFamily::make($this->original_title.' Font'),
 			FontWeight::make($this->original_title.' Weight'),
+			TailwindClass::make($this->original_title.' Classes')->default(''),
 		];
 	}
 }

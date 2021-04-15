@@ -204,7 +204,7 @@ abstract class Core
 				$class = str_replace($name, $parent.'-class', $class);
 			}
 			return compact('name', 'value', 'attribute', 'class', 'parent');
-		})->values();
+		})->whereNotNull('value')->values();
 	}
 
 	public function loadValues()

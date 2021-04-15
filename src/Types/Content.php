@@ -16,6 +16,7 @@ class Content extends Type
 			TextColor::make($this->original_title.' Color')->default('#6B7280'),
 			TailwindClass::make($this->original_title.' Size')->default('text-base'),
 			FontFamily::make($this->original_title.' Font'),
+			TailwindClass::make($this->original_title.' Classes')->default(''),
 		];
 	}
 }
