@@ -163,6 +163,8 @@ abstract class Core
 					$column = $item->column;
 					if(isset($this->data->$column)) {
 						$item->setValue($this->data->$column);
+					} else if (isset($this->data) && array_key_exists($column, collect($this->data)->toArray())) {
+						$item->setValue(null);
 					} else {
 						$item->setValue($item->default_value);
 					}
