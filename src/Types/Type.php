@@ -9,6 +9,7 @@ class Type
 	public $default;
 	public $is_group = true;
 	public $ignore = [];
+	public $only = [];
 	public $values;
 
 	public function __construct($title = null, $column = null)
@@ -43,6 +44,15 @@ class Type
 		return $this;
 	}
 
+	public function only($array)
+	{
+		if(!is_array($array)) {
+			$array = [$array];
+		}
+		$this->only = $array;
+		return $this;
+	}
+
 	public function getDefault()
 	{
 		$default = $this->default;
@@ -57,11 +67,18 @@ class Type
 			$default_column = class_basename($this->original_title);
 			$default_column = Str::snake($default_column).'_';
 			$column = str_replace($default_column, $column_name, $item->column);
+			$type = str_replace($column_name, '', $column);
 
-			// Ignore adding a column is set on ignore
+			// Ignore adding a column if set on ignore
 			if(collect($this->ignore)->count() > 0) {
-				$type = str_replace($column_name, '', $column);
 				if(in_array($type, $this->ignore)) {
+					return;
+				}
+			}
+
+			// Only use selected columns if set on only
+			if(collect($this->only)->count() > 0) {
+				if(!in_array($type, $this->only)) {
 					return;
 				}
 			}
