@@ -1,4 +1,4 @@
-<section id="section-{{$core->id}}">
+<section id="section-{{$core->id}}" class="overflow-x-hidden w-full">
 	@if($core->have_background_color)
 		<div style="background: {{$component->values->background_color}}">
 	@endif
