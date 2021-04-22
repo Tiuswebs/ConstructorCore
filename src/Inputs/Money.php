@@ -19,4 +19,10 @@ class Money extends Input
 		}
 		return '$'.number_format($value, 2);
 	}
+
+	public function formatValue()
+	{
+		$value = parent::formatValue();
+		return number_format($value, 0);
+	}
 }
