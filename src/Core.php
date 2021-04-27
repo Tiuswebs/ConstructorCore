@@ -340,4 +340,11 @@ abstract class Core
 		}
 		return $html;
 	}
+
+	public function hide($field) {
+        $value = $this->values->$field;
+        if(!is_bool($value) && strlen($value) == 0){
+            return "invisible md:invisible  order-4 md:order-4";
+        }
+    }
 }
