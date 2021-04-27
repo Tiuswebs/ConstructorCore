@@ -329,6 +329,13 @@ abstract class Core
 			}
 			return [$key => $classes->implode(' ')];
 		});
+
+		// If there arent tailwind classes it doesnt add font, so in case it happens add the font
+		foreach ($fonts as $key => $font) {
+			if(!isset($values[$key])) {
+				$values[$key] = $font;
+			}
+		}
 		
 		foreach ($values as $key => $value) {
 			$before = ' ';
