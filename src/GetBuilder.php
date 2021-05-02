@@ -11,7 +11,7 @@ class GetBuilder
 	{
 		$directory = str_replace('Tiuswebs\\', '', $namespace);
 		$directory = str_replace('\\', '/', $directory);
-		$directory = str_replace('ModulesApproved/', 'modules_approved', $directory);
+		$directory = str_replace('ModulesApproved/', 'modules_approved/', $directory);
 		$directory = str_replace('Modules/', 'modules/', $directory);
 		$directory = str_replace('/Elements', '/src/elements', $directory);
 		$folder = Helper::folder(base_path($directory));
