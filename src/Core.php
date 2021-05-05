@@ -351,7 +351,7 @@ abstract class Core
 	public function hide($field) {
         $value = $this->values->$field;
         if(!is_bool($value) && strlen($value) == 0){
-            return "invisible";
+            return "hidden";
         }
     }
 }
