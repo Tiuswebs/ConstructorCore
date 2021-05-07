@@ -196,11 +196,7 @@ abstract class Core
 			$value = $this->values->$name;
 			$parent = $item->parent;
 			$name = str_replace('_', '-', $name);
-
-			$class = '#section-'.$this->id.' .'.$name.', #section-'.$this->id.' .'.$name.' > a';
-			if(Str::contains($name, 'hover')) {
-				$class = '#section-'.$this->id.' .'.$name.':hover, #section-'.$this->id.' .'.$name.' > a:hover';
-			}
+			$class = $item->getSelectors($this->id);
 			if(isset($parent)) {
 				$parent = str_replace('_', '-', $parent);
 				$class = str_replace($name, $parent.'-class', $class);
