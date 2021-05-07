@@ -3,9 +3,12 @@
 namespace Tiuswebs\ConstructorCore\Inputs;
 
 use Tiuswebs\ConstructorCore\Font;
+use Tiuswebs\ConstructorCore\Traits\UseCss;
 
 class FontFamily extends Select
 {
+	use UseCss;
+	
 	public function load()
 	{
 		$this->options($this->getFonts()->pluck('title', 'slug'));
