@@ -17,6 +17,7 @@ class Link extends Type
 			Text::make($this->original_title.' Link')->default('#'),
 			TextColor::make($this->original_title.' Color')->default('#fff'),
 			TextColor::make($this->original_title.' Color Hover')->default('#000'),
+			TailwindClass::make($this->original_title.' Size')->default('text-base'),
 			FontWeight::make($this->original_title.' Weight'),
 			FontFamily::make($this->original_title.' Font'),
 			TailwindClass::make($this->original_title.' Classes')->default(''),

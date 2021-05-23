@@ -19,6 +19,7 @@ class Button extends Type
 			TextColor::make($this->original_title.' Text Color Hover')->default('#000'),
 			BackgroundColor::make($this->original_title.' Background Color')->default('#333'),
 			BackgroundColor::make($this->original_title.' Background Color Hover')->default('#eee'),
+			TailwindClass::make($this->original_title.' Size')->default('text-base'),
 			TailwindClass::make($this->original_title.' Classes')->default(''),
 			FontFamily::make($this->original_title.' Font'),
 		];
