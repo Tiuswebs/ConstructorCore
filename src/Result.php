@@ -46,7 +46,6 @@ class Result extends Core
             Select::make('Sort')->default($this->default_sort)->options(['latest' => __('Latest'), 'oldest' => __('Oldest'), 'random' => __('Random')]),
             Number::make('Limit of results', 'limit')->default($this->default_limit),
         ];
-            
     }
 
     private function showOptions()
