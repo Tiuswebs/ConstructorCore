@@ -350,4 +350,23 @@ abstract class Core
             return "hidden";
         }
     }
+
+    public function getRequirements()
+    {
+    	return collect([]);
+    }
+
+    public function getCategories()
+	{
+		$category = null;
+		if(isset($this->category)) {
+			$category = ucwords($this->category);
+		}
+		return json_encode([$category]);
+	}
+
+	public function getType()
+    {
+        return 'Normal';
+    }
 }
