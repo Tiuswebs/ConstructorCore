@@ -6,6 +6,7 @@ use Tiuswebs\ConstructorCore\Inputs\Trix;
 use Tiuswebs\ConstructorCore\Inputs\TextColor;
 use Tiuswebs\ConstructorCore\Inputs\TailwindClass;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
+use Tiuswebs\ConstructorCore\Inputs\FontWeight;
 
 class Content extends Type
 {
@@ -16,6 +17,7 @@ class Content extends Type
 			TextColor::make($this->original_title.' Color')->default('#6B7280'),
 			TailwindClass::make($this->original_title.' Size')->default('text-base'),
 			FontFamily::make($this->original_title.' Font'),
+			FontWeight::make($this->original_title.' Weight'),
 			TailwindClass::make($this->original_title.' Classes')->default(''),
 		];
 	}

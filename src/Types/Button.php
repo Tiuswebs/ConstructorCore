@@ -7,6 +7,7 @@ use Tiuswebs\ConstructorCore\Inputs\BackgroundColor;
 use Tiuswebs\ConstructorCore\Inputs\TextColor;
 use Tiuswebs\ConstructorCore\Inputs\Text;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
+use Tiuswebs\ConstructorCore\Inputs\FontWeight;
 
 class Button extends Type
 {
@@ -20,8 +21,9 @@ class Button extends Type
 			BackgroundColor::make($this->original_title.' Background Color')->default('#333'),
 			BackgroundColor::make($this->original_title.' Background Color Hover')->default('#eee'),
 			TailwindClass::make($this->original_title.' Size')->default('text-base'),
-			TailwindClass::make($this->original_title.' Classes')->default(''),
 			FontFamily::make($this->original_title.' Font'),
+			FontWeight::make($this->original_title.' Weight'),
+			TailwindClass::make($this->original_title.' Classes')->default(''),
 		];
 	}
 }
