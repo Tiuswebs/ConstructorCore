@@ -42,7 +42,7 @@ If you want to add something to the header or footer you need to make use of the
 
 ```
 @push('header')
-	<script src="https://maps.google.com/maps/api/js?sensor=false&key=AIzaSyAsi6YqwsrGrGR4Y67qTNkBY9NdoVbB82s" type="text/javascript"></script>
+	<script src="https://dominio.com/javascript.js" type="text/javascript"></script>
 @endpush
 
 @push('scripts-footer')
