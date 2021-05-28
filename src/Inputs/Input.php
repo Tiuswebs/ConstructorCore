@@ -29,6 +29,7 @@ class Input
 	public $value;
 	public $size;
 	public $parent;
+	public $component;
 
 	public function __construct($title = null, $column = null, $extra = null, $source = null)
 	{
@@ -66,6 +67,13 @@ class Input
 		$this->default_value = $value;
 		return $this;
 	}
+
+	public function setComponent($component)
+	{
+		$this->component = $component;
+		return $this;
+	}
+
 
 	// Value to show on CRUDS
 

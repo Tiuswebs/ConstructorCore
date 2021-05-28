@@ -25,11 +25,20 @@ abstract class Core
 	public $constructor;
 	public $team;
 	public $id;
+	public $view;
 
 	public function __construct($constructor = null) 
 	{
 		$this->id = rand();
 		$this->name = str_replace($this->base_namespace, '', get_class($this));
+		if(is_null($this->view)) {
+			$name = explode('\\', $this->name);
+			$name[0] = strtolower($name[0]);
+			$name[1] = str_replace('_', '-', Str::snake($name[1]));
+			$name = implode('.', $name);
+			$this->view = 'modules::'.$name;
+		}
+
 		$this->constructor = $constructor;
 		$this->loadTeam();
 		$this->loadValues();
@@ -151,11 +160,11 @@ abstract class Core
 			$column = $item->column;
 		
 			if(!is_array($column) && isset($this->data->$column )) {
-				return $item->setValue($this->data->$column);
+				return $item->setValue($this->data->$column)->setComponent($this);
 			} else if (!is_array($column) && isset($this->data) && array_key_exists($column, collect($this->data)->toArray())) {
-				return $item->setValue(null);
+				return $item->setValue(null)->setComponent($this);
 			} else if (!is_array($column) && !isset($this->data->$column)) {
-				return $item->setValue($item->default_value);
+				return $item->setValue($item->default_value)->setComponent($this);
 			} elseif (isset($column)) {
 				// if is a panel
 				$value = $item->column;
@@ -169,7 +178,7 @@ abstract class Core
 					} else if (isset($this->data) && array_key_exists($column, collect($this->data)->toArray())) {
 						$item->setValue(null);
 					} else {
-						$item->setValue($item->default_value);
+						$item->setValue($item->default_value)->setComponent($this);
 					}
 					return $item;
 				});
