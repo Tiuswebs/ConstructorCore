@@ -62,9 +62,12 @@ abstract class Core
 
 	public function loadTeam()
 	{
-		$team = \Cache::remember('loadTeam', now()->addDay(), function() {
+		$team = \Cache::remember('loadTeamInfo', now()->addDay(), function() {
 			$url = config('app.tiuswebs_api')."/api/example_data/teams";
-	        return collect(json_decode(Http::get($url)->body()))->random();
+			$teams = collect(json_decode(Http::get($url)->body()))->filter(function($item) {
+				return Str::contains($item->photo_url, 'tiuswebs');
+			});
+	        return $teams->random();
 		});
 		$this->team = $team;
 	}

@@ -7,7 +7,8 @@ use Illuminate\Support\Facades\Http;
 class Footer extends Core
 {
     public $category = 'footer';
-    public $columns = 4;
+    public $columns = 1;
+    public $cruds = ['menus'];
 
     public function load()
     {
@@ -18,23 +19,39 @@ class Footer extends Core
     private function loadColumns()
     {
     	$url = config('app.tiuswebs_api');
+        $data = collect([]);
 
-    	// load menus
-        $new_url = "{$url}/api/example_data/menu";
-        $menus = collect(json_decode(Http::get($new_url)->body()))->take(5)->map(function($item) {
-        	$item->type = 'Menu';
-        	return $item;
-        });
+        if(in_array('menus', $this->cruds)) {
+            // load menus
+            $new_url = "{$url}/api/example_data/menu";
+            $menus = collect(json_decode(Http::get($new_url)->body()))->filter(function($item) {
+                return count($item->elements) <= 5 && count($item->elements) >= 3;
+            })->map(function($item) {
+                $item->elements = collect($item->elements)->whereNotNull('title');
+                return $item;
+            })->take(5)->map(function($item) {
+                $item->type = 'Menu';
+                return $item;
+            });
+            $data = $data->merge($menus);
+        }
+            
+        if(in_array('offices', $this->cruds)) {
+            // load offices
+            $new_url = "{$url}/api/example_data/office";
+            $offices = collect(json_decode(Http::get($new_url)->body()))->take(5)->map(function($item) {
+            	$item->type = 'Office';
+            	return $item;
+            });
+            $data = $data->merge($offices);
+        }
 
-        // load offices
-        $new_url = "{$url}/api/example_data/office";
-        $offices = collect(json_decode(Http::get($new_url)->body()))->take(5)->map(function($item) {
-        	$item->type = 'Office';
-        	return $item;
-        });
-
-        $elements = $menus->merge($offices);
-        $this->columns = $elements->random($this->columns);
+        if($this->columns>1) {
+            $this->columns = $data->random($this->columns);    
+        } else {
+            $this->menu = $data->random();
+        }
+        
     }
 
     public function getColumnClasses()

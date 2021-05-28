@@ -1,0 +1,14 @@
+<?php
+
+namespace Tiuswebs\ConstructorCore\Inputs;
+
+class SpotifyEmbedUrl extends Text
+{
+	public function formatValue()
+	{
+		$value = parent::formatValue();
+		$value = explode('?', $value)[0];
+		$value = explode('spotify.com/', $value)[1];
+		return "https://open.spotify.com/embed/{$value}";
+	}
+}
