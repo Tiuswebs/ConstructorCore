@@ -381,4 +381,9 @@ abstract class Core
     {
         return 'Normal';
     }
+
+    public function getComponentClass()
+    {
+    	return 'overflow-x-hidden w-full';
+    }
 }

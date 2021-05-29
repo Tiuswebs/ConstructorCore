@@ -1,18 +1,18 @@
-<section id="section-{{$core->id}}" class="overflow-x-hidden w-full">
+<section id="section-{{$core->id}}" class="{{$core->getComponentClass()}}">
 	@if($core->have_background_color)
-		<div style="background: {{$component->values->background_color}}">
+		<div style="background: {{$core->values->background_color}}">
 	@endif
-	@if($core->have_container && $component->values->with_container)
+	@if($core->have_container && $core->values->with_container)
 	    <div class="container mx-auto">
 	@endif
 	@if($core->have_paddings)
-		<div class="{{$component->getDefaults()['padding_tailwind']}}" style="{{$component->getPaddingStyle()}}">
+		<div class="{{$core->getDefaults()['padding_tailwind']}}" style="{{$core->getPaddingStyle()}}">
 	@endif
 	{!! $value !!}
 	@if($core->have_background_color)
 		</div>
 	@endif
-	@if($core->have_container && $component->values->with_container)
+	@if($core->have_container && $core->values->with_container)
 	    </div>
 	@endif
 	@if($core->have_paddings)

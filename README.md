@@ -7,8 +7,8 @@ There are a variaty of classes that you can extend in a module:
 
 - **Component:** For any kind of component
 - **Result:** For modules that requires to get data from the database (More than 1 element), for example: Show the last sliders, Show the members of a team, etc.
-- **Blog:** Same that result but only for cruds that have an image, text and a title (products, jobs, promotions, etc), this elements by default adds the module to the category "blog"
 - **Footer:** Only for components that are a footer
+- **Header:** Only for components that are a header
 - **Form:** Only for form components
 - **MultimediaItem:** Only for galleries
 - **ItemsWithExcerpt:** Results that Load cruds with title, image, description, excerpt
@@ -149,45 +149,16 @@ And in the view you can get the objects with the nex code:
 
 The `getColumnClasses()` comes by default on the Footer component, so you can use it with any problem, and it basically adds the tailwind cluds to show the correct size of the menu, depending of the user configuration.
 
+### Header
+
+Works the same that footer but adds the header category
+
 #### No menu needed
 If you don't need a menu by default you can disable it by adding columns = 0 on the component
 
 ```php
 public $columns = 0;
 ```
-
-## Good to know
-
-### Modules categories
-- header
-- image
-- slider
-- content
-- map
-- gallery
-- video
-- footer
-- hero
-- feature
-- form
-- testimonial
-- cta
-- extra
-- comming
-- pricing
-
-### Cruds Available
-- Banner
-- Documentation
-- Job
-- Multimedia
-- Office
-- Partner
-- Product
-- Promotion
-- Testimonial
-- Blog Entry
-- Portfolio
 
 ## Types
 *Namespace:* `use Tiuswebs\ConstructorCore\Types\Button;`
@@ -436,6 +407,7 @@ So if the text color name is `background_color_hover` it will show the next css
 BackgroundColor::make('Background Color')->default('#f1f1f1');
 ```
 *Css Property added:* background-color
+
 *Value expected:* hexadecimal color
 
 #### BorderColor
@@ -443,6 +415,7 @@ BackgroundColor::make('Background Color')->default('#f1f1f1');
 BorderColor::make('Border Color')->default('#f1f1f1');
 ```
 *Css Property added:* border-color
+
 *Value expected:* hexadecimal color
 
 #### FontFamily
@@ -450,6 +423,7 @@ BorderColor::make('Border Color')->default('#f1f1f1');
 FontFamily::make('Font')->default('Lato');
 ```
 *Css Property added:* font-family
+
 *Value expected:* A font name added on the Font Family input class.
 
 #### FontWeight
@@ -458,6 +432,7 @@ Similar that background color, except that it will add a font-weight
 FontWeight::make('Font Weight')->default('500');
 ```
 *Css Property added:* font-weight
+
 *Value expected:* A number between 0 and 100
 
 #### TextColor
@@ -465,6 +440,7 @@ FontWeight::make('Font Weight')->default('500');
 TextColor::make('Text Color')->default('#f1f1f1');
 ```
 *Css Property added:* text-color
+
 *Value expected:* hexadecimal color
 
 ### Transform inputs
@@ -511,3 +487,36 @@ This input injects the value set by the user to the html to the selected class.
 ```php
 TailwindClass::make('Classes');
 ```
+
+## Good to know
+
+### Modules categories
+- header
+- image
+- slider
+- content
+- map
+- gallery
+- video
+- footer
+- hero
+- feature
+- form
+- testimonial
+- cta
+- extra
+- comming
+- pricing
+
+### Cruds Available
+- Banner
+- Documentation
+- Job
+- Multimedia
+- Office
+- Partner
+- Product
+- Promotion
+- Testimonial
+- Blog Entry
+- Portfolio
