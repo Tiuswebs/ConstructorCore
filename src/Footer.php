@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Http;
 class Footer extends Core
 {
     public $category = 'footer';
-    public $columns = 1;
+    public $total_columns = 1;
     public $cruds = ['menus'];
 
     public function load()
@@ -46,9 +46,9 @@ class Footer extends Core
             $data = $data->merge($offices);
         }
 
-        if($this->columns>1) {
-            $this->columns = $data->random($this->columns);    
-        } else if($this->columns==1) {
+        if($this->total_columns>1) {
+            $this->columns = $data->random($this->total_columns);    
+        } else if($this->total_columns==1) {
             $this->menu = $data->random();
         }
         
@@ -56,7 +56,7 @@ class Footer extends Core
 
     public function getColumnClasses()
     {
-        $columns = count($this->columns);
+        $columns = count($this->total_columns);
         switch ($columns) {
             case 1:
                 return 'col-12 col-md-8 col-lg-8';
