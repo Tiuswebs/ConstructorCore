@@ -12,6 +12,9 @@ class Logo extends Text
 		if(strlen($value)>0) {
             return $value;
         }
+        if(!is_object($this->component->team)) {
+        	return;
+        }
         return $this->component->team->photo_url;
 	}
 }
