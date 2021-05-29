@@ -384,6 +384,6 @@ abstract class Core
 
     public function getComponentClass()
     {
-    	return 'overflow-x-hidden w-full';
+    	return 'overflow-x-hidden w-full overflow-y-hidden';
     }
 }
