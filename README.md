@@ -40,7 +40,7 @@ public $default_values = [
 #### Views customization
 If you want to add something to the header or footer you need to make use of the push blade method as this example:
 
-```
+```html
 @push('header')
 	<script src="https://dominio.com/javascript.js" type="text/javascript"></script>
 @endpush
@@ -81,6 +81,80 @@ Result class works for getting data from the database
 - latest (Default value)
 - oldest
 - random
+
+### Footer
+This class should be used on all the components that are a footer, by default it will load automatically the menu variable, with one menu and with load the correct category name.
+
+#### Normal use
+If you just want the footer to have one menu you dont need to make any change on the component.
+
+And to use it on the view you need to add the next code:
+
+```html
+@isset($component->menu)
+	<nav class="block md:hidden">
+	  <ul class="space-y-3 sm:space-y-0 flex flex-col sm:flex-row justify-between">
+	    @foreach($component->menu->elements as $item)
+		    <li>
+		      <a class="menu-item-class" href="{{$item->link}}">{{$item->title}}</a>
+		    </li>
+	    @endforeach
+	  </ul>
+	</nav>
+@endisset
+```
+
+#### Use columns
+It can happen that you need more that one object, for example if you have a footer with 4 columns and you want the user to be able to select menus and maybe more cruds you canfigure it
+
+In the next configuration we set that we want the user to select maximum 4 objects, and can be menus and offices.
+
+```php
+public $columns = 4;
+public $cruds = ['menus', 'offices'];
+```
+
+And in the view you can get the objects with the nex code:
+
+```html
+@foreach($component->columns as $element)
+	@if($element->type=='Menu')
+		<div class="{{$component->getColumnClasses()}}">
+			<h6 class="font-bold uppercase mb-3 title-color">{{$element->title}}</h6>
+			<ul class="list-unstyled mb-6 mb-md-8 mb-lg-0">
+				@foreach($element->elements as $item)
+	                <li class="mb-2">
+	                    <a href="{{$item->link}}" class="hover:underline links-class">{{$item->title}}</a>
+	                </li>
+	            @endforeach
+			</ul>
+		</div>
+	@elseif($element->type=='Office')
+		<div class="{{$component->getColumnClasses()}} address">
+			<h6 class="font-bold uppercase title-color">{{$element->title}}</h6>
+			<b class="title-color"><i class="fa fa-map-marker" style="margin-right: 7px;"></i> {{__('Address')}}</b>
+			<div class="text-color">
+				<p>{{ $element->address->{1} }}</p>
+				<p>{{ $element->address->{2} }}</p>
+				<p>{{$element->location}}</p>
+			</div>
+			<b class="title-color"><i class="fa fa-phone"></i> {{__('Phone')}}</b>
+			@foreach(collect($element->phones_html)->whereNotNull() as $phone)
+				<p class="text-color">{!! $phone !!}</p>
+			@endforeach
+		</div>
+	@endif
+@endforeach
+```
+
+The `getColumnClasses()` comes by default on the Footer component, so you can use it with any problem, and it basically adds the tailwind cluds to show the correct size of the menu, depending of the user configuration.
+
+#### No menu needed
+If you don't need a menu by default you can disable it by adding columns = 0 on the component
+
+```php
+public $columns = 0;
+```
 
 ## Good to know
 
@@ -231,17 +305,112 @@ This type of field will add the next fields
 *Returns:* None
 
 ## Input types
+All the inputs use `Tiuswebs\ConstructorCore\Inputs` namespace
+
+### Normal inputs
+Inputs that returns the user values
+
+#### BelongsTo
+Accepts crud name and variable name to use it on the view (If empty it will be named office in this case)
+
 ```php
-use Tiuswebs\ConstructorCore\Inputs\Text;
+BelongsTo::make('Office', 'map');
 ```
 
-### AdvancedColor
+*returns:* The selected object
+
+#### Boolean
 ```php
-AdvancedColor::make('Text Color')->default('gray-50');
+Boolean::make('Title')->default(false);
 ```
 
-### BackgroundColor
-This field is the same that color, excepting that it will add a class with the name of the input with the background-color setted on colors attribute.
+*returns:* The value added by the client on boolean
+
+#### Code
+```php
+Code::make('Title')->default(false);
+```
+
+*returns:* The value added by the client
+
+#### Color
+This field is for selecting a color, in the front end it shows a color picker for selecting hexadecimal value.
+```php
+Color::make('Color')->default('#fff');
+```
+
+*returns:* The value added by the client
+
+#### Date
+```php
+Date::make('Date');
+```
+
+*returns:* The value added by the client
+
+#### DateTime
+```php
+Date::make('Date Time');
+```
+
+*returns:* The value added by the client
+
+#### Hidden
+```php
+Hidden::make('Title')->default(false);
+```
+
+*returns:* The value added on the logic
+
+#### Icon
+```php
+Icon::make('Title');
+```
+*returns:* The value added by the client
+
+#### Number
+```php
+Number::make('Quantity')->default(2);
+```
+
+*returns:* The value added by the client
+
+#### Select
+```php
+Select::make('Option')->default('left')->options([
+	'left' => __('Left'),
+	'right' => __('Right')
+]);
+```
+
+*returns:* The value added by the client
+
+#### Text
+```php
+Text::make('Title')->default('title');
+```
+
+*returns:* The value added by the client
+
+#### Textarea
+```php
+Textarea::make('Description')->default('lorep ipsum');
+```
+
+*returns:* The value added by the client
+
+#### Trix
+A WYIWYG text area
+```php
+Trix::make('Description')->default('<p>lorep ipsum</p>');
+```
+
+*returns:* The value added by the client
+
+### CSS inputs
+Inputs that add a css class and don't return a value
+
+These fields add a css class with the name of the input with a css property (Depending of the input).
 ```php
 BackgroundColor::make('Background Color')->default('#f1f1f1');
 ```
@@ -262,123 +431,83 @@ So if the text color name is `background_color_hover` it will show the next css
 }
 ```
 
-### BasicColor
+#### BackgroundColor
 ```php
-BasicColor::make('Title Color')->default('gray');
+BackgroundColor::make('Background Color')->default('#f1f1f1');
 ```
+*Css Property added:* background-color
+*Value expected:* hexadecimal color
 
-*returns:* The value added by the client
-
-### BelongsTo
-Accepts crud name and variable name to use it on the view (If empty it will be named office in this case)
-
+#### BorderColor
 ```php
-BelongsTo::make('Office', 'map');
+BorderColor::make('Border Color')->default('#f1f1f1');
 ```
+*Css Property added:* border-color
+*Value expected:* hexadecimal color
 
-*returns:* The selected object
-
-### Boolean
+#### FontFamily
 ```php
-Boolean::make('Title')->default(false);
+FontFamily::make('Font')->default('Lato');
 ```
+*Css Property added:* font-family
+*Value expected:* A font name added on the Font Family input class.
 
-*returns:* The value added by the client on boolean
-
-### Code
+#### FontWeight
+Similar that background color, except that it will add a font-weight
 ```php
-Code::make('Title')->default(false);
+FontWeight::make('Font Weight')->default('500');
 ```
+*Css Property added:* font-weight
+*Value expected:* A number between 0 and 100
 
-*returns:* The value added by the client
-
-### Color
-This field is for selecting a color, in the front end it shows a color picker for selecting hexadecimal value.
-```php
-Color::make('Color')->default('#fff');
-```
-
-*returns:* The value added by the client
-
-### Hidden
-```php
-Hidden::make('Title')->default(false);
-```
-
-*returns:* The value added on the logic
-
-### Icon
-```php
-Icon::make('Title');
-```
-*returns:* The value added by the client
-
-### Items
-To get a list of items
-```php
-Items::make('Feature List');
-```
-*returns:* The value added by the client
-
-### Number
-```php
-Number::make('Quantity')->default(2);
-```
-
-*returns:* The value added by the client
-
-### Select
-```php
-Select::make('Option')->default('left')->options([
-	'left' => --('Left'),
-	'right' => __('Right')
-]);
-```
-
-*returns:* The value added by the client
-
-### Text
-```php
-Text::make('Title')->default('title');
-```
-
-*returns:* The value added by the client
-
-### TextColor
-This field is the same that color, excepting that it will add a class with the name of the input with the color setted on colors attribute.
+#### TextColor
 ```php
 TextColor::make('Text Color')->default('#f1f1f1');
 ```
+*Css Property added:* text-color
+*Value expected:* hexadecimal color
 
-This will add at the end the next css if there is not presence of the word `hover` on the name
+### Transform inputs
+Inputs that gets a value from the user and return a processed and transformed value
 
-```css
-.text-color, .text-color a {
-	color: #f1f1f1;
-}
-```
+#### Logo
+This input will add the option to the front end user to change the team logo url just for one component, by default its empty. So if is empty it returns the team logo on the settings configuration, if there is a value on the input it will take that one instead of the general logo.
 
-So if the text color name is `text_color_hover` it will show the next css
-
-```css
-.text-color:hover, .text-color a:hover {
-	color: #f1f1f1;
-}
-```
-
-*returns:* The value added by the client
-
-### Textarea
 ```php
-Textarea::make('Description')->default('lorep ipsum');
+Logo::make('Logo');
 ```
 
-*returns:* The value added by the client
+*returns:* The Logo Url
 
-### Trix
-A WYIWYG text area
+#### Items
+Its a text area input when you can put a list of items and returns an array with all the values.
 ```php
-Trix::make('Description')->default('<p>lorep ipsum</p>');
+Items::make('Feature List');
 ```
+*returns:* An array with values
 
-*returns:* The value added by the client
+#### Money
+The number formatted with decimals and commas (Example 4455778 returns 4,455,778.00)
+```php
+Money::make('Price');
+```
+*returns:* A formmated price
+
+#### SpotifyEmbedUrl
+This input transform a general spotify url to embed url. (Example https://open.spotify.com/track/1shqoTtZO8CLE8Xe2W76tP?si=21a13429f8b1405b converts to https://open.spotify.com/embed/track/1shqoTtZO8CLE8Xe2W76tP)
+
+```php
+SpotifyEmbedUrl::make('Spotify Song Url');
+```
+*returns:* An url
+
+### Special Inputs
+
+#### TailwindClass
+This class shouldn't be used in a component. But its documentated just for understanding purposes and its used on the Types.
+
+This input injects the value set by the user to the html to the selected class.
+
+```php
+TailwindClass::make('Classes');
+```

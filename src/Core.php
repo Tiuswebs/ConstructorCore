@@ -10,7 +10,6 @@ use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
 abstract class Core
 {
-	public $base_namespace = 'Tiuswebs\Modules\Elements\\';
 	public $have_background_color = true;
 	public $have_paddings = true;
 	public $have_container = false;
@@ -30,7 +29,8 @@ abstract class Core
 	public function __construct($constructor = null) 
 	{
 		$this->id = rand();
-		$this->name = str_replace($this->base_namespace, '', get_class($this));
+		$this->name = str_replace('Tiuswebs\Modules\Elements\\', '', get_class($this));
+		$this->name = str_replace('Tiuswebs\ModulesApproved\Elements\\', '', $this->name);
 		if(is_null($this->view)) {
 			$name = explode('\\', $this->name);
 			$name[0] = strtolower($name[0]);

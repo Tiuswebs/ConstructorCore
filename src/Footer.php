@@ -48,7 +48,7 @@ class Footer extends Core
 
         if($this->columns>1) {
             $this->columns = $data->random($this->columns);    
-        } else {
+        } else if($this->columns==1) {
             $this->menu = $data->random();
         }
         
