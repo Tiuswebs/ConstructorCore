@@ -52,6 +52,29 @@ If you want to add something to the header or footer you need to make use of the
 @endpush
 ```
 
+#### Hide divs
+If we want to hide a div in case a field its empty, we can use the `hide($field)` function.
+
+```html
+<a href="{{$values->instagram}}" class="w-8 h-8 rounded-full social-class flex justify-center items-center duration-150 {{$component->hide('instagram')}}">
+  <i class="icofont-instagram lg:text-xl"></i>
+</a>
+```
+
+So in case if the instragram value its empty, it will hide the div automatically.
+
+#### Check links 
+In occasions we would want that if an element doesnt have a link (Or its a #), we dont want to see the link there, so for these cases a new method of validation has been added. The `checkLink($field)` will work for you.
+
+```html
+<a href="{{$values->icon1_link}}" class="{{$component->checkLink('icon1_link')}}">
+  {!! $values->icon1 !!}
+  <h3 class="title-class">{{$values->icon1_title}}</h3>
+</a>
+```
+
+So in case if the link its empty or a #, in the website it will not look as have a link.
+
 ### Result
 Result class works for getting data from the database
 
@@ -187,7 +210,7 @@ If we want to set one general Type just for styles and want the user customize j
 Icon::make('Icon')->default([
 	'height' => '70px',
 	'color' => '#3B82F6',
-]),
+])->ignore('icon'),
 Icon::make('Icon 1')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->default(['icon' => 'https://cdn2.iconfinder.com/data/icons/music-and-multimedia-5/1000/music_icons_Light_blue-17-512.png']),
 Icon::make('Icon 2')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->default(['icon' => 'icofont-music-alt']),
 ```
