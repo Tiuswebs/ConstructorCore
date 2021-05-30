@@ -11,6 +11,7 @@ class Type
 	public $ignore = [];
 	public $only = [];
 	public $values;
+	public $copy_from;
 
 	public function __construct($title = null, $column = null)
 	{
@@ -100,6 +101,22 @@ class Type
 	public function setValues($values)
 	{
 		$this->values = (object) $values->all();
+		if(is_null($this->copy_from)) {
+			return $this;
+		}
+
+		$to_copy = collect($this->values)->filter(function($item, $key) {
+			return Str::startsWith($key, $this->copy_from.'_');
+		})->filter(function($item) {
+			return isset($item) && strlen($item)>0;
+		})->mapWithKeys(function($item, $key) {
+			$key = str_replace($this->copy_from.'_', $this->column.'_', $key);
+			return [$key => $item];
+		})->filter(function($item, $key) {
+			return !isset($this->values->$key);
+		})->each(function($item, $key) {
+			$this->values->$key = $item;
+		});
 		return $this;
 	}
 
@@ -120,5 +137,11 @@ class Type
 			return '';
 		}
 		return str_replace('_', '-', $this->getColumnName($name));
+	}
+
+	public function copyFrom($copy_from)
+	{
+		$this->copy_from = $copy_from;
+		return $this;
 	}
 }

@@ -356,14 +356,7 @@ abstract class Core
 		return $html;
 	}
 
-	public function hide($field) {
-        $value = $this->values->$field;
-        if(!is_bool($value) && strlen($value) == 0){
-            return "hidden";
-        }
-    }
-
-    public function getRequirements()
+	public function getRequirements()
     {
     	return collect([]);
     }
@@ -380,6 +373,20 @@ abstract class Core
 	public function getType()
     {
         return 'Normal';
+    }
+
+	public function hide($field) {
+        $value = $this->values->$field;
+        if(!is_bool($value) && strlen($value) == 0){
+            return "hidden";
+        }
+    }
+
+    public function checkLink($field) {
+        $value = $this->values->$field;
+        if(strlen($value)<=1){
+            return "cursor-default pointer-events-none inline-block";
+        }
     }
 
     public function getComponentClass()

@@ -55,6 +55,22 @@ If you want to add something to the header or footer you need to make use of the
 ### Result
 Result class works for getting data from the database
 
+How to use on the view
+```html
+@foreach($component->elements as $item)
+  <div class="col-span-4 lg:col-span-2">
+    <div class="hover:opacity-70 duration-150" >
+      <a href="{{$item->url}}">
+        <img class="select-none object-cover w-full object-center h-48 mb-4" src="{{getThumb($item->image_url, 'l')}}" alt="Mask-Group">
+      </a>
+      <a href="{{$item->url}}">
+        <h3 class="text-center font-bold text-2xl text-blue-500">{{$item->title}}</h3>
+      </a>
+    </div>
+  </div>
+@endforeach
+```
+
 #### Variables of the class
 
 - **default_result:** which option will be selected by default
@@ -165,7 +181,19 @@ public $columns = 0;
 
 The Types are group of inputs that add more that one input, this, to just focus on the element.
 
-### Badge
+### How to copy variables
+If we want to set one general Type just for styles and want the user customize just one variable for other inputs we can do the next code:
+```php
+Icon::make('Icon')->default([
+	'height' => '70px',
+	'color' => '#3B82F6',
+]),
+Icon::make('Icon 1')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->default(['icon' => 'https://cdn2.iconfinder.com/data/icons/music-and-multimedia-5/1000/music_icons_Light_blue-17-512.png']),
+Icon::make('Icon 2')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->default(['icon' => 'icofont-music-alt']),
+```
+
+### List of Types
+#### Badge
 ```php
 Badge::make('Badge');
 ```
@@ -180,7 +208,7 @@ This type of field will add the next fields
 
 *Returns:* None
 
-### Button
+#### Button
 ```php
 Button::make('Main Button');
 Button::make('Secondary Button');
@@ -199,7 +227,7 @@ This type of field will add the next fields
 
 *Returns:* None
 
-### Content
+#### Content
 ```php
 Content::make('Content');
 ```
@@ -214,7 +242,8 @@ This type of field will add the next fields
 
 *Returns:* None
 
-### Icon
+#### Icon
+To put an icon. For now you can put an image, an icon from FontAwesome 4.7, and icons from icofont
 ```php
 Icon::make('Icon');
 ```
@@ -227,7 +256,7 @@ This type of field will add the next fields
 
 *Returns:* The icon on html
 
-### Link
+#### Link
 ```php
 Link::make('Link');
 ```
@@ -243,7 +272,7 @@ This type of field will add the next fields
 
 *Returns:* None
 
-### Paragraph
+#### Paragraph
 ```php
 Paragraph::make('Paragraph');
 ```
@@ -259,7 +288,7 @@ This type of field will add the next fields
 
 *Returns:* None
 
-### Title
+#### Title
 ```php
 Title::make('Title');
 ```

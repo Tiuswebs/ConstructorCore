@@ -23,7 +23,7 @@ class Icon extends Type
 		$icon = $this->getValue('icon');
 		$height = $this->getValue('height', 'inherit');
 		$classes = $this->getValue('classes');
-		$class = $this->column;
+		$class = $this->copy_from ?? $this->column;
 		$class = str_replace('_', '-', $class).'-class';
 		if(Str::startsWith($icon, 'http')) {
 			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$classes.' '.$class.'" />';
