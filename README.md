@@ -63,6 +63,8 @@ If we want to hide a div in case a field its empty, we can use the `hide($field)
 
 So in case if the instragram value its empty, it will hide the div automatically.
 
+*Note:* On the types this function is added automatically when ussing the css class.
+
 #### Check links 
 In occasions we would want that if an element doesnt have a link (Or its a #), we dont want to see the link there, so for these cases a new method of validation has been added. The `checkLink($field)` will work for you.
 

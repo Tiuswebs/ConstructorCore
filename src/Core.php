@@ -134,6 +134,14 @@ abstract class Core
 		})->flatten();
 	}
 
+	// Get all the types fields
+	public function getTypesFields()
+	{
+		return $this->getProcessedFields(false)->filter(function($item) {
+			return isset($item->is_group) && $item->is_group;
+		})->flatten();
+	}
+
 	// Make modifications on fields
 	public function showChildsOnFields($fields)
 	{
@@ -317,6 +325,7 @@ abstract class Core
 
 	public function updateViewRender($html)
 	{
+		// Get fonts
 		$fonts = $this->getStylesByInput('FontFamily')->whereNotNull('value')->filter(function($item) {
 			return strlen($item['name']) > 0;
 		})->mapWithKeys(function($item) {
@@ -327,6 +336,8 @@ abstract class Core
 			$value = trim($render->render(), "\n");
 			return [$item['parent'].'-class' => $value];
 		})->whereNotNull();
+
+		// Get tailwind Classes
 		$values = $this->getStylesByInput('TailwindClass')->groupBy('parent')->mapWithKeys(function($item, $key) use ($fonts) {
 			$key = $key.'-class';
 			$classes = $item->pluck('value')->whereNotNull()->filter(function($item) {
@@ -344,7 +355,25 @@ abstract class Core
 				$values[$key] = $font;
 			}
 		}
-		
+
+		// Get types
+		$this->getTypesFields()->filter(function($item) {
+			return $item->hideAutomatically();
+		})->map(function($item) {
+			return [
+				'class' => $item->getCssClassName(),
+				'main_field' => $item->getColumnName($item->main_field)
+			];
+		})->each(function($item) use (&$values) {
+			$value = $this->hide($item['main_field']);
+			if(isset($values[$item['class']])) {
+				$values[$item['class']] .= ' '.$value;
+			} else {
+				$values[$item['class']] = $value;
+			}
+		});
+
+		// Replace results
 		foreach ($values as $key => $value) {
 			$before = ' ';
 			$html = str_replace($before.$key, $before.$key.' '.$value, $html);
@@ -375,15 +404,17 @@ abstract class Core
         return 'Normal';
     }
 
-	public function hide($field) {
-        $value = $this->values->$field;
+	public function hide($field) 
+	{
+        $value = $this->values->$field ?? null;
         if(!is_bool($value) && strlen($value) == 0){
             return "hidden";
         }
     }
 
-    public function checkLink($field) {
-        $value = $this->values->$field;
+    public function checkLink($field) 
+    {
+        $value = $this->values->$field ?? null;
         if(strlen($value)<=1){
             return "cursor-default pointer-events-none inline-block";
         }

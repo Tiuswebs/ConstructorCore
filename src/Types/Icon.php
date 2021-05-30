@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 
 class Icon extends Type
 {
+	public $main_field = 'icon';
+
 	public function fields() 
 	{
 		return [

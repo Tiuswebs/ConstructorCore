@@ -8,6 +8,7 @@ class Type
 {
 	public $default;
 	public $is_group = true;
+	public $main_field = 'text';
 	public $ignore = [];
 	public $only = [];
 	public $values;
@@ -143,5 +144,16 @@ class Type
 	{
 		$this->copy_from = $copy_from;
 		return $this;
+	}
+
+	public function getCssClassName()
+	{
+		$parent = str_replace('_', '-', $this->column);
+		return $parent.'-class';
+	}
+
+	public function hideAutomatically()
+	{
+		return !in_array($this->main_field, $this->ignore);
 	}
 }
