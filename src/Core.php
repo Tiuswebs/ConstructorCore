@@ -147,13 +147,13 @@ abstract class Core
 	{
 		return collect($fields)->map(function($item) {
 			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && $item->show_id) {
-				$item = $item->setComponent($this);
+				$input = $item->getProcessedInput($this);
 				return [
-					$item,
+					$input,
 					Text::make($item->title_nt.' Id', $item->column.'_id')
 				];
 			} else if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && !$item->show_id) {
-				return $item->setComponent($this);
+				return $item->getProcessedInput($this);
 			} else if(isset($item->is_group) && $item->is_group) {
 				return $item->theFields();
 			}

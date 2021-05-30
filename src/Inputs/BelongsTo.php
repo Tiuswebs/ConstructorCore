@@ -9,7 +9,7 @@ class BelongsTo extends Select
 	public $show_id = true;
 	public $filter_query = null;
 
-	public function setComponent($component)
+	public function getProcessedInput($component)
 	{
 		$options = $component->getBelongsToOptions($this->original_title, $this->column);
 		if(isset($this->filter_query)) {
