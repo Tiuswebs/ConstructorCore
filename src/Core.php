@@ -406,7 +406,7 @@ abstract class Core
 
 	public function hide($field) 
 	{
-        $value = $this->values->$field ?? null;
+        $value = $this->values->$field ?? $field;
         if(!is_bool($value) && strlen($value) == 0){
             return "hidden";
         }
@@ -414,7 +414,7 @@ abstract class Core
 
     public function checkLink($field) 
     {
-        $value = $this->values->$field ?? null;
+        $value = $this->values->$field ?? $field;
         if(strlen($value)<=1){
             return "cursor-default pointer-events-none inline-block";
         }

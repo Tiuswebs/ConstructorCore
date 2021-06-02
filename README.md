@@ -55,6 +55,8 @@ If you want to add something to the header or footer you need to make use of the
 #### Hide divs
 If we want to hide a div in case a field its empty, we can use the `hide($field)` function.
 
+The function accepts the name of a value? (In this case instagram) or can accept also a string with the value.
+
 ```html
 <a href="{{$values->instagram}}" class="w-8 h-8 rounded-full social-class flex justify-center items-center duration-150 {{$component->hide('instagram')}}">
   <i class="icofont-instagram lg:text-xl"></i>
@@ -67,6 +69,8 @@ So in case if the instragram value its empty, it will hide the div automatically
 
 #### Check links 
 In occasions we would want that if an element doesnt have a link (Or its a #), we dont want to see the link there, so for these cases a new method of validation has been added. The `checkLink($field)` will work for you.
+
+The function accepts the name of a value? (In this case icon1_link) or can accept also a string with the value.
 
 ```html
 <a href="{{$values->icon1_link}}" class="{{$component->checkLink('icon1_link')}}">
