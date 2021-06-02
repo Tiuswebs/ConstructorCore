@@ -154,6 +154,16 @@ class Type
 
 	public function hideAutomatically()
 	{
-		return !in_array($this->main_field, $this->ignore);
+		// Ignore adding a column if set on ignore
+		if(collect($this->ignore)->count() > 0) {
+			return !in_array($this->main_field, $this->ignore);
+		}
+
+		// Only use selected columns if set on only
+		if(collect($this->only)->count() > 0) {
+			return in_array($this->main_field, $this->only);
+		}
+		
+		return true;
 	}
 }
