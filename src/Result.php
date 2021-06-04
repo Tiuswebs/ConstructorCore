@@ -32,7 +32,10 @@ class Result extends Core
             } else if($this->values->sort=='random') {
                 $elements = $elements->random($this->values->limit);
             }
-            $this->elements = $elements->whereNotNull('image_url')->take($this->values->limit)->values();
+            if($elements->whereNotNull('image_url')->count() > 5) {
+                $elements = $elements->whereNotNull('image_url');
+            }
+            $this->elements = $elements->take($this->values->limit)->values();
         }
         // Get category
         $endpoint = "{$url}/api/example_data/categories";
