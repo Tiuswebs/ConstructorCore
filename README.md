@@ -52,7 +52,7 @@ If you want to add something to the header or footer you need to make use of the
 @endpush
 ```
 
-#### Hide divs
+#### Hide divs (Validation)
 If we want to hide a div in case a field its empty, we can use the `hide($field)` function.
 
 The function accepts the name of a value? (In this case instagram) or can accept also a string with the value.
@@ -67,7 +67,7 @@ So in case if the instragram value its empty, it will hide the div automatically
 
 *Note:* On the types this function is added automatically when ussing the css class.
 
-#### Check links 
+#### Check links (Validation)
 In occasions we would want that if an element doesnt have a link (Or its a #), we dont want to see the link there, so for these cases a new method of validation has been added. The `checkLink($field)` will work for you.
 
 The function accepts the name of a value? (In this case icon1_link) or can accept also a string with the value.
@@ -80,6 +80,19 @@ The function accepts the name of a value? (In this case icon1_link) or can accep
 ```
 
 So in case if the link its empty or a #, in the website it will not look as have a link.
+
+#### Show divs (Customization)
+If we want to hide a div based in a boolean value, we can use the `show($boolean)` function.
+
+The function accepts a boolean value and depending of the value it shows or hide the div
+
+```html
+<a href="{{$values->instagram}}" class="w-8 h-8 rounded-full social-class flex justify-center items-center duration-150 {{$component->show($values->show_instagram)}}">
+  <i class="icofont-instagram lg:text-xl"></i>
+</a>
+```
+
+So in case if the show_instragram value its false, it will hide the div automatically.
 
 ### Result
 Result class works for getting data from the database

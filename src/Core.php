@@ -404,6 +404,13 @@ abstract class Core
         return 'Normal';
     }
 
+    public function show($show) 
+	{
+        if(!$show){
+            return "hidden";
+        }
+    }
+
 	public function hide($field) 
 	{
         $value = $this->values->$field ?? $field;
