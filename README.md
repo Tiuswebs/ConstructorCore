@@ -94,6 +94,14 @@ The function accepts a boolean value and depending of the value it shows or hide
 
 So in case if the show_instragram value its false, it will hide the div automatically.
 
+If we want to hide and in case its true to send some classes by default you can do something like this:
+
+```html
+<div class="carousel-caption {{ $component->show($values->with_captions, 'd-none d-md-block') }}">
+    <h5>{{$element->name ?? $element->title}}</h5>
+</div>
+```
+
 ### Result
 Result class works for getting data from the database
 

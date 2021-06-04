@@ -404,11 +404,12 @@ abstract class Core
         return 'Normal';
     }
 
-    public function show($show) 
+    public function show($show, $default = null) 
 	{
         if(!$show){
             return "hidden";
         }
+        return $default;
     }
 
 	public function hide($field) 
