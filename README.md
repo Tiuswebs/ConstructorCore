@@ -37,6 +37,14 @@ public $default_values = [
 ];
 ```
 
+#### Use of paddings when doesnt have a background color
+If you have `public $have_background_color = false;`, then the padding will not be injected automatically on the view. You would need to inject it yourself
+
+```html
+<div class="{{$component->getDefaults()['padding_tailwind']}}" style="{{$component->getPaddingStyle()}}">
+	<!-- more HTML -->
+</div>
+```
 #### Views customization
 If you want to add something to the header or footer you need to make use of the push blade method as this example:
 

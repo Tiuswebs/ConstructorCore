@@ -5,7 +5,7 @@
 	@if($core->have_container && $core->values->with_container)
 	    <div class="container mx-auto">
 	@endif
-	@if($core->have_paddings)
+	@if($core->have_paddings && $core->have_background_color)
 		<div class="{{$core->getDefaults()['padding_tailwind']}}" style="{{$core->getPaddingStyle()}}">
 	@endif
 	{!! $value !!}
@@ -15,7 +15,7 @@
 	@if($core->have_container && $core->values->with_container)
 	    </div>
 	@endif
-	@if($core->have_paddings)
+	@if($core->have_paddings && $core->have_background_color)
 		</div>
 	@endif
 </section>
