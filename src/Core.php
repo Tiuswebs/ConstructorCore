@@ -13,6 +13,7 @@ abstract class Core
 	public $have_background_color = true;
 	public $have_paddings = true;
 	public $have_container = false;
+	public $have_overflow = true;
 	public $contents = false;
 	public $belongs_to_data = [];
 	public $belongs_to_list = [];
@@ -430,6 +431,9 @@ abstract class Core
 
     public function getComponentClass()
     {
+    	if(!$this->have_overflow) {
+    		return;
+    	}
     	return 'overflow-x-hidden w-full overflow-y-hidden';
     }
 }
