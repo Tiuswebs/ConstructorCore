@@ -156,6 +156,29 @@ How to use on the view
 - oldest
 - random
 
+
+### Multimedia Item
+Class that works when getting items from Multimedia (General or in a folder). It injects the variable `$gallery` with the folder info, and `$gallery->items` with the items.
+
+The variables to customize are the next ones:
+```php
+public $default_limit = 10; // Quantity of results to get
+public $show_limit = true; // Enable the user to change the limit
+public $default_sort = 'latest'; // How to sort the items (Latest, oldest, random)
+```
+
+Example of use on the view
+```html
+@foreach($component->gallery->items as $key => $element)
+	<div class="item">
+		<div class="p-3">
+			<img src="{{getThumb($element->value, 'm')}}" class="max-w-full">
+		</div>
+	</div>
+@endforeach
+```
+
+
 ### Footer
 This class should be used on all the components that are a footer, by default it will load automatically the menu variable, with one menu and with load the correct category name.
 
@@ -607,3 +630,11 @@ TailwindClass::make('Classes');
 - Testimonial
 - Blog Entry
 - Portfolio
+
+### Image Sizes
+- S - 90 x 90 (fit)
+- b - 160 x 160 (fit)
+- t - 160 x 160
+- m - 320 x 320
+- l - 640 x 640
+- h - 1024 x 1024
