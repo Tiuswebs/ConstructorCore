@@ -204,15 +204,16 @@ abstract class Core
 		$styles[] = $this->getStylesByInput('BackgroundColor', 'background-color');
 		$styles[] = $this->getStylesByInput('BorderColor', 'border-color');
 		$styles[] = $this->getStylesByInput('FontWeight', 'font-weight');
+		$styles[] = $this->getStylesByInput('BackgroundImage', 'background-image', 'url({value})');
 		$styles = collect($styles)->flatten(1)->groupBy('class');
 		return $styles;
 	}
 
-	public function getStylesByInput($name, $attribute = null) 
+	public function getStylesByInput($name, $attribute = null, $format_value = '{value}') 
 	{
 		return $this->getAllFields()->filter(function($item) use ($name) {
 			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
-		})->map(function($item) use ($attribute) {
+		})->map(function($item) use ($attribute, $format_value) {
 			$name = $item->column;
 			$value = $this->values->$name;
 			$parent = $item->parent;
@@ -222,6 +223,7 @@ abstract class Core
 				$parent = str_replace('_', '-', $parent);
 				$class = str_replace($name, $parent.'-class', $class);
 			}
+			$value = str_replace('{value}', $value, $format_value);
 			return compact('name', 'value', 'attribute', 'class', 'parent');
 		})->whereNotNull('value')->values();
 	}
