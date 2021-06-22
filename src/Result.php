@@ -68,6 +68,7 @@ class Result extends Core
             'offices' => __('Offices'),
             'testimonials' => __('Testimonials'),
             'categories' => __('Categories'),
+            'blog_entries' => __('Blog Entries'),
         ]);
         if($this->contents) {
             $options['contents'] = __('Content');
