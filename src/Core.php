@@ -321,6 +321,8 @@ abstract class Core
     			$result = $this->item;
     		} else if (isset($this->values->$get) && isset($this->belongs_to_data[$column])) {
     			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
+    		} else if (isset($this->belongs_to_data[$column])) {
+    			$result = $this->belongs_to_data[$column]->random();
     		}
     		$this->$column = $result;
     	});

@@ -16,7 +16,7 @@ class BelongsTo extends Select
 			$function = $this->filter_query;
 			$options = $function($options);
 		}
-		return $this->options($options->all())->default($options->keys()->random($options->count())->first());
+		return $this->options($options->all());
 	}
 
 	public function setShowId($value)
