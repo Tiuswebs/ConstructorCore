@@ -330,6 +330,13 @@ abstract class Core
 
 	public function updateViewRender($html)
 	{
+		$html = $this->addStylesAndClasses($html);
+		$html = $this->addPopupOnLinks($html);
+		return $html;
+	}
+
+	public function addStylesAndClasses($html)
+	{
 		// Get fonts
 		$fonts = $this->getStylesByInput('FontFamily')->whereNotNull('value')->filter(function($item) {
 			return strlen($item['name']) > 0;
@@ -389,6 +396,28 @@ abstract class Core
 		}
 		return $html;
 	}
+
+	public function addPopupOnLinks($html)
+    {
+    	$links = [
+    		'https://youtube.com',
+    		'https://www.youtube.com',
+    		'http://youtube.com',
+    		'http://www.youtube.com',
+    		'https://youtu.be',
+    		'https://www.youtu.be',
+    		'http://youtu.be',
+    		'http://www.youtu.be',
+    	];
+    	foreach($links as $link) {
+    		$html = str_replace('href="'.$link, 'data-type="popup" data-popup-type="iframe" href="'.$link, $html);
+    		if(Str::contains($link, 'youtu.be')) {
+    			$html = str_replace($link.'/', 'https://youtube.com/watch?v=', $html);
+    		}
+    	}
+    	
+    	return $html;
+    }
 
 	public function getRequirements()
     {
