@@ -5,6 +5,7 @@ namespace Tiuswebs\ConstructorCore;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Http;
 use Tiuswebs\ConstructorCore\Inputs\Text;
+use Tiuswebs\ConstructorCore\Inputs\Color;
 use Tiuswebs\ConstructorCore\Inputs\Boolean;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
@@ -106,7 +107,8 @@ abstract class Core
 		$default_values = $this->getDefaults();
 		$initial_fields = [];
 		if($this->have_background_color) {
-			$initial_fields[] = Text::make('Background Color')->default($default_values['background_color']);
+			$initial_fields[] = Color::make('Background Color')->default($default_values['background_color']);
+			$initial_fields[] = Text::make('Background Image');
 		}
 		if($this->have_paddings) {
 			$initial_fields[] = Text::make('Padding Top')->default($default_values['padding_top']);
