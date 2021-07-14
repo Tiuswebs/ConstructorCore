@@ -321,8 +321,10 @@ abstract class Core
     			$result = $this->item;
     		} else if (isset($this->values->$get) && isset($this->belongs_to_data[$column])) {
     			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
-    		} else if (isset($this->belongs_to_data[$column])) {
+    		} else if (isset($this->belongs_to_data[$column]) && $this->belongs_to_data[$column]->count() > 0) {
     			$result = $this->belongs_to_data[$column]->random();
+    		} else if (isset($this->belongs_to_data[$column])) {
+    			$this->show_view = false;
     		}
     		$this->$column = $result;
     	});
