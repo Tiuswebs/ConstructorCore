@@ -488,6 +488,21 @@ Trix::make('Description')->default('<p>lorep ipsum</p>');
 
 *returns:* The value added by the client
 
+#### BorderType
+```php
+BorderType::make('Border Type')->default('border-dashed');
+```
+
+*Value expected:*
+
+- border-solid
+- border-dashed
+- border-dotted
+- border-double
+- border-none
+
+*returns:* The value added by the client
+
 ### CSS inputs
 Inputs that add a css class and don't return a value
 
@@ -519,6 +534,13 @@ BackgroundColor::make('Background Color')->default('#f1f1f1');
 *Css Property added:* background-color
 
 *Value expected:* hexadecimal color
+
+And if you need to add an opacity, you can use the next code
+
+```php
+BackgroundColor::make('Background Color')->default('#f1f1f1')->setOpacity(1);
+```
+*Value expected:* A number int or decimal
 
 #### BorderColor
 ```php
@@ -552,6 +574,14 @@ TextColor::make('Text Color')->default('#f1f1f1');
 *Css Property added:* text-color
 
 *Value expected:* hexadecimal color
+
+#### BackgroundImage
+```php
+BackgroundImage::make('Background Image')->default('insert_your_image_url');
+```
+*Css Property added:* background-image
+
+*Value expected:* The Image Url
 
 ### Transform inputs
 Inputs that gets a value from the user and return a processed and transformed value
