@@ -139,17 +139,21 @@ How to use on the view
 - **exclude_options:** If you want the user to dont be able to select documentation for example, Ex: `['documentations']`
 
 ##### default_result values
+- faqs
+- partners
+- promotions
+- products
 - banners
 - jobs
-- multimedias
-- offices
-- partners
-- products
-- promotions
-- testimonials
+- multimedia
+- music_albums
+- music_songs
+- news
 - documentations
+- offices
+- testimonials
+- categories
 - blog_entries
-- portfolios
 
 ##### default_sort values
 - latest (Default value)
@@ -550,6 +554,13 @@ BorderColor::make('Border Color')->default('#f1f1f1');
 
 *Value expected:* hexadecimal color
 
+And if you need to add an opacity, you can use the next code
+
+```php
+BorderColor::make('Border Color')->default('#f1f1f1')->setOpacity(0.5);
+```
+*Value expected:* A number int or decimal
+
 #### FontFamily
 ```php
 FontFamily::make('Font')->default('Lato');
@@ -631,35 +642,45 @@ TailwindClass::make('Classes');
 ## Good to know
 
 ### Modules categories
-- header
-- image
-- slider
-- content
-- map
-- gallery
-- video
-- footer
-- hero
-- feature
-- form
-- testimonial
 - cta
-- extra
+- banners
+- header
+- feature
+- categories
 - comming
+- content
+- extra
+- faqs
+- hero
+- image
+- information
+- map
 - pricing
+- stats
+- testimonial
+- title
+- videos
+- widgets
+- slider
+- gallery
+- form
 
 ### Cruds Available
-- Banner
-- Documentation
-- Job
+- Faq
+- Partners
+- Promotions
+- Products
+- Banners
+- Jobs
 - Multimedia
-- Office
-- Partner
-- Product
-- Promotion
-- Testimonial
-- Blog Entry
-- Portfolio
+- Music Album
+- Music Song
+- News
+- Documentation
+- Offices
+- Testimonials
+- Categories
+- Blog Entries
 
 ### Image Sizes
 - S - 90 x 90 (fit)
