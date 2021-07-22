@@ -139,17 +139,21 @@ How to use on the view
 - **exclude_options:** If you want the user to dont be able to select documentation for example, Ex: `['documentations']`
 
 ##### default_result values
+- faqs
+- partners
+- promotions
+- products
 - banners
 - jobs
-- multimedias
-- offices
-- partners
-- products
-- promotions
-- testimonials
+- multimedia
+- music_albums
+- music_songs
+- news
 - documentations
+- offices
+- testimonials
+- categories
 - blog_entries
-- portfolios
 
 ##### default_sort values
 - latest (Default value)
@@ -488,6 +492,21 @@ Trix::make('Description')->default('<p>lorep ipsum</p>');
 
 *returns:* The value added by the client
 
+#### BorderType
+```php
+BorderType::make('Border Type')->default('border-dashed');
+```
+
+*Value expected:*
+
+- border-solid
+- border-dashed
+- border-dotted
+- border-double
+- border-none
+
+*returns:* The value added by the client
+
 ### CSS inputs
 Inputs that add a css class and don't return a value
 
@@ -520,6 +539,13 @@ BackgroundColor::make('Background Color')->default('#f1f1f1');
 
 *Value expected:* hexadecimal color
 
+And if you need to add an opacity, you can use the next code
+
+```php
+BackgroundColor::make('Background Color')->default('#f1f1f1')->setOpacity(1);
+```
+*Value expected:* A number int or decimal
+
 #### BorderColor
 ```php
 BorderColor::make('Border Color')->default('#f1f1f1');
@@ -527,6 +553,13 @@ BorderColor::make('Border Color')->default('#f1f1f1');
 *Css Property added:* border-color
 
 *Value expected:* hexadecimal color
+
+And if you need to add an opacity, you can use the next code
+
+```php
+BorderColor::make('Border Color')->default('#f1f1f1')->setOpacity(0.5);
+```
+*Value expected:* A number int or decimal
 
 #### FontFamily
 ```php
@@ -552,6 +585,14 @@ TextColor::make('Text Color')->default('#f1f1f1');
 *Css Property added:* text-color
 
 *Value expected:* hexadecimal color
+
+#### BackgroundImage
+```php
+BackgroundImage::make('Background Image')->default('insert_your_image_url');
+```
+*Css Property added:* background-image
+
+*Value expected:* The Image Url
 
 ### Transform inputs
 Inputs that gets a value from the user and return a processed and transformed value
@@ -601,35 +642,45 @@ TailwindClass::make('Classes');
 ## Good to know
 
 ### Modules categories
-- header
-- image
-- slider
-- content
-- map
-- gallery
-- video
-- footer
-- hero
-- feature
-- form
-- testimonial
 - cta
-- extra
+- banners
+- header
+- feature
+- categories
 - comming
+- content
+- extra
+- faqs
+- hero
+- image
+- information
+- map
 - pricing
+- stats
+- testimonial
+- title
+- videos
+- widgets
+- slider
+- gallery
+- form
 
 ### Cruds Available
-- Banner
-- Documentation
-- Job
+- Faq
+- Partners
+- Promotions
+- Products
+- Banners
+- Jobs
 - Multimedia
-- Office
-- Partner
-- Product
-- Promotion
-- Testimonial
-- Blog Entry
-- Portfolio
+- Music Album
+- Music Song
+- News
+- Documentation
+- Offices
+- Testimonials
+- Categories
+- Blog Entries
 
 ### Image Sizes
 - S - 90 x 90 (fit)

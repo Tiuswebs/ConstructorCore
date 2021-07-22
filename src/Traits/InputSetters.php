@@ -45,4 +45,15 @@ trait InputSetters
 		$this->default_value = $value;
 		return $this;
 	}
+
+    public function setOpacity($opacity = null)
+    {
+        list($r, $g, $b) = sscanf($this->default_value, "#%02x%02x%02x");
+
+        $rgba = "rgba($r, $g, $b, $opacity)";
+
+        $this->default_value = $rgba;
+
+        return $this;
+    }
 }
