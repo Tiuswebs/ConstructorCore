@@ -3,9 +3,11 @@
 @else
 	<section id="section-{{$core->id}}" class="{{$core->getComponentClass()}}">
 		@if($core->have_background_color && isset($core->values->background_image) && strlen($core->values->background_image) > 0)
-			<div style="background-image: url({{$core->values->background_image}})">
-		@elseif($core->have_background_color > 0)
-			<div style="background: {{$core->values->background_color}}">
+			<div style="background-image: url({{$core->values->background_image}})" class="px-6 lg:px-0 {{$core->getDefaults()['background_classes']}}">
+		@elseif(strlen($core->have_background_color) > 0)
+			<div style="background: {{$core->values->background_color}}" class="px-6 lg:px-0 {{$core->getDefaults()['background_classes']}}">
+		@elseif($core->have_background_color)
+			<div class="px-6 lg:px-0">
 		@endif
 		
 		@if($core->have_container && $core->values->with_container)
@@ -14,9 +16,7 @@
 		@if($core->have_paddings && $core->have_background_color)
 			<div class="{{$core->getDefaults()['padding_tailwind']}}" style="{{$core->getPaddingStyle()}}">
 		@endif
-		<div class="px-6 lg:px-0">
-			{!! $value !!}
-		</div>
+		{!! $value !!}
 		@if($core->have_container && $core->values->with_container)
 		    </div>
 		@endif

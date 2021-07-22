@@ -91,7 +91,9 @@ abstract class Core
 	public function getDefaults()
 	{
 		$default_values = collect([
-			'background_color' => 'inherit',
+			'background_color' => 'transparent',
+			'background_image' => '',
+			'background_classes' => '',
 			'padding_top' => '',
 			'padding_bottom' => '',
 			'padding_tailwind' => 'py-24',
@@ -108,7 +110,7 @@ abstract class Core
 		$initial_fields = [];
 		if($this->have_background_color) {
 			$initial_fields[] = Color::make('Background Color')->default($default_values['background_color']);
-			$initial_fields[] = Text::make('Background Image');
+			$initial_fields[] = Text::make('Background Image')->default($default_values['background_image']);
 		}
 		if($this->have_paddings) {
 			$initial_fields[] = Text::make('Padding Top')->default($default_values['padding_top']);

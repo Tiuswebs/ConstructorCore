@@ -30,6 +30,8 @@ If you want to change the default values for this 3 fields
 ```php
 public $default_values = [
 	'background_color' => '#f1f1f1',
+	'background_image' => '',
+	'background_classes' => '',
 	'padding_top' => '10px',
 	'padding_bottom' => '10px',
 	'padding_tailwind' => 'py-24',
