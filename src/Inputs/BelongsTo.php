@@ -2,8 +2,6 @@
 
 namespace Tiuswebs\ConstructorCore\Inputs;
 
-use Illuminate\Support\Str;
-
 class BelongsTo extends Select
 {
 	public $show_id = true;
@@ -16,7 +14,7 @@ class BelongsTo extends Select
 			$function = $this->filter_query;
 			$options = $function($options);
 		}
-		return $this->options($options->all());
+		return $this->options($options->all())->default('item');
 	}
 
 	public function setShowId($value)
