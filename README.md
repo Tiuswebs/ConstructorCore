@@ -654,7 +654,6 @@ TailwindClass::make('Classes');
 - hero
 - image
 - information
-- map
 - pricing
 - stats
 - testimonial
