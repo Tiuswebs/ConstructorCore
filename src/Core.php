@@ -220,6 +220,9 @@ abstract class Core
 		})->map(function($item) use ($attribute, $format_value) {
 			$name = $item->column;
 			$value = $this->values->$name;
+			if(strlen($value)==0) {
+				$value= null;
+			}
 			$parent = $item->parent;
 			$name = str_replace('_', '-', $name);
 			$class = $item->getSelectors($this->id);
@@ -227,7 +230,9 @@ abstract class Core
 				$parent = str_replace('_', '-', $parent);
 				$class = str_replace($name, $parent.'-class', $class);
 			}
-			$value = str_replace('{value}', $value, $format_value);
+			if(!is_null($value)) {
+				$value = str_replace('{value}', $value, $format_value);	
+			}
 			return compact('name', 'value', 'attribute', 'class', 'parent');
 		})->whereNotNull('value')->values();
 	}
@@ -372,6 +377,18 @@ abstract class Core
 			if(!isset($values[$key])) {
 				$values[$key] = $font;
 			}
+		}
+
+		// Add border to types with BorderColor if on class there aren't any border-* class
+		$border_colors = $this->getStylesByInput('BorderColor')->groupBy('parent')->keys()->values();
+		if($border_colors->count() > 0) {
+			$border_colors->map(function($item) {
+				return $item.'-class';
+			})->filter(function($item) use ($values) {
+				return isset($values[$item]) && !Str::contains($values[$item], 'border');
+			})->each(function($item) use (&$values) {
+				$values[$item] .= ' border';
+			});
 		}
 
 		// Get types
