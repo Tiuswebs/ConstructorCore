@@ -13,6 +13,7 @@ There are a variaty of classes that you can extend in a module:
 - **MultimediaItem:** Only for galleries
 - **ItemsWithExcerpt:** Results that Load cruds with title, image, description, excerpt
 - **ItemsWithTitle:** Results that Load cruds with title and image
+- **Pagination:** Only for components that are a pagination
 
 ### Core information
 By default a component will add the background color and padding options, if your module doesnt need it you can disabled it with the next code
