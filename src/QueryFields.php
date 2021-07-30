@@ -53,7 +53,7 @@ class QueryFields
 	 * Panel
 	 */
 
-	public function withoutTypes()
+	public function withoutPanels()
 	{
 		$this->fields = $this->fields->filter(function($item) {
 			return !isset($item->is_panel) || !$item->is_panel;
@@ -61,14 +61,14 @@ class QueryFields
 		return $this;
 	}
 
-	public function onlyTypes()
+	public function onlyPanels()
 	{
 		$this->fields = $this->fields->filter(function($item) {
 			return isset($item->is_panel) && $item->is_panel;
 		});
 		return $this;
 	}
-	
+
 	public function expandPanels()
 	{
 		$this->fields = $this->fields->map(function($item) {
