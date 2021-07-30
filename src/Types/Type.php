@@ -19,6 +19,7 @@ class Type
 		$this->original_title = $title;
 		$this->title = __($title);
 		$this->column = $column;
+		$this->load();
 	}
 
 	public static function make($title = null, $column = null) 
@@ -29,6 +30,11 @@ class Type
 		}
 
 		return new static($title, $column);	
+	}
+
+	public function load()
+	{
+		//
 	}
 
 	public function default($array)
@@ -101,7 +107,7 @@ class Type
 
 	public function setValues($values)
 	{
-		$this->values = (object) $values->all();
+		$this->values = (object) collect($values)->all();
 		if(is_null($this->copy_from)) {
 			return $this;
 		}

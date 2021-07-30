@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 class Icon extends Type
 {
 	public $main_field = 'icon';
+	private $extra_class;
 
 	public function fields() 
 	{
@@ -28,8 +29,14 @@ class Icon extends Type
 		$class = $this->copy_from ?? $this->column;
 		$class = str_replace('_', '-', $class).'-class';
 		if(Str::startsWith($icon, 'http')) {
-			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$classes.' '.$class.'" />';
+			return '<img src="'.$icon.'" style="height: '.$height.'" class="'.$classes.' '.$class.' '.$this->extra_class.'" />';
 		}
-		return '<i class="'.$icon.' '.$classes.' '.$class.'" style="font-size: '.$height.'"></i>';
+		return '<i class="'.$icon.' '.$classes.' '.$class.' '.$this->extra_class.'" style="font-size: '.$height.'"></i>';
+	}
+
+	public function addExtraClass($class)
+	{
+		$this->extra_class = $class;
+		return $this;
 	}
 }
