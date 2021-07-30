@@ -133,7 +133,6 @@ abstract class Core
 
 		// Get types
 		$types = $this->getFields($reload)->expandPanels()->onlyTypes()->getValues()->whereNotNull();
-		$this->values = (object) $values;
 
 		// Save all
 		$values = $values->merge($types)->all();
