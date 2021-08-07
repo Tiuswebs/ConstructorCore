@@ -200,8 +200,13 @@ abstract class Core
     		} else if (isset($this->values->$get) && isset($this->belongs_to_data[$column]) && $this->values->$get!='item') {
     			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
     		} else if (isset($this->belongs_to_data[$column]) && $this->belongs_to_data[$column]->count() > 0) {
-    			$default_option = collect($item->options)->keys()->random();
-    			$result = $this->belongs_to_data[$column]->firstWhere('id', $default_option);
+    			$options = collect($item->options)->keys();
+    			if($options->count() == 0) {
+    				$result = null;
+    			} else {
+    				$default_option = $options->random();
+	    			$result = $this->belongs_to_data[$column]->firstWhere('id', $default_option);
+    			}
     		} else if (isset($this->belongs_to_data[$column])) {
     			$this->show_view = false;
     		}
