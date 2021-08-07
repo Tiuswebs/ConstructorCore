@@ -9,7 +9,7 @@ class BelongsTo extends Select
 
 	public function getProcessedInput($component)
 	{
-		return \Cache::store('array')->remember('getProcessedInput:'.$this->column, now()->addHour(), function() use ($component) {
+		return \Cache::store('array')->remember('getProcessedInput:'.$component->id.':'.$this->column, now()->addHour(), function() use ($component) {
 			$options = $component->getBelongsToOptions($this->original_title, $this->column);
 			if(isset($this->filter_query)) {
 				$function = $this->filter_query;
