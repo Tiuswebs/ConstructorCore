@@ -28,7 +28,7 @@ abstract class Core
 	public $id;
 	public $view;
 
-	public function __construct($constructor = null) 
+	public function __construct($constructor = null)
 	{
 		$this->id = rand();
 		$this->name = str_replace('Tiuswebs\Modules\Elements\\', '', get_class($this));
@@ -101,7 +101,7 @@ abstract class Core
 		return $styles;
 	}
 
-	public function getStylesByInput($name, $attribute = null, $format_value = '{value}') 
+	public function getStylesByInput($name, $attribute = null, $format_value = '{value}')
 	{
 		return $this->getFields()->expandPanels()->expandTypes()->get()->filter(function($item) use ($name) {
 			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
@@ -119,7 +119,7 @@ abstract class Core
 				$class = str_replace($name, $parent.'-class', $class);
 			}
 			if(!is_null($value)) {
-				$value = str_replace('{value}', $value, $format_value);	
+				$value = str_replace('{value}', $value, $format_value);
 			}
 			return compact('name', 'value', 'attribute', 'class', 'parent');
 		})->whereNotNull('value')->values();
@@ -198,7 +198,7 @@ abstract class Core
     		if(isset($this->values->$get) && $this->values->$get=='item' && isset($this->item) && $this->item) {
     			$result = $this->item;
     		} else if (isset($this->values->$get) && isset($this->belongs_to_data[$column]) && $this->values->$get!='item') {
-    			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);	
+    			$result = $this->belongs_to_data[$column]->firstWhere('id', $this->values->$get);
     		} else if (isset($this->belongs_to_data[$column]) && $this->belongs_to_data[$column]->count() > 0) {
     			$result = $this->belongs_to_data[$column]->random();
     		} else if (isset($this->belongs_to_data[$column])) {
@@ -307,7 +307,7 @@ abstract class Core
     			$html = str_replace($link.'/', 'https://youtube.com/watch?v=', $html);
     		}
     	}
-    	
+
     	return $html;
     }
 
@@ -330,7 +330,7 @@ abstract class Core
         return 'Normal';
     }
 
-    public function show($show, $default = null) 
+    public function show($show, $default = null)
 	{
         if(!$show){
             return "hidden";
@@ -338,7 +338,7 @@ abstract class Core
         return $default;
     }
 
-	public function hide($field) 
+	public function hide($field)
 	{
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
         if(!is_bool($value) && strlen($value) == 0){
@@ -346,10 +346,10 @@ abstract class Core
         }
     }
 
-    public function checkLink($field) 
+    public function checkLink($field)
     {
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
-        if(strlen($value)<=1){
+        if(strlen($value)==0){
             return "cursor-default pointer-events-none inline-block";
         }
     }
