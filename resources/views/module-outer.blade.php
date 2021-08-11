@@ -3,11 +3,11 @@
 @else
 	<section id="section-{{$core->id}}" class="{{$core->getComponentClass()}}">
 		@if($core->have_background_color && isset($core->values->background_image) && strlen($core->values->background_image) > 0)
-			<div style="background-image: url({{$core->values->background_image}})" class="px-6 lg:px-0 {{$core->getDefaults()['background_classes']}}">
+			<div style="background-image: url({{$core->values->background_image}})" class="{{$core->getDefaults()['background_classes']}}">
 		@elseif(strlen($core->have_background_color) > 0)
-			<div style="background: {{$core->values->background_color}}" class="px-6 lg:px-0 {{$core->getDefaults()['background_classes']}}">
+			<div style="background: {{$core->values->background_color}}" class="{{$core->getDefaults()['background_classes']}}">
 		@elseif($core->have_background_color)
-			<div class="px-6 lg:px-0">
+			<div>
 		@endif
 		
 		@if($core->have_container && $core->values->with_container)

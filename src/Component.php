@@ -11,7 +11,7 @@ class Component extends Core
 		if(isset($this->category)) {
 			return;
 		}
-		$contains_belongs_to = $this->getAllFields()->filter(function($item) {
+		$contains_belongs_to = $this->getFields()->expandPanels()->expandTypes()->get()->filter(function($item) {
 			return Str::contains(get_class($item), 'BelongsTo');
 		})->count() > 0;
 		if($contains_belongs_to) {
