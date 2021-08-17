@@ -13,6 +13,7 @@ class Type
 	public $only = [];
 	public $values;
 	public $copy_from;
+	public $default_classes = '';
 
 	public function __construct($title = null, $column = null)
 	{
@@ -90,7 +91,7 @@ class Type
 					return;
 				}
 			}
-			return $item->setColumn($column)->setParent($this->column);
+			return $item->setColumn($column)->setParent($this);
 		})->whereNotNull()->map(function($item) use ($defaults) {
 			$column = str_replace($this->column.'_', '', $item->column);
 			if(isset($defaults[$column])) {

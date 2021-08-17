@@ -10,6 +10,8 @@ use Tiuswebs\ConstructorCore\Inputs\FontWeight;
 
 class Content extends Type
 {
+	public $default_classes = 'text-content';
+
 	public function fields() 
 	{
 		return [

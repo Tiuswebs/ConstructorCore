@@ -111,7 +111,8 @@ abstract class Core
 			if(strlen($value)==0) {
 				$value= null;
 			}
-			$parent = $item->parent;
+			$type = $item->parent;
+			$parent = $type->column ?? null;
 			$name = str_replace('_', '-', $name);
 			$class = $item->getSelectors($this->id);
 			if(isset($parent)) {
@@ -121,7 +122,7 @@ abstract class Core
 			if(!is_null($value)) {
 				$value = str_replace('{value}', $value, $format_value);
 			}
-			return compact('name', 'value', 'attribute', 'class', 'parent');
+			return compact('name', 'value', 'attribute', 'class', 'parent', 'type');
 		})->whereNotNull('value')->values();
 	}
 
@@ -250,8 +251,9 @@ abstract class Core
 		
 		// If has parent is for types
 		$tailwind_classes->whereNotNull('parent')->groupBy('parent')->each(function($item, $key) use ($fonts, &$values) {
+			$type = $item->first()['type']->default_classes;
 			$key = $key.'-class';
-			$classes = $item->pluck('value')->whereNotNull()->filter(function($item) {
+			$classes = $item->pluck('value')->prepend($type)->whereNotNull()->filter(function($item) {
 				return strlen($item) > 0;
 			});
 			if(isset($fonts[$key])) {
