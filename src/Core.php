@@ -47,7 +47,6 @@ abstract class Core
 		$this->loadBelongsToData();
 		$this->load();
 		$this->loadValues(true); // Load values again in case we are passing attributes on load
-		return;
 	}
 
 	public function render()

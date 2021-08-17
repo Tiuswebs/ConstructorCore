@@ -126,36 +126,33 @@ class QueryFields
 	{
 		$this->addExtraFields();
 		$this->fields = $this->fields->map(function($item) {
-			$column = $item->column;
-		
-			if(!is_array($column) && isset($this->core->data->$column )) {
-				return $item->setValue($this->core->data->$column)->setComponent($this->core);
-			} else if (isset($item->is_group) && $item->is_group) {
-				// Is a Type
-				return $item->setValues($this->core->values);
-			} else if (!is_array($column) && isset($this->core->data) && array_key_exists($column, collect($this->core->data)->toArray())) {
-				return $item->setValue(null)->setComponent($this->core);
-			} else if (!is_array($column) && !isset($this->core->data->$column)) {
-				return $item->setValue($item->default_value)->setComponent($this->core);
-			} elseif (isset($column)) {
-				// if is a panel
-				$value = $item->column;
-				$item->column = $value->map(function($item) {
-					$column = $item->column;
-					if(isset($this->core->data->$column)) {
-						$item->setValue($this->core->data->$column);
-					} else if (isset($this->core->data) && array_key_exists($column, collect($this->core->data)->toArray())) {
-						$item->setValue(null);
-					} else {
-						$item->setValue($item->default_value)->setComponent($this->core);
-					}
-					return $item;
+			// If is a panel
+			if(isset($item->is_panel) && $item->is_panel) {
+				$item->column = collect($item->column)->map(function($item) {
+					return $this->fillValueToItem($item);
 				});
 				return $item;
 			}
+			$item = $this->fillValueToItem($item);
 			return $item;
 		});
 		return $this;
+	}
+
+	private function fillValueToItem($item)
+	{
+		$column = $item->column;
+		if(!is_array($column) && isset($this->core->data->$column )) {
+			return $item->setValue($this->core->data->$column)->setComponent($this->core);
+		} else if (isset($item->is_group) && $item->is_group) {
+			// Is a Type
+			return $item->setValues($this->core->values);
+		} else if (!is_array($column) && isset($this->core->data) && array_key_exists($column, collect($this->core->data)->toArray())) {
+			return $item->setValue(null)->setComponent($this->core);
+		} else if (!is_array($column) && !isset($this->core->data->$column)) {
+			return $item->setValue($item->default_value)->setComponent($this->core);
+		} 
+		return $item;
 	}
 
 	/*

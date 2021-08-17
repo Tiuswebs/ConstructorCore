@@ -2,6 +2,8 @@
 
 namespace Tiuswebs\ConstructorCore\Components;
 
+use Tiuswebs\ConstructorCore\QueryFields;
+
 class Panel extends Component
 {
 	public $is_panel = true;
@@ -67,9 +69,9 @@ class Panel extends Component
 		return $this->filterFields($this->source, $model);
 	}
 
-	public function setChildColumns($name)
+	public function setChildColumns($name, $component)
 	{
-		$this->column = collect($this->column)->map(function($item) use ($name) {
+		$this->column = QueryFields::make($component, $this->column)->expandTypes()->get()->map(function($item) use ($name) {
 			$item->setColumn($name.'['.$item->column.']');
 			return $item;
 		})->all();
