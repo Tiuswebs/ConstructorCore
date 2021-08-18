@@ -247,7 +247,7 @@ abstract class Core
 				$values[$item['name']] = $item['value'];
 			}
 		});
-		
+
 		// If has parent is for types
 		$tailwind_classes->whereNotNull('parent')->groupBy('parent')->each(function($item, $key) use ($fonts, &$values) {
 			$type = $item->first()['type']->default_classes;
@@ -370,7 +370,7 @@ abstract class Core
     {
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
         if(strlen($value)==0){
-            return "cursor-default pointer-events-none inline-block";
+            return "cursor-default pointer-events-none";
         }
     }
 
