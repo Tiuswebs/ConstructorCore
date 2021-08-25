@@ -61,14 +61,15 @@ class Result extends Core
             'banners' => __('Banners'), 
             'jobs' => __('Jobs'),
             'multimedia' => __('Multimedia'),
-            'music_albums' => __('Music Album'),
-            'music_songs' => __('Music Song'),
             'news' => __('News'),
             'documentations' => __('Documentation'),
+            'documentation books' => __('Documentation Books'),
             'offices' => __('Offices'),
             'testimonials' => __('Testimonials'),
+            'videos' => __('Videos'),
+            'blog entries' => __('Blog Entries'),
+            'portfolios' => __('Portfolios'),
             'categories' => __('Categories'),
-            'blog_entries' => __('Blog Entries'),
         ]);
         if($this->contents) {
             $options['contents'] = __('Content');
