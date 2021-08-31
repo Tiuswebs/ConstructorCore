@@ -113,6 +113,15 @@ If we want to hide and in case its true to send some classes by default you can 
 </div>
 ```
 
+### Component for a template
+If you want a component to only be available on one template you can add a variable
+
+```php
+public $use_on_template = 'single-documentation books';
+```
+
+And this component will be listed only on pages with that templates
+
 ### Result
 Result class works for getting data from the database
 
@@ -644,28 +653,8 @@ TailwindClass::make('Classes');
 
 ## Good to know
 
-### Modules categories
-- cta
-- banners
-- header
-- feature
-- categories
-- comming
-- content
-- extra
-- faqs
-- hero
-- image
-- information
-- pricing
-- stats
-- testimonial
-- title
-- videos
-- widgets
-- slider
-- gallery
-- form
+- [Modules categories](https://tiuswebs.com/api/categories)
+- [Templates](https://tiuswebs.com/api/templates)
 
 ### Cruds Available
 - Faq

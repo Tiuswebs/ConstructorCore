@@ -16,6 +16,7 @@ abstract class Core
 	public $have_container = false;
 	public $have_overflow = true;
 	public $contents = false;
+	public $use_on_template = null;
 	public $belongs_to_data = [];
 	public $belongs_to_list = [];
 	public $default_values = [];
