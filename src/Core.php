@@ -28,6 +28,7 @@ abstract class Core
 	public $team;
 	public $id;
 	public $view;
+	public $item;
 
 	public function __construct($constructor = null)
 	{
@@ -48,6 +49,7 @@ abstract class Core
 		$this->loadBelongsToData();
 		$this->load();
 		$this->loadValues(true); // Load values again in case we are passing attributes on load
+		$this->loadItem();
 	}
 
 	public function render()
@@ -77,6 +79,25 @@ abstract class Core
 	        return $teams->random();
 		});
 		$this->team = $team;
+	}
+
+	public function loadItem()
+	{
+		if(is_null($this->use_on_template)) {
+			return;
+		}
+		$template = explode('-', $this->use_on_template);
+		if($template[0]!='single') {
+			return;
+		}
+		$relation = $template[1];
+		if($relation=='documentation books') {
+			$relation = 'documentations';
+		}
+		$url = config('app.tiuswebs_api');
+        $endpoint = "{$url}/api/example_data/{$relation}";
+        $elements = collect(json_decode(Http::get($endpoint)->body()));
+		$this->item = $elements->first();
 	}
 
 	public function load()
