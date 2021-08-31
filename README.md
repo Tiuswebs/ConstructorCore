@@ -122,6 +122,18 @@ public $use_on_template = 'single-documentation books';
 
 And this component will be listed only on pages with that templates
 
+#### Single Template
+And if you want to get the items on the page in case if we are using a single template you can get it using the `$component->item` variable
+
+```php
+<h3 class="content-title-class mb-5">
+    {{$component->item->title}}
+</h3>
+<div class="content-text-class">
+    {!! $component->item->description !!}
+</div>
+```
+
 ### Result
 Result class works for getting data from the database
 
