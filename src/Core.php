@@ -84,6 +84,11 @@ abstract class Core
 		//
 	}
 
+	public function fields()
+	{
+		return [];
+	}
+
 	public function baseFields()
 	{
 		return [];

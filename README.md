@@ -655,23 +655,7 @@ TailwindClass::make('Classes');
 
 - [Modules categories](https://tiuswebs.com/api/categories)
 - [Templates](https://tiuswebs.com/api/templates)
-
-### Cruds Available
-- Faq
-- Partners
-- Promotions
-- Products
-- Banners
-- Jobs
-- Multimedia
-- Music Album
-- Music Song
-- News
-- Documentation
-- Offices
-- Testimonials
-- Categories
-- Blog Entries
+- [Cruds](https://tiuswebs.com/api/cruds)
 
 ### Image Sizes
 - S - 90 x 90 (fit)
