@@ -159,25 +159,16 @@ How to use on the view
 - **default_sort:** how will be sorted the data by default
 - **default_limit:** Any integer value, the quantity of elements to show by default (Default is 10)
 - **show_options:** If you dont want the user to be able to select a value for result
-- **include_options:** If you want the user to be able to select for example jobs and banners, Ex: `['jobs', 'banners']`
+- **include_options:** If you want the user to be able to select for example jobs and banners, Ex: `['jobs', 'banners', 'categories.products']`
 - **exclude_options:** If you want the user to dont be able to select documentation for example, Ex: `['documentations']`
 
-##### default_result values
-- faqs
-- partners
-- promotions
-- products
-- banners
-- jobs
-- multimedia
-- music_albums
-- music_songs
-- news
-- documentations
-- offices
-- testimonials
-- categories
-- blog_entries
+##### Categories
+If you want the component to work with categories and you want to specify in which type of category you can use include or exclude options.
+
+Example: `['categories.products']` This basically means that it works only for categories of products
+
+You can see all the types of categories on here:
+- [Category Types](https://tiuswebs.test/api/category_types)
 
 ##### default_sort values
 - latest (Default value)

@@ -5,6 +5,7 @@ namespace Tiuswebs\ConstructorCore;
 use Tiuswebs\ConstructorCore\Inputs\Select;
 use Tiuswebs\ConstructorCore\Inputs\Number;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class Result extends Core
 {
@@ -75,15 +76,30 @@ class Result extends Core
             $options['contents'] = __('Content');
         }
 
+        // Load categories with types
+        $url = config('app.tiuswebs_api');
+        $endpoint = "{$url}/api/category_types";
+        $options = collect(json_decode(Http::get($endpoint)->body()))->mapWithKeys(function($item) {
+            return ['categories_'.$item => __('Categories').' - '.__(ucwords($item))];
+        });
+
         // Filter if use of include of exclude on class
         if(isset($this->include_options)) {
             $options = $options->filter(function($title, $key) {
+                if(Str::contains($key, '_')) {
+                    $basic_key = explode('_', $key)[0];
+                    return in_array($key, $this->include_options) || collect($this->include_options)->contains($basic_key);
+                }
                 return in_array($key, $this->include_options);
             });
         }
 
         if(isset($this->exclude_options)) {
             $options = $options->filter(function($title, $key) {
+                if(Str::contains($key, '_')) {
+                    $basic_key = explode('_', $key)[0];
+                    return !in_array($key, $this->exclude_options) || !collect($this->exclude_options)->contains($basic_key);
+                }
                 return !in_array($key, $this->exclude_options);
             });
         }
