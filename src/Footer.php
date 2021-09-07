@@ -25,7 +25,7 @@ class Footer extends Core
             // load menus
             $new_url = "{$url}/api/example_data/menu";
             $menus = collect(json_decode(Http::get($new_url)->body()))->filter(function($item) {
-                return count($item->elements) <= 5 && count($item->elements) >= 3;
+                return count($item->elements) <= 5 && count($item->elements) >= 2;
             })->map(function($item) {
                 $item->elements = collect($item->elements)->whereNotNull('title');
                 return $item;
@@ -45,7 +45,6 @@ class Footer extends Core
             });
             $data = $data->merge($offices);
         }
-
         if($this->total_columns>1) {
             $this->columns = $data->random($this->total_columns);    
         } else if($this->total_columns==1) {
