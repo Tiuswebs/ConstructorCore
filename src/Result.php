@@ -63,7 +63,6 @@ class Result extends Core
             'jobs' => __('Jobs'),
             'multimedia' => __('Multimedia'),
             'news' => __('News'),
-            'documentations' => __('Documentation'),
             'documentation books' => __('Documentation Books'),
             'offices' => __('Offices'),
             'testimonials' => __('Testimonials'),
@@ -71,6 +70,8 @@ class Result extends Core
             'blog entries' => __('Blog Entries'),
             'portfolios' => __('Portfolios'),
             'categories' => __('Categories'),
+            'brands' => __('Brands'),
+            'courses' => __('Courses'),
         ]);
         if($this->contents) {
             $options['contents'] = __('Content');
