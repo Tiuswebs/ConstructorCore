@@ -155,6 +155,10 @@ abstract class Core
 	public function loadValues($reload = false)
 	{
 		// Get normal values
+		$values = $this->getFields($reload)->withoutPanels()->withoutTypes()->getValues();
+		$this->values = (object) $values;
+
+		// Get normal values
 		$values = $this->getFields($reload)->expandPanels()->expandTypes()->getValues();
 		$this->values = (object) $values;
 

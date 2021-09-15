@@ -9,6 +9,7 @@ class Panel extends Component
 {
 	public $is_panel = true;
 	public $repeat = false;
+	public $values;
 	
 	public function load()
 	{
@@ -78,15 +79,26 @@ class Panel extends Component
 			return $fields;
 		}
 
+		$repeat = $this->repeat;
+		if(is_string($repeat)) {
+			$repeat = $this->values->$repeat;
+		}
+
 		// Repeat fields
 		$new_fields = [];
 		$panel_title = Str::slug($this->title, '_');
-		for($i=0; $i<$this->repeat; $i++) {
+		for($i=0; $i<$repeat; $i++) {
 			foreach($this->column as $field) {
 				$new_fields[] = (clone $field)->setColumn($panel_title.'['.$i.']['.$field->column.']');
 			}
 		}
 		return $new_fields;
+	}
+
+	public function setValues($values)
+	{
+		$this->values = (object) collect($values)->all();
+		return $this;
 	}
 
 	public function setChildColumns($name, $component)

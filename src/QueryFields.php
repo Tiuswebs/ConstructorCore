@@ -76,7 +76,7 @@ class QueryFields
 	{
 		$this->fields = $this->fields->map(function($item) {
 			if(isset($item->is_panel) && $item->is_panel) {
-				return $item->getRawFields();
+				return $item->setValues($this->core->values)->getRawFields();
 			}
 			return $item;
 		})->flatten();
@@ -149,6 +149,7 @@ class QueryFields
 		$this->fields = $this->fields->map(function($item) {
 			// If is a panel
 			if(isset($item->is_panel) && $item->is_panel) {
+				$item->setComponent($this);
 				$item->column = collect($item->column)->map(function($item) {
 					return $this->fillValueToItem($item);
 				});
