@@ -3,6 +3,7 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\Text;
+use Illuminate\Support\Str;
 
 class QueryFields
 {
@@ -75,7 +76,7 @@ class QueryFields
 	{
 		$this->fields = $this->fields->map(function($item) {
 			if(isset($item->is_panel) && $item->is_panel) {
-				return $item->column;
+				return $item->getRawFields();
 			}
 			return $item;
 		})->flatten();
@@ -94,11 +95,31 @@ class QueryFields
 
 	public function getValues()
 	{
-		return $this->get()->mapWithKeys(function($item) {
-			return [$item->column => $item->formatValue()];
-		})->map(function($value) {
-			return $this->core->replaceResults($value);
+		$values = [];
+
+		// Save values
+		$this->get()->each(function($item) use (&$values) {
+			$column = $item->column;
+			$value = $this->core->replaceResults($item->formatValue());
+			if(!Str::contains($column, '[')) {
+				$values[$column] = $value;
+			} else {
+				// Basically if we have a column called name[this][other] convert its to an array and save its to values
+				$column = str_replace(']', '', $column);
+				$column = str_replace('[', '*', $column);
+				$column = explode('*', $column);
+				$col_values = [];
+				$save_on = 	'values';
+				foreach($column as $col) {
+					eval("\$$save_on = \$$save_on ?? [];");
+					$save_on .= '[\''.$col.'\']';
+				}
+				eval("\$$save_on = \"$value\";");
+			}
 		});
+
+		// Return values
+		return collect($values);
 	}
 
 	/*
@@ -154,10 +175,4 @@ class QueryFields
 		} 
 		return $item;
 	}
-
-	/*
-	 * Setters
-	 */
-
-	
 }

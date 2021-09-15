@@ -3,10 +3,12 @@
 namespace Tiuswebs\ConstructorCore\Components;
 
 use Tiuswebs\ConstructorCore\QueryFields;
+use Illuminate\Support\Str;
 
 class Panel extends Component
 {
 	public $is_panel = true;
+	public $repeat = false;
 	
 	public function load()
 	{
@@ -69,12 +71,36 @@ class Panel extends Component
 		return $this->filterFields($this->source, $model);
 	}
 
+	public function getRawFields()
+	{
+		$fields = $this->column;
+		if(!$this->repeat) {
+			return $fields;
+		}
+
+		// Repeat fields
+		$new_fields = [];
+		$panel_title = Str::slug($this->title, '_');
+		for($i=0; $i<$this->repeat; $i++) {
+			foreach($this->column as $field) {
+				$new_fields[] = (clone $field)->setColumn($panel_title.'['.$i.']['.$field->column.']');
+			}
+		}
+		return $new_fields;
+	}
+
 	public function setChildColumns($name, $component)
 	{
 		$this->column = QueryFields::make($component, $this->column)->expandTypes()->get()->map(function($item) use ($name) {
 			$item->setColumn($name.'['.$item->column.']');
 			return $item;
 		})->all();
+		return $this;
+	}
+
+	public function repeat($repeat)
+	{
+		$this->repeat = $repeat;
 		return $this;
 	}
 }

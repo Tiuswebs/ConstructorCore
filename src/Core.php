@@ -163,7 +163,8 @@ abstract class Core
 
 		// Save all
 		$values = $values->merge($types)->all();
-		$this->values = (object) $values;
+		$values = json_encode($values);
+		$this->values = json_decode($values);
 	}
 
 	public function getPaddingStyle()
