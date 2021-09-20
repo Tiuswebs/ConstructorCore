@@ -385,7 +385,7 @@ abstract class Core
     public function show($show, $default = null)
 	{
         if(!$show){
-            return "hidden";
+            return "hidden-important";
         }
         return $default;
     }
@@ -394,7 +394,7 @@ abstract class Core
 	{
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
         if(!is_bool($value) && strlen($value) == 0){
-            return "hidden";
+            return "hidden-important";
         }
     }
 
