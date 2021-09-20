@@ -210,9 +210,9 @@ class QueryFields
 			$value = $this->core->data;
 			foreach($column as $variable) {
 				if(is_numeric($variable)) {
-					$value = $value[$variable];
+					$value = $value[$variable] ?? null;
 				} else {
-					$value = $value->$variable;	
+					$value = $value->$variable ?? null;	
 				}
 			}
 			return $item->setValue($value)->setComponent($this->core);
