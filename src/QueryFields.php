@@ -72,11 +72,36 @@ class QueryFields
 		return $this;
 	}
 
+	public function onlyOnePanel()
+	{
+		$this->fields = $this->fields->map(function($item) {
+			$has_childs = false;
+			if(isset($item->is_panel) && $item->is_panel) {
+				$items = $item->setValues($this->core->values)->getRawFields()->map(function($item) use (&$has_childs) {
+					if(isset($item->is_panel) && $item->is_panel) {
+						$has_childs = true;
+					}
+					return $item;
+				})->flatten();
+				if($has_childs) {
+					return $items;
+				}
+			}
+			return $item;
+		})->flatten();
+		return $this;
+	}
+
 	public function expandPanels()
 	{
 		$this->fields = $this->fields->map(function($item) {
 			if(isset($item->is_panel) && $item->is_panel) {
-				return $item->setValues($this->core->values)->getRawFields();
+				return $item->setValues($this->core->values)->getRawFields()->map(function($item) {
+					if(isset($item->is_panel) && $item->is_panel) {
+						return $item->setValues($this->core->values)->getRawFields();
+					}
+					return $item;
+				})->flatten();
 			}
 			return $item;
 		})->flatten();
@@ -89,8 +114,19 @@ class QueryFields
 
 	public function get()
 	{
-		$this->fillValues();
+		$this->onlyOnePanel()->fillValues();
 		return $this->fields;
+	}
+
+	public function getConstructor($key, $component)
+	{
+		$fields = $this->get()->map(function($field) use ($key, $component) {
+			if(!$field->is_panel) {
+				return $field->setColumn('components_data['.$key.'][data]['.$field->column.']');
+			}
+			return $field->setChildColumns('components_data['.$key.'][data]', $component);
+		});
+		return $fields;
 	}
 
 	public function getValues()
@@ -164,7 +200,23 @@ class QueryFields
 	private function fillValueToItem($item)
 	{
 		$column = $item->column;
-		if(!is_array($column) && isset($this->core->data->$column )) {
+		if(Str::contains($column, '[')) {
+			$column_name = explode('[', $column)[0];
+			$column = str_replace($column_name, '['.$column_name.']', $column);
+			$column = str_replace('[', '', $column);
+			$column = collect(explode(']', $column))->filter(function($item) {
+				return strlen($item) > 0;
+			});
+			$value = $this->core->data;
+			foreach($column as $variable) {
+				if(is_numeric($variable)) {
+					$value = $value[$variable];
+				} else {
+					$value = $value->$variable;	
+				}
+			}
+			return $item->setValue($value)->setComponent($this->core);
+		} else if(!is_array($column) && isset($this->core->data->$column )) {
 			return $item->setValue($this->core->data->$column)->setComponent($this->core);
 		} else if (isset($item->is_group) && $item->is_group) {
 			// Is a Type

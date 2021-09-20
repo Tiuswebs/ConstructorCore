@@ -55,7 +55,7 @@ class Panel extends Component
 	{
 		$where = $where=='update' ? 'edit' : $where;
 		$where = $where=='store' ? 'create' : $where;
-		return collect($this->column)->filter(function($item) {
+		return collect($this->getRawFields())->filter(function($item) {
 			return isset($item);
 		})->flatten()->map(function($item) {
 			if(isset($item->is_group) && $item->is_group) {
@@ -76,7 +76,7 @@ class Panel extends Component
 	{
 		$fields = $this->column;
 		if(!$this->repeat) {
-			return $fields;
+			return collect($fields);
 		}
 
 		$repeat = $this->repeat;
@@ -85,12 +85,15 @@ class Panel extends Component
 		}
 
 		// Repeat fields
-		$new_fields = [];
+		$new_fields = collect([]);
 		$panel_title = Str::slug($this->title, '_');
 		for($i=0; $i<$repeat; $i++) {
+			$title = $this->title.' '.$i;
+			$data = [];
 			foreach($this->column as $field) {
-				$new_fields[] = (clone $field)->setColumn($panel_title.'['.$i.']['.$field->column.']');
+				$data[] = (clone $field)->setColumn($panel_title.'['.$i.']['.$field->column.']');
 			}
+			$new_fields[] = Panel::make($title, $data);
 		}
 		return $new_fields;
 	}
@@ -104,7 +107,14 @@ class Panel extends Component
 	public function setChildColumns($name, $component)
 	{
 		$this->column = QueryFields::make($component, $this->column)->expandTypes()->get()->map(function($item) use ($name) {
-			$item->setColumn($name.'['.$item->column.']');
+			$column = $item->column;
+			if(Str::contains($column, '[')) {
+				$column_name = explode('[', $column)[0];
+				$column = str_replace($column_name, '['.$column_name.']', $column);
+				$item->setColumn($name.$column);
+				return $item;
+			}
+			$item->setColumn($name.'['.$column.']');
 			return $item;
 		})->all();
 		return $this;
