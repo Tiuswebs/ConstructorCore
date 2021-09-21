@@ -7,6 +7,12 @@ use Illuminate\Support\Facades\Http;
 use Tiuswebs\ConstructorCore\Traits\FieldsHelper;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
+/**
+ * @package Tiuswebs\ConstructorCore
+ * 
+ * @copyright  Copyright (c) 2020 - 2022 Weblabor. All rights reserved.
+ * @author Carlos Escobar <carlosescobar@weblabor.mx>
+ */
 abstract class Core
 {
 	use FieldsHelper;
@@ -105,6 +111,11 @@ abstract class Core
 		//
 	}
 
+	/**
+	 * Inputs and Types to use on the views
+	 *
+	 * @return void
+	 */
 	public function fields()
 	{
 		return [];
@@ -382,6 +393,13 @@ abstract class Core
         return 'Normal';
     }
 
+	/**
+	 * Returns the 'hidden' Tailwind class if the value is false. Otherwise returns the default value
+	 *
+	 * @param mixed $show
+	 * @param mixed $default
+	 * @return mixed
+	 */
     public function show($show, $default = null)
 	{
         if(!$show){
@@ -390,6 +408,12 @@ abstract class Core
         return $default;
     }
 
+	/**
+	 * Returns the 'hidden' Tailwind class if the value given is empty
+	 *
+	 * @param mixed $field
+	 * @return string
+	 */
 	public function hide($field)
 	{
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
@@ -398,6 +422,12 @@ abstract class Core
         }
     }
 
+	/**
+	 * Deactivates a link if the given value is empty or '#'
+	 *
+	 * @param mixed $field
+	 * @return void
+	 */
     public function checkLink($field)
     {
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
