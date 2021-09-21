@@ -436,9 +436,9 @@ This type of field will add the next fields
 We can think of panels as our own custom Types.
 
 ```php
-Panel::make('Card', [
+Panel::make('Card')->default([
 	Text::make('Title')->default('Card title');
-	Text::make('Text')->default('Card text');
+	Content::make('Content')->default('Card content');
 ]);
 ```
 
@@ -475,7 +475,7 @@ AdvancedColor::make('Advanced Color');
 A [selection](#select) list of basic [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors) without shades.
 
 ```php
-BasicColor::make('Basic Color');
+BasicColor::make('Advanced Color');
 ```
 
 *returns:* The selected Tailwind CSS class
