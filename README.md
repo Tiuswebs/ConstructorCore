@@ -38,6 +38,11 @@ And if you need to have a container you can add it with the next code (by defaul
 public $have_container = true;
 ```
 
+By default the components are set with overflow classes, if for some reason you don't need it on the component you can disabled it with the next code.
+```php
+public $have_overflow = false;
+```
+
 If you want to change the default values for this 3 fields
 ```php
 public $default_values = [
