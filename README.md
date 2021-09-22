@@ -481,7 +481,7 @@ BasicColor::make('Basic Color');
 *returns:* The selected Tailwind CSS class
 
 #### BelongsTo
-Accepts crud name and variable name to use it on the view (If empty it will be named office in this case)
+Accepts crud name, following the laravel conventions of the models and variable name to use it on the view (If empty it will be named office in this case)
 
 ```php
 BelongsTo::make('Office', 'map');
