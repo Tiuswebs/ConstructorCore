@@ -80,8 +80,11 @@ class Panel extends Component
 		}
 
 		$repeat = $this->repeat;
-		if(is_string($repeat)) {
-			$repeat = $this->values->$repeat;
+		if(is_string($repeat) && isset($this->values)) {
+			$repeat = $this->values->$repeat ?? null;
+		}
+		if(!is_numeric($repeat)) {
+			return collect($fields);
 		}
 
 		// Repeat fields
