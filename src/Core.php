@@ -242,6 +242,11 @@ abstract class Core
     		} else if (isset($this->belongs_to_data[$column])) {
     			$this->show_view = false;
     		}
+
+    		// Dont load component if a belongsTo doesnt have a value
+    		if(is_null($result)) {
+    			$this->show_view = false;
+    		}
     		$this->$column = $result;
     	});
 	}
