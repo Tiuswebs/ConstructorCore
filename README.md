@@ -2,6 +2,16 @@
 
 Package to create new modules for tiuswebs
 
+## Developer tools
+
+![](https://raw.githubusercontent.com/LuanHimmlisch/tiuswebs-complete/main/assets/logo.png)
+
+### Visual Studio Code Extension
+
+If you're developing on [VS Code]() it's recommended to use the **[Tiuswebs Complete](https://github.com/LuanHimmlisch/tiuswebs-complete)** snippets extension for faster development. You can get the extension from the [official Visual Studio Code marketplace](https://marketplace.visualstudio.com/items?itemName=LuanHimmlisch.tiuswebs-complete).
+
+
+
 ## Type of classes
 There are a variaty of classes that you can extend in a module:
 
@@ -14,6 +24,7 @@ There are a variaty of classes that you can extend in a module:
 - **ItemsWithExcerpt:** Results that Load cruds with title, image, description, excerpt
 - **ItemsWithTitle:** Results that Load cruds with title and image
 - **Pagination:** Only for components that are a pagination
+- **Instagram:** For modules that requires to get data from the Instagram API.
 
 ### Core information
 By default a component will add the background color and padding options, if your module doesnt need it you can disabled it with the next code
@@ -302,6 +313,7 @@ This type of field will add the next fields
 - {$name}_text
 - {$name}_text_color
 - {$name}_background_color
+- {$name}_size
 - {$name}_font
 - {$name}_weight
 - {$name}_classes
@@ -321,6 +333,7 @@ This type of field will add the next fields
 - {$name}_text_color_hover
 - {$name}_background_color
 - {$name}_background_color_hover
+- {$name}_size
 - {$name}_font
 - {$name}_weight
 - {$name}_classes
@@ -356,6 +369,20 @@ This type of field will add the next fields
 
 *Returns:* The icon on html
 
+#### Input
+```php
+Input::make('Input');
+```
+
+This type of field will add the next fields
+- {$name}_text_color
+- {$name}_background_color
+- {$name}_border_color
+- {$name}_size
+- {$name}_classes
+
+*Returns:* None
+
 #### Link
 ```php
 Link::make('Link');
@@ -366,6 +393,7 @@ This type of field will add the next fields
 - {$name}_link
 - {$name}_color
 - {$name}_color_hover
+- {$name}_size
 - {$name}_font
 - {$name}_weight
 - {$name}_classes
@@ -404,11 +432,53 @@ This type of field will add the next fields
 
 *Returns:* None
 
+#### Panel
+We can think of panels as our own custom Types.
+
+```php
+Panel::make('Card', [
+	Text::make('Title')->default('Card title');
+	Text::make('Text')->default('Card text');
+]);
+```
+
+Using the `repeat()` we give the freedom to the user to choose how many inputs he wants.
+
+```php
+Text::make('Total Items')->default(10);
+
+Panel::make('Item', [
+	Text::make('Year')->default(2021),
+	Text::make('Title')->default('Item title'),
+	Text::make('Subtitle')->default('Information'),
+])->repeat('total_items');
+```
+
+This will create a default of 10 Items.
+
 ## Input types
 All the inputs use `Tiuswebs\ConstructorCore\Inputs` namespace
 
 ### Normal inputs
 Inputs that returns the user values
+
+#### AdvancedColor
+A [selection](#select) list of [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors)
+
+```php
+AdvancedColor::make('Advanced Color');
+```
+
+*returns:* The selected Tailwind CSS class
+
+#### BasicColor
+A [selection](#select) list of basic [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors) without shades.
+
+```php
+BasicColor::make('Basic Color');
+```
+
+*returns:* The selected Tailwind CSS class
 
 #### BelongsTo
 Accepts crud name and variable name to use it on the view (If empty it will be named office in this case)
@@ -418,6 +488,69 @@ BelongsTo::make('Office', 'map');
 ```
 
 *returns:* The selected object
+
+```json
+{
+  "id": 1,
+  "team_id": 1,
+  "title": "Tuxtla Gutierrez",
+  "address": {
+    "1": "1st Avenue Example #75",
+    "2": "Downtown",
+    "3": "C.P. 40250"
+  },
+  "location": "Tuxtla Gutierrez, Chiapas",
+  "phones": {
+    "1": "961-123-4567",
+    "2": null,
+    "3": null
+  },
+  "emails": {
+    "1": "example@company.com",
+    "2": null,
+    "3": null
+  },
+  "social": {
+    "facebook": null,
+    "twitter": null,
+    "instagram": null
+  },
+  "whatsapp": "+52 961 123 4567",
+  "hours": "Monday - Friday from 8 am to 4 pm",
+  "lat": "50.1234567",
+  "long": "-40.1234567",
+  "description": null,
+  "image_url": null,
+  "variable_2": null,
+  "variable_1": null,
+  "is_active": 1,
+  "created_at": "2020-06-29T18:33:54.000000Z",
+  "updated_at": "2021-02-16T22:04:12.000000Z",
+  "deleted_at": null,
+  "phones_html": {
+    "1": "<a href='phone:9611234567'>961-123-4567</a>"
+  },
+  "emails_html": {
+    "1": "<a href='mailto:example@company.com'>example@company.com</a>"
+  },
+  "icons": "<a href='phone:9611234567' class='fa fa-phone' title='961-123-4567' target='_blank'></a><a href='http://wa.me/+52 961 123 4567' class='fa fa-whatsapp' target='_blank'></a><a href='https://www.google.com/maps/search/?api=1&query=50.1234567,-40.1234567' class='fa fa-map-pin' target='_blank'></a>",
+  "whatsapp_html": "<a href='http://wa.me/529611234567' target='_blank'>+52 961 123 4567</a>"
+}
+
+```
+
+Example using the office object in a view:
+
+```html
+@if ($component->map->emails->{1})
+<div class="flex mb-7">
+	<a class="block hover:text-orange-500 transition-colors" href="mailto:{{ $component->map->emails->{1} }}">
+		<i class="fa fa-envelope-o text-2xl mr-5" aria-hidden="true"></i>
+		<p class="inline-block">{{ $component->map->emails->{1} }}</p>
+	</a>
+</div>
+@endif
+```
 
 #### Boolean
 ```php
@@ -643,7 +776,7 @@ SpotifyEmbedUrl::make('Spotify Song Url');
 ```
 *returns:* An url
 
-### Special Inputs
+### Internal Inputs
 
 #### TailwindClass
 This class shouldn't be used in a component. But its documentated just for understanding purposes and its used on the Types.

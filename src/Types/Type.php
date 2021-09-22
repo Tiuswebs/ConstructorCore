@@ -4,6 +4,9 @@ namespace Tiuswebs\ConstructorCore\Types;
 
 use Illuminate\Support\Str;
 
+/**
+ * The Types are group of inputs that return many variables to use on the views
+ */
 class Type
 {
 	public $default;

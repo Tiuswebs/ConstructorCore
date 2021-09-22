@@ -8,6 +8,9 @@ use Tiuswebs\ConstructorCore\Traits\InputRules;
 use Tiuswebs\ConstructorCore\Traits\WithWidth;
 use Illuminate\Support\Str;
 
+/**
+ * Inputs are fields that may return a variable to use on the views
+ */
 class Input
 {
 	use InputSetters, InputRules, WithWidth;
