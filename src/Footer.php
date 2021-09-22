@@ -2,8 +2,6 @@
 
 namespace Tiuswebs\ConstructorCore;
 
-use Illuminate\Support\Facades\Http;
-
 class Footer extends Core
 {
     public $category = 'footer';
@@ -18,13 +16,11 @@ class Footer extends Core
 
     private function loadColumns()
     {
-    	$url = config('app.tiuswebs_api');
         $data = collect([]);
 
         if(in_array('menus', $this->cruds)) {
             // load menus
-            $new_url = "{$url}/api/example_data/menu";
-            $menus = collect(json_decode(Http::get($new_url)->body()))->filter(function($item) {
+            $menus = $this->getFromApi('menu')->filter(function($item) {
                 return count($item->elements) <= 5 && count($item->elements) >= 2;
             })->map(function($item) {
                 $item->elements = collect($item->elements)->whereNotNull('title');
@@ -38,13 +34,13 @@ class Footer extends Core
             
         if(in_array('offices', $this->cruds)) {
             // load offices
-            $new_url = "{$url}/api/example_data/office";
-            $offices = collect(json_decode(Http::get($new_url)->body()))->take(5)->map(function($item) {
+            $offices = $this->getFromApi('office')->take(5)->map(function($item) {
             	$item->type = 'Office';
             	return $item;
             });
             $data = $data->merge($offices);
         }
+
         if($this->total_columns>1) {
             $this->columns = $data->random($this->total_columns);    
         } else if($this->total_columns==1) {

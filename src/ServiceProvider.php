@@ -3,6 +3,7 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Illuminate\Support\ServiceProvider as Provider;
+use Illuminate\Support\Collection;
 use Blade;
 
 class ServiceProvider extends Provider
@@ -32,6 +33,21 @@ class ServiceProvider extends Provider
 
         Blade::directive('endpushoncebykey', function ($expression) {
             return '<?php $__env->stopPush(); endif; ?>';
+        });
+
+        Collection::macro('recursive', function () {
+            return $this->map(function ($value) {
+                if (is_array($value)) {
+                    return collect($value)->recursive();
+                } else if (is_object($value)) {
+                    foreach($value as &$item) {
+                        if (is_array($item)) {
+                            $item = collect($item)->recursive();
+                        }
+                    }
+                }
+                return $value;
+            });
         });
     }
 }

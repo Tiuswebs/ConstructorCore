@@ -3,8 +3,8 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Http;
 use Tiuswebs\ConstructorCore\Traits\FieldsHelper;
+use Tiuswebs\ConstructorCore\Traits\ConsumesApi;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
 /**
@@ -15,7 +15,7 @@ use Tiuswebs\ConstructorCore\Inputs\FontFamily;
  */
 abstract class Core
 {
-	use FieldsHelper;
+	use FieldsHelper, ConsumesApi;
 
 	public $have_background_color = true;
 	public $have_paddings = true;
@@ -78,8 +78,7 @@ abstract class Core
 	public function loadTeam()
 	{
 		$team = \Cache::remember('loadTeamInfo', now()->addDay(), function() {
-			$url = config('app.tiuswebs_api')."/api/example_data/teams";
-			$teams = collect(json_decode(Http::get($url)->body()))->filter(function($item) {
+			$teams = $this->getFromApi('teams')->filter(function($item) {
 				return Str::contains($item->photo_url, 'tiuswebs');
 			});
 	        return $teams->random();
@@ -100,9 +99,7 @@ abstract class Core
 		if($relation=='documentation books') {
 			$relation = 'documentations';
 		}
-		$url = config('app.tiuswebs_api');
-        $endpoint = "{$url}/api/example_data/{$relation}";
-        $elements = collect(json_decode(Http::get($endpoint)->body()));
+        $elements = $this->getFromApi($relation);
 		$this->item = $elements->first();
 	}
 
@@ -214,8 +211,7 @@ abstract class Core
 		}
 
 		$relation = Str::plural(str_replace('_', ' ', Str::snake($model)));
-        $url = config('app.tiuswebs_api')."/api/example_data/{$relation}";
-        $elements = collect(json_decode(Http::get($url)->body()));
+        $elements = $this->getFromApi($relation);
         $return = $elements->random($elements->count() > 10 ? 10 : $elements->count());
         $keys = collect($return->first())->keys()->all();
         $main_field = collect(['front_title', 'title', 'name'])->filter(function($item) use ($keys) {

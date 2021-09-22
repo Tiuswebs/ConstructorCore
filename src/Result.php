@@ -4,7 +4,6 @@ namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\Select;
 use Tiuswebs\ConstructorCore\Inputs\Number;
-use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
 
 class Result extends Core
@@ -23,9 +22,7 @@ class Result extends Core
         if($relation=='contents' && !is_bool($this->contents)) {
             $this->elements = $this->contents->$sort()->paginate($this->values->limit);
         } else {
-            $url = config('app.tiuswebs_api');
-            $endpoint = "{$url}/api/example_data/{$relation}";
-            $elements = collect(json_decode(Http::get($endpoint)->body()));
+            $elements = $this->getFromApi($relation);
             if($this->values->sort=='latest') {
                 $elements = $elements->sortByDesc('created_at');
             } else if($this->values->sort=='oldest') {
@@ -39,8 +36,7 @@ class Result extends Core
             $this->elements = $elements->take($this->values->limit)->values();
         }
         // Get category
-        $endpoint = "{$url}/api/example_data/categories";
-        $this->category = collect(json_decode(Http::get($endpoint)->body()))->random(1)->first();
+        $this->category = $this->getFromApi('categories')->random(1)->first();
     }
 
     public function baseFields()
@@ -79,9 +75,7 @@ class Result extends Core
         }
 
         // Load categories with types
-        $url = config('app.tiuswebs_api');
-        $endpoint = "{$url}/api/category_types";
-        $options = $options->merge(collect(json_decode(Http::get($endpoint)->body()))->mapWithKeys(function($item) {
+        $options = $options->merge($this->dataFromApi('category_types'))->mapWithKeys(function($item) {
             return ['categories_'.$item => __('Categories').' - '.__(ucwords($item))];
         }));
 

@@ -5,7 +5,6 @@ namespace Tiuswebs\ConstructorCore;
 use Tiuswebs\ConstructorCore\Inputs\BelongsTo;
 use Tiuswebs\ConstructorCore\Inputs\Select;
 use Tiuswebs\ConstructorCore\Inputs\Number;
-use Illuminate\Support\Facades\Http;
 
 class MultimediaItem extends Core
 {
@@ -19,9 +18,7 @@ class MultimediaItem extends Core
     	if(!isset($this->gallery)) {
     		return;
     	}
-		$url = config('app.tiuswebs_api');
-        $endpoint = $url."/api/example_data/multimedia_items";
-        $elements = collect(json_decode(Http::get($endpoint)->body()));
+        $elements = $this->getFromApi('multimedia_items');
         if($this->values->sort=='latest') {
             $elements = $elements->sortByDesc('created_at');
         } else if($this->values->sort=='oldest') {
