@@ -52,10 +52,10 @@ class Result extends Core
     {
         $options = collect([
             'faqs' => __('Faq'),
-            'partners' => __('Partners'), 
-            'promotions' => __('Promotions'), 
+            'partners' => __('Partners'),
+            'promotions' => __('Promotions'),
             'products' => __('Products'),
-            'banners' => __('Banners'), 
+            'banners' => __('Banners'),
             'jobs' => __('Jobs'),
             'multimedia' => __('Multimedia'),
             'news' => __('News'),
@@ -77,7 +77,7 @@ class Result extends Core
         // Load categories with types
         $options = $options->merge($this->dataFromApi('category_types'))->mapWithKeys(function($item) {
             return ['categories_'.$item => __('Categories').' - '.__(ucwords($item))];
-        }));
+        });
 
         // Filter if use of include of exclude on class
         if(isset($this->include_options)) {
