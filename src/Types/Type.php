@@ -76,9 +76,15 @@ class Type
 		$defaults = $this->getDefault();
 		return collect($this->fields())->map(function($item) {
 			$column_name = $this->column.'_';
+			if(isset($this->column_new)) {
+				$column_name = $this->column_new.'['.$this->column.'_';
+			}
 			$default_column = class_basename($this->original_title);
 			$default_column = Str::snake($default_column).'_';
 			$column = str_replace($default_column, $column_name, $item->column);
+			if(isset($this->column_new)) {
+				$column .= ']';
+			}
 			$type = str_replace($column_name, '', $column);
 
 			// Ignore adding a column if set on ignore
@@ -135,6 +141,12 @@ class Type
 	{
 		$column = $this->getColumnName($name);
 		return $this->values->$column ?? $default;
+	}
+
+	public function setParentColumn($name)
+	{
+		$this->column_new = $name;
+		return $this;
 	}
 
 	public function getColumnName($name)

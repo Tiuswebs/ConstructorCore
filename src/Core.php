@@ -141,7 +141,7 @@ abstract class Core
 			return get_class($item)=='Tiuswebs\ConstructorCore\Inputs\\'.$name;
 		})->map(function($item) use ($attribute, $format_value) {
 			$name = $item->column;
-			$value = $this->values->$name;
+			$value = $this->values->$name ?? null;
 			if(strlen($value)==0) {
 				$value= null;
 			}
