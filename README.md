@@ -175,16 +175,16 @@ How to use on the view
 - **default_sort:** how will be sorted the data by default
 - **default_limit:** Any integer value, the quantity of elements to show by default (Default is 10)
 - **show_options:** If you dont want the user to be able to select a value for result
-- **include_options:** If you want the user to be able to select for example jobs and banners, Ex: `['jobs', 'banners', 'categories.products']`
+- **include_options:** If you want the user to be able to select for example jobs and banners, Ex: `['jobs', 'banners', 'categories_products']`
 - **exclude_options:** If you want the user to dont be able to select documentation for example, Ex: `['documentations']`
 
 ##### Categories
 If you want the component to work with categories and you want to specify in which type of category you can use include or exclude options.
 
-Example: `['categories.products']` This basically means that it works only for categories of products
+Example: `['categories_products']` This basically means that it works only for categories of products
 
 You can see all the types of categories on here:
-- [Category Types](https://tiuswebs.test/api/category_types)
+- [Category Types](https://tiuswebs.com/api/category_types)
 
 ##### default_sort values
 - latest (Default value)
@@ -242,7 +242,7 @@ It can happen that you need more that one object, for example if you have a foot
 In the next configuration we set that we want the user to select maximum 4 objects, and can be menus and offices.
 
 ```php
-public $columns = 4;
+public $total_columns = 4;
 public $cruds = ['menus', 'offices'];
 ```
 
@@ -286,10 +286,10 @@ The `getColumnClasses()` comes by default on the Footer component, so you can us
 Works the same that footer but adds the header category
 
 #### No menu needed
-If you don't need a menu by default you can disable it by adding columns = 0 on the component
+If you don't need a menu by default you can disable it by adding `$total_columns = 0` on the component
 
 ```php
-public $columns = 0;
+public $total_columns = 0;
 ```
 
 ## Types
@@ -466,24 +466,6 @@ All the inputs use `Tiuswebs\ConstructorCore\Inputs` namespace
 
 ### Normal inputs
 Inputs that returns the user values
-
-#### AdvancedColor
-A [selection](#select) list of [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors)
-
-```php
-AdvancedColor::make('Advanced Color');
-```
-
-*returns:* The selected Tailwind CSS class
-
-#### BasicColor
-A [selection](#select) list of basic [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors) without shades.
-
-```php
-BasicColor::make('Basic Color');
-```
-
-*returns:* The selected Tailwind CSS class
 
 #### BelongsTo
 Accepts crud name, following the laravel conventions of the models and variable name to use it on the view (If empty it will be named office in this case)
@@ -780,6 +762,27 @@ This input transform a general spotify url to embed url. (Example https://open.s
 SpotifyEmbedUrl::make('Spotify Song Url');
 ```
 *returns:* An url
+
+### Deprecated Inputs
+Inputs who aren't recommended to be used, however are documented for archive purposes.
+
+#### AdvancedColor
+A [selection](#select) list of [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors)
+
+```php
+AdvancedColor::make('Advanced Color');
+```
+
+*returns:* The selected Tailwind CSS class
+
+#### BasicColor
+A [selection](#select) list of basic [Tailwind CSS color classes](https://tailwindcss.com/docs/customizing-colors) without shades.
+
+```php
+BasicColor::make('Basic Color');
+```
+
+*returns:* The selected Tailwind CSS class
 
 ### Internal Inputs
 
