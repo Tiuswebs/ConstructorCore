@@ -75,9 +75,9 @@ class Result extends Core
         }
 
         // Load categories with types
-        $options = $options->merge($this->dataFromApi('category_types'))->mapWithKeys(function($item) {
+        $options = $options->merge($this->dataFromApi('category_types')->mapWithKeys(function($item) {
             return ['categories_'.$item => __('Categories').' - '.__(ucwords($item))];
-        });
+        }));
 
         // Filter if use of include of exclude on class
         if(isset($this->include_options)) {
