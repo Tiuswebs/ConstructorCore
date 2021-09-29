@@ -4,6 +4,7 @@ namespace Tiuswebs\ConstructorCore\Components;
 
 use Tiuswebs\ConstructorCore\QueryFields;
 use Illuminate\Support\Str;
+use Tiuswebs\ConstructorCore\Inputs\Text;
 
 class Panel extends Component
 {
@@ -75,7 +76,7 @@ class Panel extends Component
 	public function getRawFields()
 	{
 		$fields = $this->column;
-		if(!$this->repeat) {
+		if($this->repeat === false) {
 			return collect($fields);
 		}
 
@@ -87,9 +88,16 @@ class Panel extends Component
 			return collect($fields);
 		}
 
+		$panel_title = Str::slug($this->title, '_');
+		$empty_return = collect([
+			Text::make($panel_title)->setValue([])
+		]);
+		if($repeat == 0) {
+			return $empty_return;
+		}
+
 		// Repeat fields
 		$new_fields = collect([]);
-		$panel_title = Str::slug($this->title, '_');
 		for($i=0; $i<$repeat; $i++) {
 			$title = $this->title.' '.$i;
 			$data = [];
