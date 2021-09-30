@@ -88,7 +88,7 @@ class Panel extends Component
 			return collect($fields);
 		}
 
-		$panel_title = Str::slug($this->title, '_');
+		$panel_title = Str::slug($this->title_nt, '_');
 		$empty_return = collect([
 			Text::make($panel_title)->setValue([])
 		]);
@@ -99,7 +99,7 @@ class Panel extends Component
 		// Repeat fields
 		$new_fields = collect([]);
 		for($i=0; $i<$repeat; $i++) {
-			$title = $this->title.' '.$i;
+			$title = $this->title_nt.' '.$i;
 			$data = [];
 			foreach($this->column as $field) {
 				if(isset($field->is_group) && $field->is_group) {
