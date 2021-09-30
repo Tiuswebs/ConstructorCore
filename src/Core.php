@@ -166,15 +166,21 @@ abstract class Core
 		$values = $this->getFields($reload)->withoutPanels()->withoutTypes()->getValues();
 		$this->values = (object) $values;
 
-		// Get normal values
-		$values = $this->getFields($reload)->expandPanels()->expandTypes()->getValues();
+		// Get normal values from types and panels
+		$new_values = $this->getFields($reload)->typesAndPanels()->expandPanels()->expandTypes()->getValues();
+		$values = $values->merge($new_values);
 		$this->values = (object) $values;
 
-		// Get types
-		$types = $this->getFields($reload)->expandPanels()->onlyTypes()->getValues()->whereNotNull();
+		// Get types except from panels with repeat
+		$new_values = $this->getFields($reload)->expandPanelsWithRepeat(false)->onlyTypes()->getValues()->whereNotNull();
+		$values = $values->merge($new_values);
+
+		// Get types from panels with repeat
+		$new_values = $this->getFields($reload)->onlyPanels()->expandPanelsWithRepeat()->onlyTypes()->getValues()->whereNotNull();
+		$values = $values->mergeCombine($new_values);
 
 		// Save all
-		$values = $values->merge($types)->all();
+		$values = $values->all();
 		$values = json_encode($values);
 		$this->values = json_decode($values);
 	}

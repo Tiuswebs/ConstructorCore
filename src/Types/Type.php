@@ -102,7 +102,7 @@ class Type
 			}
 			return $item->setColumn($column)->setParent($this);
 		})->whereNotNull()->map(function($item) use ($defaults) {
-			$column = str_replace($this->column.'_', '', $item->column);
+			$column = str_replace($this->column.'_', '', $item->original_column ?? $item->column);
 			if(isset($defaults[$column])) {
 				$item = $item->default($defaults[$column]);
 			};
@@ -137,9 +137,27 @@ class Type
 		return $this;
 	}
 
+	public function defaultValue($column)
+	{
+		$field = $this->theFields()->firstWhere('column', $column);
+		if(!is_object($field)) {
+			$field = $this->theFields()->firstWhere('original_column', $column);
+		}
+		if(!is_object($field)) {
+			return;
+		}
+		return $field->default_value;
+	}
+
 	public function getValue($name, $default = null)
 	{
 		$column = $this->getColumnName($name);
+		$default = is_null($default) ? $this->defaultValue($column) : $default;
+		if(isset($this->values) && isset($this->column_new)) {
+			$new = str_replace(']', '', $this->column_new);
+			$new = explode('[', $new);
+			return $this->values->{$new[0]}[$new[1]][$column] ?? $default;
+		}
 		return $this->values->$column ?? $default;
 	}
 

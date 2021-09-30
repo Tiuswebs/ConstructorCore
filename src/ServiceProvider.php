@@ -49,5 +49,42 @@ class ServiceProvider extends Provider
                 return $value;
             });
         });
+
+        Collection::macro('mergeCombine', function ($array2) {
+            $result = [];
+            $array = $this->all();
+            $array2 = $array2->all();
+            foreach($array as $key => $item) {
+                if(is_array($item)) {
+                    foreach($item as $key2 => $item2) {
+                        if(is_array($item2)) {
+                            foreach($item2 as $key3 => $item3) {
+                                $result[$key][$key2][$key3] = $item3;
+                            }
+                        } else {
+                            $result[$key][$key2] = $item2;
+                        }
+                    }
+                } else {
+                    $result[$key] = $item;
+                }
+            }
+            foreach($array2 as $key => $item) {
+                if(is_array($item)) {
+                    foreach($item as $key2 => $item2) {
+                        if(is_array($item2)) {
+                            foreach($item2 as $key3 => $item3) {
+                                $result[$key][$key2][$key3] = $item3;
+                            }
+                        } else {
+                            $result[$key][$key2] = $item2;
+                        }
+                    }
+                } else {
+                    $result[$key] = $item;
+                }
+            }
+            return collect($result);
+        });
     }
 }

@@ -22,6 +22,18 @@ class QueryFields
 	}
 
 	/*
+	 * Generic
+	 */
+
+	public function typesAndPanels()
+	{
+		$this->fields = $this->fields->filter(function($item) {
+			return (isset($item->is_group) && $item->is_group) || (isset($item->is_panel) && $item->is_panel);
+		});
+		return $this;
+	}
+
+	/*
 	 * Types
 	 */
 
@@ -108,6 +120,23 @@ class QueryFields
 		return $this;
 	}
 
+	public function expandPanelsWithRepeat($repeat = true)
+	{
+		$this->fields = $this->fields->map(function($item) use ($repeat) {
+			$show = isset($item->is_panel) && $item->is_panel && (($item->repeat!==false && $repeat===true) || ($item->repeat===false && $repeat===false));
+			if($show) {
+				return $item->setValues($this->core->values)->getRawFields()->map(function($item) {
+					if(isset($item->is_panel) && $item->is_panel) {
+						return $item->setValues($this->core->values)->getRawFields();
+					}
+					return $item;
+				})->flatten();
+			}
+			return $item;
+		})->flatten();
+		return $this;
+	}
+
 	/*
 	 * General
 	 */
@@ -136,6 +165,9 @@ class QueryFields
 		// Save values
 		$this->get()->each(function($item) use (&$values) {
 			$column = $item->column;
+			if(isset($item->is_group) && $item->is_group && isset($item->column_new)) {
+				$column = $item->column_new.'['.$item->column.']';
+			}
 			$value = $this->core->replaceResults($item->formatValue());
 			if(!Str::contains($column, '[')) {
 				$values[$column] = $value;
@@ -146,11 +178,17 @@ class QueryFields
 				$column = explode('*', $column);
 				$col_values = [];
 				$save_on = 	'values';
+				$value = str_replace('"', '\"', $value);
 				foreach($column as $col) {
 					eval("\$$save_on = \$$save_on ?? [];");
 					$save_on .= '[\''.$col.'\']';
 				}
-				eval("\$$save_on = \"$value\";");
+				try {
+					eval("\$$save_on = \"$value\";");	
+				} catch (\ParseError $e) {
+					abort(405, "Error on \$$save_on = \"$value\";");
+				}
+				
 			}
 		});
 

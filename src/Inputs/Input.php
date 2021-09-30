@@ -163,6 +163,7 @@ class Input
 
 	public function setColumn($column)
 	{
+		$this->original_column = $this->column;
 		$this->column = $column;
 		return $this;
 	}
