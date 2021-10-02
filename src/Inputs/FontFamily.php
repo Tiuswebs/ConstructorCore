@@ -23,7 +23,7 @@ class FontFamily extends Select
 			Font::make('Bebas Neue')->url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap'),
 			Font::make('Texturina')->url('https://fonts.googleapis.com/css2?family=Texturina:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Montserrat')->url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap'),
-			Font::make('Roboto')->url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap')
+			Font::make('Roboto')->url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Prompt')->url('https://fonts.googleapis.com/css2?family=Prompt:wght@100;200;300;400;500;600;700;800;900&display=swap')
 		]);
 	}
