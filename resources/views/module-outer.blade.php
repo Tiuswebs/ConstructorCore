@@ -1,7 +1,7 @@
 @if(get_class($core) == 'Tiuswebs\Modules\Elements\Tiuswebs\Content')
 	{!! $value !!}
 @else
-	<section id="section-{{$core->id}}" class="{{$core->getComponentClass()}}">
+	<section id="{{$core->id}}" class="{{$core->getComponentClass()}}">
 		@if($core->have_background_color && isset($core->values->background_image) && strlen($core->values->background_image) > 0 && strlen($core->have_background_color) > 0)
 			<div style="background-color: {{$core->values->background_color}}; background-image: url({{$core->values->background_image}})" class="{{$core->values->background_classes}}">
 		@elseif($core->have_background_color && isset($core->values->background_image) && strlen($core->values->background_image) > 0)

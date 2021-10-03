@@ -181,6 +181,9 @@ abstract class Core
 
 		// Save all
 		$values = $values->all();
+		if(isset($values['component_id'])) {
+			$this->id = $values['component_id'];
+		}
 		$values = json_encode($values);
 		$this->values = json_decode($values);
 	}
