@@ -246,15 +246,17 @@ class QueryFields
 				return strlen($item) > 0;
 			});
 			$value = $this->core->data;
-			foreach($column as $variable) {
-				if(is_numeric($variable)) {
-					$value = $value[$variable];
-				} else {
-					$value = collect($value)->toArray();
-					if (array_key_exists($variable, $value) && !isset($value[$variable])) {
+			if(isset($value)) {
+				foreach($column as $variable) {
+					if(is_numeric($variable) && is_array($value)) {
 						$value = $value[$variable];
 					} else {
-						$value = $value[$variable] ?? $item->default_value;
+						$value = collect($value)->toArray();
+						if (array_key_exists($variable, $value) && !isset($value[$variable])) {
+							$value = $value[$variable];
+						} else {
+							$value = $value[$variable] ?? $item->default_value;
+						}
 					}
 				}
 			}
