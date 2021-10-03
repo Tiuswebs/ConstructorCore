@@ -89,11 +89,11 @@ class Panel extends Component
 		}
 
 		$panel_title = Str::slug($this->title_nt, '_');
-		$empty_return = collect([
-			Text::make($panel_title)->setValue([])
-		]);
+
 		if($repeat == 0) {
-			return $empty_return;
+			return collect([
+				Text::make($this->title)->setColumn($panel_title)->setValue([])->show(false)
+			]);
 		}
 
 		// Repeat fields

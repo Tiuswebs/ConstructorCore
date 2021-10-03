@@ -248,9 +248,14 @@ class QueryFields
 			$value = $this->core->data;
 			foreach($column as $variable) {
 				if(is_numeric($variable)) {
-					$value = $value[$variable] ?? $item->default_value;
+					$value = $value[$variable];
 				} else {
-					$value = $value->$variable ?? $item->default_value;	
+					$value = collect($value)->toArray();
+					if (array_key_exists($variable, $value) && !isset($value[$variable])) {
+						$value = $value[$variable];
+					} else {
+						$value = $value[$variable] ?? $item->default_value;
+					}
 				}
 			}
 			return $item->setValue($value)->setComponent($this->core);

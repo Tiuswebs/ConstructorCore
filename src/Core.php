@@ -181,6 +181,12 @@ abstract class Core
 
 		// Save all
 		$values = $values->all();
+		if(isset($values['component_id'])) {
+			$this->id = $values['component_id'];
+		}
+		if(isset($values['component_name'])) {
+			$this->name = $values['component_name'];
+		}
 		$values = json_encode($values);
 		$this->values = json_decode($values);
 	}
@@ -410,7 +416,7 @@ abstract class Core
     public function show($show, $default = null)
 	{
         if(!$show){
-            return "hidden-important";
+            return "hidden";
         }
         return $default;
     }
@@ -425,7 +431,7 @@ abstract class Core
 	{
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
         if(!is_bool($value) && strlen($value) == 0){
-            return "hidden-important";
+            return "hidden";
         }
     }
 
