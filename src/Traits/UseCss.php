@@ -18,8 +18,8 @@ trait UseCss
     {
     	$name = $this->column;
     	$name = str_replace('_', '-', $name);
-    	$normal_class = '#section-'.$id.' .'.$name.'';
-    	$hover_class = '#section-'.$id.' .'.$name.':hover';
+    	$normal_class = '#'.$id.' .'.$name.'';
+    	$hover_class = '#'.$id.' .'.$name.':hover';
     	if($this->css_load == 'automatic' && Str::contains($name, 'hover')) {
 			return $hover_class;
     	} else if($this->css_load == 'automatic' || $this->css_load == 'normal') {
