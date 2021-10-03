@@ -38,7 +38,7 @@ abstract class Core
 
 	public function __construct($constructor = null)
 	{
-		$this->id = rand();
+		$this->id = 'section-'.rand();
 		$this->name = str_replace('Tiuswebs\Modules\Elements\\', '', get_class($this));
 		$this->name = str_replace('Tiuswebs\ModulesApproved\Elements\\', '', $this->name);
 		if(is_null($this->view)) {
@@ -181,7 +181,11 @@ abstract class Core
 
 		// Save all
 		$values = $values->all();
-		if(isset($values['component_id'])) {
+
+		// Avoid user to put a component id starting with a number
+		if(isset($values['component_id']) && strlen($values['component_id']) > 0 && ctype_digit(substr($values['component_id'], 0, 1))) {
+			$this->id = 'section-'.$values['component_id'];
+		} else if(isset($values['component_id'])) {
 			$this->id = $values['component_id'];
 		}
 		if(isset($values['component_name'])) {
