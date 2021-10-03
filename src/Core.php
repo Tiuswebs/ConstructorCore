@@ -184,6 +184,9 @@ abstract class Core
 		if(isset($values['component_id'])) {
 			$this->id = $values['component_id'];
 		}
+		if(isset($values['component_name'])) {
+			$this->name = $values['component_name'];
+		}
 		$values = json_encode($values);
 		$this->values = json_decode($values);
 	}
