@@ -86,6 +86,7 @@ class Type
 				$column .= ']';
 			}
 			$type = str_replace($column_name, '', $column);
+			$type = str_replace(']', '', $type);
 
 			// Ignore adding a column if set on ignore
 			if(collect($this->ignore)->count() > 0) {
