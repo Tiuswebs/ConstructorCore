@@ -259,6 +259,8 @@ class QueryFields
 						}
 					}
 				}
+			} else {
+				$value = $item->default_value;
 			}
 			return $item->setValue($value)->setComponent($this->core);
 		} else if(!is_array($column) && isset($this->core->data->$column )) {
