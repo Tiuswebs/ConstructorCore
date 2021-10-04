@@ -448,7 +448,7 @@ abstract class Core
     public function checkLink($field)
     {
         $value = property_exists($this->values, $field) ? $this->values->$field : $field;
-        if(strlen($value)==0){
+        if(strlen($value)<=1){
             return "cursor-default pointer-events-none";
         }
     }
