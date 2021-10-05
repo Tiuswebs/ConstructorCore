@@ -249,7 +249,7 @@ class QueryFields
 			if(isset($value)) {
 				foreach($column as $variable) {
 					if(is_numeric($variable) && is_array($value)) {
-						$value = $value[$variable];
+						$value = $value[$variable] ?? null;
 					} else {
 						$value = collect($value)->toArray();
 						if (array_key_exists($variable, $value) && !isset($value[$variable])) {
