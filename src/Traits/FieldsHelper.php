@@ -36,8 +36,10 @@ trait FieldsHelper
 		// Code
 		$default_values = $this->getDefaults();
 		$initial_fields = [];
-		$initial_fields[] = Text::make('Component Name')->default($this->name);
-		$initial_fields[] = Text::make('Component Id')->default($this->id);
+		if($this->is_normal_component) {
+			$initial_fields[] = Text::make('Component Name')->default($this->name);
+			$initial_fields[] = Text::make('Component Id')->default($this->id);	
+		}
 		if($this->have_background_color) {
 			$initial_fields[] = Color::make('Background Color')->default($default_values['background_color']);
 			$initial_fields[] = Text::make('Background Image')->default($default_values['background_image']);
