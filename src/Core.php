@@ -27,6 +27,7 @@ abstract class Core
 	public $belongs_to_list = [];
 	public $default_values = [];
 	public $show_view = true;
+	public $is_normal_component = true;
 	public $name = '';
 	public $data;
 	public $values;
