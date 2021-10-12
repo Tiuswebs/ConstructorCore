@@ -263,11 +263,11 @@ class QueryFields
 				$value = $item->default_value;
 			}
 			return $item->setValue($value)->setComponent($this->core);
-		} else if(!is_array($column) && isset($this->core->data->$column )) {
-			return $item->setValue($this->core->data->$column)->setComponent($this->core);
 		} else if (isset($item->is_group) && $item->is_group) {
 			// Is a Type
 			return $item->setValues($this->core->values);
+		} else if(!is_array($column) && isset($this->core->data->$column )) {
+			return $item->setValue($this->core->data->$column)->setComponent($this->core);
 		} else if (!is_array($column) && isset($this->core->data) && array_key_exists($column, collect($this->core->data)->toArray())) {
 			return $item->setValue(null)->setComponent($this->core);
 		} else if (!is_array($column) && !isset($this->core->data->$column)) {
