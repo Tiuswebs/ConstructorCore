@@ -3,7 +3,6 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\BelongsTo;
-use Tiuswebs\ConstructorCore\Inputs\TailwindClass;
 
 class Newsletter extends Core
 {
