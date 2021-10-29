@@ -34,11 +34,9 @@ class Select extends Input
 
 	public function setEmptyTitle($value = null)
 	{
-		if(is_null($value)) 
-		{
+		if(is_null($value)) {
 			return $this;
 		}
-		
 		$this->empty_title = $value;
 		return $this;
 	}

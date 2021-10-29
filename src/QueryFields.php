@@ -53,6 +53,19 @@ class QueryFields
 		return $this;
 	}
 
+	public function onlyTypesCalled($name)
+	{
+		$this->fields = $this->fields->filter(function($item) {
+			return isset($item->is_group) && $item->is_group;
+		})->filter(function($item) use ($name) {
+			$class = get_class($item);
+			$class = explode('\\', $class);
+			$class = $class[count($class)-1];
+			return  $name == $class;
+		});
+		return $this;
+	}
+
 	public function expandTypes()
 	{
 		$this->fields = $this->fields->map(function($item) {

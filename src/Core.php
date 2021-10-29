@@ -277,9 +277,9 @@ abstract class Core
 
 	public function updateViewRender($html)
 	{
-		$html = $this->replaceHeadingTags($html);
 		$html = $this->addStylesAndClasses($html);
 		$html = $this->addPopupOnLinks($html);
+		$html = $this->replaceHeadingTags($html);
 		return $html;
 	}
 
@@ -291,19 +291,19 @@ abstract class Core
 	 */
 	public function replaceHeadingTags($html)
 	{
-		$values = $this->getFields()->expandPanels()->expandTypes()->getValues();
+		$values = $this->getFields()->expandPanels()->onlyTypesCalled('Title')->expandTypes()->getValues();
 		$values = $values->filter(function ($item, $key) {
 			return strpos($key, '_heading') !== false;
 		})->values()->all();
 
-		preg_match_all('/<h[1-6].*?>.*?<\/h[1-6]>/', $html, $matches);
+		preg_match_all('/<h[1-6].*?>[\S\s]*?<\/h[1-6]>/', $html, $matches);
 		$matches = $matches[0];
 
 		collect($matches)->each(function ($item, $key) use ($values, &$html) {
-			$value = '';
-			if (isset($values[$key])) {
-				$value = preg_replace('/<h[1-6](.*?)>(.*?)<\/h[1-6]>/', "<{$values[$key]} $1>$2</{$values[$key]}>", $item);
+			if (!isset($values[$key])) {
+				return;
 			}
+			$value = preg_replace('/<h[1-6](.*?)>([\S\s]*?)<\/h[1-6]>/', "<{$values[$key]}$1>$2</{$values[$key]}>", $item);
 			$html = str_replace($item, $value, $html);
 		});
 
