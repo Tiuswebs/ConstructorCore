@@ -123,7 +123,7 @@ class Type
 			return $this;
 		}
 
-		$to_copy = collect($this->values)->filter(function($item, $key) {
+		collect($this->values)->filter(function($item, $key) {
 			return Str::startsWith($key, $this->copy_from.'_');
 		})->filter(function($item) {
 			return isset($item) && strlen($item)>0;
@@ -133,7 +133,20 @@ class Type
 		})->filter(function($item, $key) {
 			return !isset($this->values->$key);
 		})->each(function($item, $key) {
-			$this->values->$key = $item;
+			if(isset($this->column_new)) {
+				$column = $key;
+				$key = $this->column_new.'['.$key.']';
+				$key = str_replace(']', '', $key);
+				$key = explode('[', $key);
+				if(is_array($this->values->{$key[0]}) && is_array($this->values->{$key[0]}[$key[1]])) {
+					$this->values->{$key[0]}[$key[1]][$column] = $item;	
+				} else {
+					$this->values->{$key[0]}[$key[1]]->$column = $item;	
+				}
+				
+			} else {
+				$this->values->$key = $item;	
+			}
 		});
 		return $this;
 	}
