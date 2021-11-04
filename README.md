@@ -308,6 +308,27 @@ Icon::make('Icon 1')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->
 Icon::make('Icon 2')->copyFrom('icon')->ignore(['height', 'color', 'classes'])->default(['icon' => 'icofont-music-alt']),
 ```
 
+### Programatically add CSS classes
+If we want to add CSS classes to an `Icon` type programatically we would use the `addExtraClass()` function:
+
+```php
+	public $icon_class;
+
+	public function fields()
+	{
+		return [
+			Icon::make('Icon', 'column_1_icon')->default([
+				'icon' => 'https://cdn.icon-icons.com/icons2/2645/PNG/512/telephone_icon_159818.png',
+				'classes' => 'mb-4'
+			])->addExtraClass($this->icon_class),
+		];
+	}
+
+	public function getIconClass($my_condition)
+	{
+		return $my_condition == "left" ? "mr-auto" : "ml-auto";
+	}
+```
 ### List of Types
 #### Badge
 ```php
