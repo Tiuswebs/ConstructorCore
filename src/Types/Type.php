@@ -130,8 +130,6 @@ class Type
 		})->mapWithKeys(function($item, $key) {
 			$key = str_replace($this->copy_from.'_', $this->column.'_', $key);
 			return [$key => $item];
-		})->filter(function($item, $key) {
-			return !isset($this->values->$key);
 		})->each(function($item, $key) {
 			if(isset($this->column_new)) {
 				$column = $key;
@@ -143,8 +141,7 @@ class Type
 				} else {
 					$this->values->{$key[0]}[$key[1]]->$column = $item;	
 				}
-				
-			} else {
+			} elseif (!isset($this->values->$key)) {
 				$this->values->$key = $item;	
 			}
 		});
