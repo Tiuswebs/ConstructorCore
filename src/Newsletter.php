@@ -11,7 +11,7 @@ class Newsletter extends Core
     public function baseFields()
     {
         return [
-            BelongsTo::make('Newsletter List'),
+            BelongsTo::make('NewsletterList'),
         ];
     }
 }
