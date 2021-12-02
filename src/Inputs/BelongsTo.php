@@ -7,7 +7,7 @@ class BelongsTo extends Select
 	public $show_id = true;
 	public $filter_query = null;
 
-	public function getProcessedInput($component)
+	public function loadCore($component)
 	{
 		return \Cache::store('array')->remember('getProcessedInput:'.$component->id.':'.$this->column, now()->addHour(), function() use ($component) {
 			$options = $component->getBelongsToOptions($this->original_title, $this->column);

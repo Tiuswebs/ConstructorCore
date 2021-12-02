@@ -77,6 +77,11 @@ class Input
 		return $this;
 	}
 
+	public function loadCore($core)
+	{
+		return $this;
+	}
+	
 
 	// Value to show on CRUDS
 
