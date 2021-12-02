@@ -217,4 +217,9 @@ class Type
 		
 		return true;
 	}
+
+	public function loadCore($core)
+	{
+		return $this;
+	}
 }
