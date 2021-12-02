@@ -216,14 +216,14 @@ class QueryFields
 	public function addExtraFields()
 	{
 		$this->fields = $this->fields->map(function($item) {
+			$item = $item->loadCore($this->core);
+
+			// Add extra input
 			if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && $item->show_id) {
-				$input = $item->getProcessedInput($this->core);
 				return [
-					$input,
+					$item,
 					Text::make($item->title_nt.' Id', $item->column.'_id')
 				];
-			} else if(get_class($item)=='Tiuswebs\ConstructorCore\Inputs\BelongsTo' && !$item->show_id) {
-				return $item->getProcessedInput($this->core);
 			}
 			return $item;
 		})->flatten();
