@@ -69,6 +69,7 @@ class Result extends Core
             'brands' => __('Brands'),
             'courses' => __('Courses'),
             'real state projects' => __('Real State Projects'),
+            'grounds' => __('Grounds'),
         ]);
         if($this->contents) {
             $options['contents'] = __('Content');

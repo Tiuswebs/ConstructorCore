@@ -314,6 +314,12 @@ If we want to add CSS classes to an `Icon` type programatically we would use the
 ```php
 	public $icon_class;
 
+	public function load()
+	{
+		parent::load();
+		$icon_class = $this->getIconClass();
+	}
+
 	public function fields()
 	{
 		return [
