@@ -9,7 +9,7 @@ use Tiuswebs\ConstructorCore\Inputs\FontFamily;
 
 /**
  * @package Tiuswebs\ConstructorCore
- * 
+ *
  * @copyright  Copyright (c) 2020 - 2022 Weblabor. All rights reserved.
  * @author Carlos Escobar <carlosescobar@weblabor.mx>
  */
@@ -477,7 +477,7 @@ abstract class Core
 	public function checkLink($field)
 	{
 		$value = property_exists($this->values, $field) ? $this->values->$field : $field;
-		if ((is_string($value) && strlen($value) <= 1) || (is_bool($field) && !$field)) {
+		if ((empty($value)) || (is_string($value) && strlen($value) <= 1) || (is_bool($field) && !$field)) {
 			return "cursor-default pointer-events-none";
 		}
 	}
