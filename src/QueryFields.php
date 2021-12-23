@@ -180,7 +180,7 @@ class QueryFields
 		$this->get()->each(function($item) use (&$values) {
 			$column = $item->column;
 			if(isset($item->is_group) && $item->is_group && isset($item->column_new)) {
-				$column = $item->column_new.'['.$item->column.']';
+				$column = $item->column_new.'.'.$item->column;
 			}
 			$value = $this->core->replaceResults($item->formatValue());
 			Arr::set($values, $column, $value);

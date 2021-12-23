@@ -3,6 +3,7 @@
 namespace Tiuswebs\ConstructorCore\Types;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 /**
  * The Types are group of inputs that return many variables to use on the views
@@ -77,14 +78,11 @@ class Type
 		return collect($this->fields())->map(function($item) {
 			$column_name = $this->column.'_';
 			if(isset($this->column_new)) {
-				$column_name = $this->column_new.'['.$this->column.'_';
+				$column_name = $this->column_new.'.'.$this->column.'_';
 			}
 			$default_column = class_basename($this->original_title);
 			$default_column = Str::snake($default_column).'_';
 			$column = str_replace($default_column, $column_name, $item->column);
-			if(isset($this->column_new)) {
-				$column .= ']';
-			}
 			$type = str_replace($column_name, '', $column);
 			$type = str_replace(']', '', $type);
 
@@ -165,9 +163,9 @@ class Type
 		$column = $this->getColumnName($name);
 		$default = is_null($default) ? $this->defaultValue($column) : $default;
 		if(isset($this->values) && isset($this->column_new)) {
-			$new = str_replace(']', '', $this->column_new);
-			$new = explode('[', $new);
-			return $this->values->{$new[0]}[$new[1]][$column] ?? $default;
+			$column = $this->column_new.'.'.$column;
+			$value = Arr::get((array) $this->values, $column);
+			return $value ?? $default;
 		}
 		return $this->values->$column ?? $default;
 	}
