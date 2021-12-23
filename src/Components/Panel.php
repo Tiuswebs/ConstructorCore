@@ -119,11 +119,13 @@ class Panel extends Component
 		return $this;
 	}
 
+	// This function is used by the constructor on /admin site to show the inputs to the client
 	public function setChildColumns($name, $component)
 	{
 		$this->column = QueryFields::make($component, $this->column)->expandTypes()->get()->map(function($item) use ($name) {
 			$column = $item->column;
-			if(Str::contains($column, '[')) {
+			if(Str::contains($column, '.')) {
+				$column = '['.str_replace('.', '][', $column).']';
 				$column_name = explode('[', $column)[0];
 				$column = str_replace($column_name, '['.$column_name.']', $column);
 				$item->setColumn($name.$column);
