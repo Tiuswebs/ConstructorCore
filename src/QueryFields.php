@@ -4,6 +4,7 @@ namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\Text;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class QueryFields
 {
@@ -179,30 +180,10 @@ class QueryFields
 		$this->get()->each(function($item) use (&$values) {
 			$column = $item->column;
 			if(isset($item->is_group) && $item->is_group && isset($item->column_new)) {
-				$column = $item->column_new.'['.$item->column.']';
+				$column = $item->column_new.'.'.$item->column;
 			}
 			$value = $this->core->replaceResults($item->formatValue());
-			if(!Str::contains($column, '[')) {
-				$values[$column] = $value;
-			} else {
-				// Basically if we have a column called name[this][other] convert its to an array and save its to values
-				$column = str_replace(']', '', $column);
-				$column = str_replace('[', '*', $column);
-				$column = explode('*', $column);
-				$col_values = [];
-				$save_on = 	'values';
-				$value = str_replace('"', '\"', $value);
-				foreach($column as $col) {
-					eval("\$$save_on = \$$save_on ?? [];");
-					$save_on .= '[\''.$col.'\']';
-				}
-				try {
-					eval("\$$save_on = \"$value\";");	
-				} catch (\ParseError $e) {
-					abort(405, "Error on \$$save_on = \"$value\";");
-				}
-				
-			}
+			Arr::set($values, $column, $value);
 		});
 
 		// Return values
@@ -251,41 +232,22 @@ class QueryFields
 	private function fillValueToItem($item)
 	{
 		$column = $item->column;
-		if(Str::contains($column, '[')) {
-			$column_name = explode('[', $column)[0];
-			$column = str_replace($column_name, '['.$column_name.']', $column);
-			$column = str_replace('[', '', $column);
-			$column = collect(explode(']', $column))->filter(function($item) {
-				return strlen($item) > 0;
-			});
-			$value = $this->core->data;
-			if(isset($value)) {
-				foreach($column as $variable) {
-					if(is_numeric($variable) && is_array($value)) {
-						$value = $value[$variable] ?? null;
-					} else {
-						$value = collect($value)->toArray();
-						if (array_key_exists($variable, $value) && !isset($value[$variable])) {
-							$value = $value[$variable];
-						} else {
-							$value = $value[$variable] ?? $item->default_value;
-						}
-					}
-				}
-			} else {
-				$value = $item->default_value;
-			}
-			return $item->setValue($value)->setComponent($this->core);
+		if(is_array($column)) {
+			// It never access here according to tests
+			return $item;
 		} else if (isset($item->is_group) && $item->is_group) {
 			// Is a Type
 			return $item->setValues($this->core->values);
-		} else if(!is_array($column) && isset($this->core->data->$column )) {
-			return $item->setValue($this->core->data->$column)->setComponent($this->core);
-		} else if (!is_array($column) && isset($this->core->data) && array_key_exists($column, collect($this->core->data)->toArray())) {
+		}
+
+		$data = (array) $this->core->data; // data
+		$value = Arr::get($data, $column);
+		if(isset($value)) {
+			return $item->setValue($value)->setComponent($this->core);
+		} else if (array_key_exists($column, $data)) {
+			// if the value exists and is null
 			return $item->setValue(null)->setComponent($this->core);
-		} else if (!is_array($column) && !isset($this->core->data->$column)) {
-			return $item->setValue($item->default_value)->setComponent($this->core);
-		} 
-		return $item;
+		}
+		return $item->setValue($item->default_value)->setComponent($this->core);
 	}
 }
