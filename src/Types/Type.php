@@ -3,6 +3,7 @@
 namespace Tiuswebs\ConstructorCore\Types;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 /**
  * The Types are group of inputs that return many variables to use on the views
@@ -77,14 +78,11 @@ class Type
 		return collect($this->fields())->map(function($item) {
 			$column_name = $this->column.'_';
 			if(isset($this->column_new)) {
-				$column_name = $this->column_new.'['.$this->column.'_';
+				$column_name = $this->column_new.'.'.$this->column.'_';
 			}
 			$default_column = class_basename($this->original_title);
 			$default_column = Str::snake($default_column).'_';
 			$column = str_replace($default_column, $column_name, $item->column);
-			if(isset($this->column_new)) {
-				$column .= ']';
-			}
 			$type = str_replace($column_name, '', $column);
 			$type = str_replace(']', '', $type);
 
@@ -116,6 +114,8 @@ class Type
 		return null;
 	}
 
+	// When we use copyFrom values then the values are modified from the original field
+
 	public function setValues($values)
 	{
 		$this->values = (object) collect($values)->all();
@@ -132,15 +132,10 @@ class Type
 			return [$key => $item];
 		})->each(function($item, $key) {
 			if(isset($this->column_new)) {
-				$column = $key;
-				$key = $this->column_new.'['.$key.']';
-				$key = str_replace(']', '', $key);
-				$key = explode('[', $key);
-				if(is_array($this->values->{$key[0]}) && is_array($this->values->{$key[0]}[$key[1]])) {
-					$this->values->{$key[0]}[$key[1]][$column] = $item;	
-				} else {
-					$this->values->{$key[0]}[$key[1]]->$column = $item;	
-				}
+				$column = $this->column_new.'.'.$key;
+				$values = (array) $this->values;
+				Arr::set($values, $column, $item);
+				$this->values = (object) $values;
 			} elseif (!isset($this->values->$key)) {
 				$this->values->$key = $item;	
 			}
@@ -164,10 +159,12 @@ class Type
 	{
 		$column = $this->getColumnName($name);
 		$default = is_null($default) ? $this->defaultValue($column) : $default;
+
+		// Get the correct value if there is set a column new
 		if(isset($this->values) && isset($this->column_new)) {
-			$new = str_replace(']', '', $this->column_new);
-			$new = explode('[', $new);
-			return $this->values->{$new[0]}[$new[1]][$column] ?? $default;
+			$column = $this->column_new.'.'.$column;
+			$value = Arr::get((array) $this->values, $column);
+			return $value ?? $default;
 		}
 		return $this->values->$column ?? $default;
 	}
