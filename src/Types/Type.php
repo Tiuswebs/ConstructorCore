@@ -130,15 +130,10 @@ class Type
 			return [$key => $item];
 		})->each(function($item, $key) {
 			if(isset($this->column_new)) {
-				$column = $key;
-				$key = $this->column_new.'['.$key.']';
-				$key = str_replace(']', '', $key);
-				$key = explode('[', $key);
-				if(is_array($this->values->{$key[0]}) && is_array($this->values->{$key[0]}[$key[1]])) {
-					$this->values->{$key[0]}[$key[1]][$column] = $item;	
-				} else {
-					$this->values->{$key[0]}[$key[1]]->$column = $item;	
-				}
+				$column = $this->column_new.'.'.$key;
+				$values = (array) $this->values;
+				Arr::set($values, $column, $item);
+				$this->values = (object) $values;
 			} elseif (!isset($this->values->$key)) {
 				$this->values->$key = $item;	
 			}
