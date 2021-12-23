@@ -114,6 +114,8 @@ class Type
 		return null;
 	}
 
+	// When we use copyFrom values then the values are modified from the original field
+
 	public function setValues($values)
 	{
 		$this->values = (object) collect($values)->all();
@@ -157,6 +159,8 @@ class Type
 	{
 		$column = $this->getColumnName($name);
 		$default = is_null($default) ? $this->defaultValue($column) : $default;
+
+		// Get the correct value if there is set a column new
 		if(isset($this->values) && isset($this->column_new)) {
 			$column = $this->column_new.'.'.$column;
 			$value = Arr::get((array) $this->values, $column);
