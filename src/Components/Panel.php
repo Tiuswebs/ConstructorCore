@@ -103,9 +103,9 @@ class Panel extends Component
 			$data = [];
 			foreach($this->column as $field) {
 				if(isset($field->is_group) && $field->is_group) {
-					$data[] = (clone $field)->setParentColumn($panel_title.'['.$i.']');
+					$data[] = (clone $field)->setParentColumn($panel_title.'.'.$i);
 				} else {
-					$data[] = (clone $field)->setColumn($panel_title.'['.$i.']['.$field->column.']');	
+					$data[] = (clone $field)->setColumn($panel_title.'.'.$i.'.'.$field->column);	
 				}
 			}
 			$new_fields[] = Panel::make($title, $data);

@@ -4,6 +4,7 @@ namespace Tiuswebs\ConstructorCore;
 
 use Tiuswebs\ConstructorCore\Inputs\Text;
 use Illuminate\Support\Str;
+use Illuminate\Support\Arr;
 
 class QueryFields
 {
@@ -182,27 +183,7 @@ class QueryFields
 				$column = $item->column_new.'['.$item->column.']';
 			}
 			$value = $this->core->replaceResults($item->formatValue());
-			if(!Str::contains($column, '[')) {
-				$values[$column] = $value;
-			} else {
-				// Basically if we have a column called name[this][other] convert its to an array and save its to values
-				$column = str_replace(']', '', $column);
-				$column = str_replace('[', '*', $column);
-				$column = explode('*', $column);
-				$col_values = [];
-				$save_on = 	'values';
-				$value = str_replace('"', '\"', $value);
-				foreach($column as $col) {
-					eval("\$$save_on = \$$save_on ?? [];");
-					$save_on .= '[\''.$col.'\']';
-				}
-				try {
-					eval("\$$save_on = \"$value\";");	
-				} catch (\ParseError $e) {
-					abort(405, "Error on \$$save_on = \"$value\";");
-				}
-				
-			}
+			Arr::set($values, $column, $value);
 		});
 
 		// Return values
