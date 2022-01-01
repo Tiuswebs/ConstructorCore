@@ -3,7 +3,10 @@
 namespace Tiuswebs\ConstructorCore;
 
 use Illuminate\Support\ServiceProvider as Provider;
+use WeblaborMX\FileModifier\Helper;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Livewire\Livewire;
 use Blade;
 
 class ServiceProvider extends Provider
@@ -16,6 +19,25 @@ class ServiceProvider extends Provider
     public function boot()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'constructor');
+
+        $directories = ['modules', 'modules_approved'];
+
+        collect($directories)->each(function($dir) {
+            $directory = $dir.'/src/Elements';
+            $folder = Helper::folder(base_path($directory));
+            if(!$folder->exists()) {
+                return;
+            }
+            collect($folder->files())->filter(function($item) {
+                return Str::endsWith($item, '.php');
+            })->each(function($item) use ($dir) {
+                $item = str_replace('.php', '', $item);
+                $class = 'Tiuswebs/'.ucfirst(Str::camel($dir)).'/Elements/'.$item;
+                $class = str_replace('/', '\\', $class);
+                $livewire_name = str_replace('/', '-', $item);
+                Livewire::component($livewire_name, $class);
+            });
+        });
 
         Blade::directive('pushonce', function ($expression) {
             $var = '$__env->{"__pushonce_" . md5(__FILE__ . ":" . __LINE__)}';
