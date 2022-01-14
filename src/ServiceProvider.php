@@ -71,6 +71,7 @@ class ServiceProvider extends Provider
             $array2 = $array2->all();
             foreach($array as $key => $item) {
                 if(is_array($item)) {
+                    $result[$key] = [];
                     foreach($item as $key2 => $item2) {
                         if(is_array($item2)) {
                             foreach($item2 as $key3 => $item3) {
