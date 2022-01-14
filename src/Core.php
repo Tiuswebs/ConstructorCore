@@ -72,7 +72,7 @@ class Core extends Component
 			$data = collect($data)->merge($this->constructor->data)->all();
 		}
 		if (!$this->show_view) {
-			return;
+			return view('constructor::empty');
 		}
 		return view($this->view, $data);
 	}
