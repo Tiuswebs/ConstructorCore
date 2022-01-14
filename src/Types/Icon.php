@@ -24,6 +24,9 @@ class Icon extends Type
 	public function formatValue()
 	{
 		$icon = $this->getValue('icon');
+		if(is_null($icon)) {
+			return '';
+		}
 		$height = $this->getValue('height', 'inherit');
 		$classes = $this->getValue('classes');
 		$class = $this->copy_from ?? $this->column;
