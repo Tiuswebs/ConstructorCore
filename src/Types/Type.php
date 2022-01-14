@@ -159,14 +159,22 @@ class Type
 	{
 		$column = $this->getColumnName($name);
 		$default = is_null($default) ? $this->defaultValue($column) : $default;
+		$values = collect($this->values)->toArrayAll();
 
 		// Get the correct value if there is set a column new
 		if(isset($this->values) && isset($this->column_new)) {
 			$column = $this->column_new.'.'.$column;
-			$value = Arr::get((array) $this->values, $column);
-			return $value ?? $default;
+			$value = Arr::get($values, $column, '0000');
+			if($value==='0000') {
+				$value = $default;
+			}
+			return $value;
 		}
-		return $this->values->$column ?? $default;
+
+		if (array_key_exists($column, $values)) {
+			return $this->values->$column;
+		}
+		return $default;
 	}
 
 	public function setParentColumn($name)
