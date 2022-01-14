@@ -50,6 +50,21 @@ class ServiceProvider extends Provider
             });
         });
 
+        Collection::macro('toArrayAllInside', function () {
+            return $this->map(function ($value) {
+                if (is_object($value)) {
+                    return (array) $value;
+                } else if (is_array($value)) {
+                    return collect($value)->toArrayAll();
+                }
+                return $value;
+            });
+        });
+
+        Collection::macro('toArrayAll', function () {
+            return $this->toArrayAllInside()->toArrayAllInside()->all();
+        });
+
         Collection::macro('mergeCombine', function ($array2) {
             $result = [];
             $array = $this->all();

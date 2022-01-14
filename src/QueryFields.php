@@ -240,13 +240,11 @@ class QueryFields
 			return $item->setValues($this->core->values);
 		}
 
-		$data = (array) $this->core->data; // data
-		$value = Arr::get($data, $column);
-		if(isset($value)) {
+		$data = collect($this->core->data)->toArrayAll(); // data
+		$value = Arr::get($data, $column, '0000');
+			
+		if($value!=='0000') {
 			return $item->setValue($value)->setComponent($this->core);
-		} else if (array_key_exists($column, $data)) {
-			// if the value exists and is null
-			return $item->setValue(null)->setComponent($this->core);
 		}
 		return $item->setValue($item->default_value)->setComponent($this->core);
 	}
