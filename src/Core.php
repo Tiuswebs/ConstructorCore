@@ -6,7 +6,6 @@ use Illuminate\Support\Str;
 use Tiuswebs\ConstructorCore\Traits\FieldsHelper;
 use Tiuswebs\ConstructorCore\Traits\ConsumesApi;
 use Tiuswebs\ConstructorCore\Inputs\FontFamily;
-use Livewire\Component;
 
 /**
  * @package Tiuswebs\ConstructorCore
@@ -14,7 +13,7 @@ use Livewire\Component;
  * @copyright  Copyright (c) 2020 - 2022 Weblabor. All rights reserved.
  * @author Carlos Escobar <carlosescobar@weblabor.mx>
  */
-class Core extends Component
+abstract class Core
 {
 	use FieldsHelper, ConsumesApi;
 
@@ -22,29 +21,27 @@ class Core extends Component
 	public $have_paddings = true;
 	public $have_container = false;
 	public $have_overflow = true;
-	protected $contents = false;
-	protected $use_on_template = null;
-	protected $belongs_to_data = [];
-	protected $belongs_to_list = [];
-	protected $default_values = [];
-	protected $show_view = true;
-	protected $is_normal_component = true;
-	protected $name = '';
-	public $livewire_name;
+	public $contents = false;
+	public $use_on_template = null;
+	public $belongs_to_data = [];
+	public $belongs_to_list = [];
+	public $default_values = [];
+	public $show_view = true;
+	public $is_normal_component = true;
+	public $name = '';
 	public $data;
-	protected $values;
-	protected $constructor;
-	protected $team;
-	protected $core_id;
-	protected $view;
-	protected $item;
+	public $values;
+	public $constructor;
+	public $team;
+	public $id;
+	public $view;
+	public $item;
 
 	public function __construct($constructor = null)
 	{
-		$this->core_id = 'section-' . rand();
+		$this->id = 'section-' . rand();
 		$this->name = str_replace('Tiuswebs\Modules\Elements\\', '', get_class($this));
 		$this->name = str_replace('Tiuswebs\ModulesApproved\Elements\\', '', $this->name);
-		$this->livewire_name = str_replace('\\', '-', $this->name);
 		if (is_null($this->view)) {
 			$name = explode('\\', $this->name);
 			$name[0] = strtolower($name[0]);
@@ -60,7 +57,6 @@ class Core extends Component
 		$this->load();
 		$this->loadValues(true); // Load values again in case we are passing attributes on load
 		$this->loadItem();
-		parent::__construct();
 	}
 
 	public function render()
@@ -68,21 +64,15 @@ class Core extends Component
 		$component = $this;
 		$values = $this->values;
 		$data = compact('component', 'values');
-		if (isset($this->constructor) && is_object($this->constructor)) {
+		if (isset($this->constructor)) {
 			$data = collect($data)->merge($this->constructor->data)->all();
 		}
 		if (!$this->show_view) {
 			return;
 		}
-		return view($this->view, $data);
-	}
-
-	public function renderCore()
-	{
-		$value = view("constructor::livewire-call", ['name' => $this->livewire_name])->render();
+		$value = view($this->view, $data)->render();
 		$value = $this->updateViewRender($value);
 		$core = $this;
-		$component = $this;
 		return view('constructor::module-outer', compact('core', 'value', 'component'));
 	}
 
@@ -159,7 +149,7 @@ class Core extends Component
 			$type = $item->parent;
 			$parent = $type->column ?? null;
 			$name = str_replace('_', '-', $name);
-			$class = $item->getSelectors($this->core_id);
+			$class = $item->getSelectors($this->id);
 			if (isset($parent)) {
 				$parent = str_replace('_', '-', $parent);
 				$class = str_replace($name, $parent . '-class', $class);
@@ -195,9 +185,9 @@ class Core extends Component
 
 		// Avoid user to put a component id starting with a number
 		if (isset($values['component_id']) && strlen($values['component_id']) > 0 && ctype_digit(substr($values['component_id'], 0, 1))) {
-			$this->core_id = 'section-' . $values['component_id'];
+			$this->id = 'section-' . $values['component_id'];
 		} else if (isset($values['component_id'])) {
-			$this->core_id = $values['component_id'];
+			$this->id = $values['component_id'];
 		}
 		if (isset($values['component_name'])) {
 			$this->name = $values['component_name'];
@@ -498,10 +488,5 @@ class Core extends Component
 			return;
 		}
 		return 'overflow-x-hidden w-full overflow-y-hidden';
-	}
-
-	public function getValues()
-	{
-		return $this->values;
 	}
 }
