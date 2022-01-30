@@ -25,7 +25,7 @@ class TestCase extends Orchestra
 	    $app['config']->set('app.tiuswebs_api', 'http://app.tiuswebs.com');
 	}
 
-	public function createComponent($fields)
+	public function getValuesFrom($fields)
 	{
 		$component = (new ComponentCreator)->addFields($fields)->loadAll();
 		return $component->values;

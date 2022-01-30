@@ -51,7 +51,6 @@ abstract class Core
 		}
 
 		$this->constructor = $constructor;
-		$this->loadAll();
 	}
 
 	public function loadAll()
@@ -67,6 +66,8 @@ abstract class Core
 
 	public function render()
 	{
+		$this->loadAll();
+		
 		$component = $this;
 		$values = $this->values;
 		$data = compact('component', 'values');

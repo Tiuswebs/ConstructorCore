@@ -54,7 +54,12 @@ trait FieldsHelper
 		}
 		
 		$fields = $this->fields();
-		$fields = collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1);
+		$fields = collect($initial_fields)->merge($this->baseFields())->merge($fields)->whereNotNull()->flatten(1)->map(function($item) {
+			if(!isset($item->is_helper)) {
+				return $item;
+			}
+			return $item->handle();
+		})->flatten(1);
 
 		// Return
 		$this->return_fields = $fields;

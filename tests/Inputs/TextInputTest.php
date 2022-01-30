@@ -14,7 +14,7 @@ class TextInputTest extends TestCase
         $fields = [
             Text::make('Title')->default('Default Value')
         ];
-        $values = $this->createComponent($fields);
+        $values = $this->getValuesFrom($fields);
         $this->assertTrue($values->title == 'Default Value');
     }
 
@@ -24,7 +24,7 @@ class TextInputTest extends TestCase
         $fields = [
             Text::make('Title', 'another_column_name')->default('Default Value')
         ];
-        $values = $this->createComponent($fields);
+        $values = $this->getValuesFrom($fields);
         $this->assertTrue($values->another_column_name == 'Default Value');
     }
 }
