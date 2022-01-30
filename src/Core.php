@@ -51,12 +51,18 @@ abstract class Core
 		}
 
 		$this->constructor = $constructor;
+		$this->loadAll();
+	}
+
+	public function loadAll()
+	{
 		$this->loadTeam();
 		$this->loadValues();
 		$this->loadBelongsToData();
 		$this->load();
 		$this->loadValues(true); // Load values again in case we are passing attributes on load
 		$this->loadItem();
+		return $this;
 	}
 
 	public function render()

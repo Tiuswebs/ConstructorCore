@@ -15,7 +15,8 @@
     "require": {
         "php": ">=7.1.0",
         "laravelcollective/html": ">=5",
-        "laravel/framework": "^8.0"
+        "laravel/framework": "^8.0",
+        "guzzlehttp/guzzle": "^7.0.1"
     },
     "autoload": {
         "psr-4": {
