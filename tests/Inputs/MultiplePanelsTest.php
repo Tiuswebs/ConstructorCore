@@ -23,5 +23,9 @@ class MultiplePanelsTest extends TestCase
         $this->assertTrue(isset($values->tab[0]));
         $this->assertEquals($values->tab[0]->items, 3);
         $this->assertEquals($values->tab[0]->title, 'Support');
+        $this->assertEquals($values->tab[1]->items, 3);
+        $this->assertEquals($values->tab[1]->title, 'Support');
+        $this->assertEquals($values->tab[2]->items, 3);
+        $this->assertEquals($values->tab[2]->title, 'Support');
     }
 }

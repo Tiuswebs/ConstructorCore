@@ -33,7 +33,10 @@ class MultiplePanels extends Helper
 			$name   = $this->tab_title.' '.$i.' '.$this->panel_title_pl;
 			$id     = $this->tab_title.'.'.$i.'.'.$this->panel_title_pl;
 			$data[] = Number::make($name, $id)->default($this->default);
-			$data[] = Panel::make($this->tab_title.' '.$i, $this->panel_values)->repeat($id);
+
+			$panel_name = $this->tab_title.' '.$i;
+			$panel_id   = $this->tab_title.'.'.$i;
+			$data[] = Panel::make($panel_name, $this->panel_values)->repeat($id)->setColumn($panel_id);
 		}
         return $data;
 	}
