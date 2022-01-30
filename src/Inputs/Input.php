@@ -6,12 +6,13 @@ use Tiuswebs\ConstructorCore\ConstructorHelper;
 use Tiuswebs\ConstructorCore\Traits\InputSetters;
 use Tiuswebs\ConstructorCore\Traits\InputRules;
 use Tiuswebs\ConstructorCore\Traits\WithWidth;
+use Tiuswebs\ConstructorCore\InputCore;
 use Illuminate\Support\Str;
 
 /**
  * Inputs are fields that may return a variable to use on the views
  */
-class Input
+class Input extends InputCore
 {
 	use InputSetters, InputRules, WithWidth;
 
@@ -45,22 +46,6 @@ class Input
 		$this->load();
 	}
 
-	public static function make($title = null, $column = null, $extra = null) 
-	{
-		if(is_null($column) && !is_null($title) && is_string($title)) {
-			$column = class_basename($title);
-			$column = Str::snake($column);
-		}
-
-		$source = session('source');
-		return new static($title, $column, $extra, $source);	
-	}
-
-	public function load()
-	{
-		// Do nothing
-	}
-
 	public function setValue($value)
 	{
 		if(!is_string($value) && is_callable($value)) {
@@ -76,12 +61,6 @@ class Input
 		$this->component = $component;
 		return $this;
 	}
-
-	public function loadCore($core)
-	{
-		return $this;
-	}
-	
 
 	// Value to show on CRUDS
 
