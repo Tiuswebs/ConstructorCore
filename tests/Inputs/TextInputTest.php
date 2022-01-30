@@ -25,6 +25,6 @@ class TextInputTest extends TestCase
             Text::make('Title', 'another_column_name')->default('Default Value')
         ];
         $values = $this->getValuesFrom($fields);
-        $this->assertTrue($values->another_column_name == 'Default Value');
+        $this->assertEquals($values->another_column_name, 'Default Value');
     }
 }

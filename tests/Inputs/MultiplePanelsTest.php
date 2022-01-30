@@ -19,7 +19,9 @@ class MultiplePanelsTest extends TestCase
             ])->defaultPanels(3),
         ];
         $values = $this->getValuesFrom($fields);
-        dd($values);
-        $this->assertTrue($values->title == 'Default Value');
+
+        $this->assertTrue(isset($values->tab[0]));
+        $this->assertEquals($values->tab[0]->items, 3);
+        $this->assertEquals($values->tab[0]->title, 'Support');
     }
 }
