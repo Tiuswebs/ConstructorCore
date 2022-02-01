@@ -20,6 +20,7 @@ class PanelTest extends TestCase
         ];
         $values = $this->getValuesFrom($fields);
 
+        $this->assertTrue(isset($values->item));
         $this->assertEquals($values->item->text, '910-784-8015');
         $this->assertEquals($values->item->title, 'Support');
     }
@@ -36,19 +37,20 @@ class PanelTest extends TestCase
         ];
         $values = $this->getValuesFrom($fields);
 
+        $this->assertTrue(isset($values->item));
         $this->assertTrue(isset($values->item[0]));
         $this->assertEquals($values->item[0]->title, 'Support');
     }
 
     /** @test */
-    public function array name()
+    public function array_name()
     {
         $fields = [
             Panel::make('Item', [
                 Text::make('Title')->default('Support'),
                 Text::make('Text')->default('910-784-8015'),
                 Text::make('Link')->default('tel:910-784-8015'),
-            ])->setColumn('ejemplo.hola',
+            ])->setColumn('ejemplo.hola'),
         ];
         $values = $this->getValuesFrom($fields);
 
