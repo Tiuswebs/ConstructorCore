@@ -8,7 +8,7 @@ use Tiuswebs\ConstructorCore\Traits\UseCss;
 class FontFamily extends Select
 {
 	use UseCss;
-	
+
 	public function load()
 	{
 		$this->options($this->getFonts()->pluck('title', 'slug'));
@@ -28,6 +28,7 @@ class FontFamily extends Select
 			Font::make('Inter')->url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Mulish')->url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Poppins')->url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'),
+            Font::make('Raleway')->url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 		]);
 	}
 }
