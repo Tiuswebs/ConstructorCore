@@ -31,6 +31,7 @@ class FontFamily extends Select
 			Font::make('Raleway')->url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Darker Grotesque')->url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&display=swap'),
 			Font::make('Metal')->url('https://fonts.googleapis.com/css2?family=Metal&display=swap'),
+			Font::make('Dancing Script')->url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap'),
 		]);
 	}
 }
