@@ -28,7 +28,11 @@ class FontFamily extends Select
 			Font::make('Inter')->url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Mulish')->url('https://fonts.googleapis.com/css2?family=Mulish:wght@200;300;400;500;600;700;800;900&display=swap'),
 			Font::make('Poppins')->url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap'),
-            Font::make('Raleway')->url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap'),
+			Font::make('Raleway')->url('https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap'),
+			Font::make('Darker Grotesque')->url('https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@300;400;500;600;700;800;900&display=swap'),
+			Font::make('Metal')->url('https://fonts.googleapis.com/css2?family=Metal&display=swap'),
+			Font::make('Dancing Script')->url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap'),
+			Font::make('Laila')->url('https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap'),
 		]);
 	}
 }
