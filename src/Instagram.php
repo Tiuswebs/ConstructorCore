@@ -29,7 +29,7 @@ class Instagram extends Core
 
 	public function loadInstagramData()
 	{
-		$url = "https://www.instagram.com/{$this->values->instagram_slug}/channel/?__a=1";
+		$url = "https://www.instagram.com/{$this->values->instagram_slug}/channel/?__a=1&__d=dis";
 		$this->instagram = Cache::remember('loadInstagram:'.$url, now()->addHour(), function() use ($url) {
 			$instagram = [
 				'categories' => null,
