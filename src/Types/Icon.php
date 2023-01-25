@@ -32,7 +32,7 @@ class Icon extends Type
 		$class = $this->copy_from ?? $this->column;
 		$class = str_replace('_', '-', $class).'-class';
 		if(Str::startsWith($icon, 'http')) {
-			return '<img src="'.$icon.'" style="max-height: '.$height.'" class="'.$classes.' '.$class.' '.$this->extra_class.'" />';
+			return '<img src="'.$icon.'" style="max-height: '.$height.'" class="'.$classes.' '.$class.' '.$this->extra_class.'" alt="" />';
 		}
 		return '<i class="'.$icon.' '.$classes.' '.$class.' '.$this->extra_class.'" style="font-size: '.$height.'"></i>';
 	}
