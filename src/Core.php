@@ -143,7 +143,7 @@ abstract class Core
 		})->map(function ($item) use ($attribute, $format_value) {
 			$name = $item->column;
 			$value = $this->values->$name ?? null;
-			if (strlen($value) == 0) {
+			if (is_string($value) && strlen($value) == 0) {
 				$value = null;
 			}
 			$type = $item->parent;

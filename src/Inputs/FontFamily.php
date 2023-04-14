@@ -33,6 +33,7 @@ class FontFamily extends Select
 			Font::make('Metal')->url('https://fonts.googleapis.com/css2?family=Metal&display=swap'),
 			Font::make('Dancing Script')->url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600;700&display=swap'),
 			Font::make('Laila')->url('https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap'),
+			Font::make('Arvo')->url('https://fonts.googleapis.com/css2?family=Arvo:wght@300;400;500;600;700&display=swap'),
 		]);
 	}
 }
