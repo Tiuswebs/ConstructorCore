@@ -11,7 +11,7 @@ class Icon extends Type
 	public $main_field = 'icon';
 	private $extra_class;
 
-	public function fields()
+	public function fields() 
 	{
 		return [
 			Text::make($this->original_title.' Icon')->default('fa fa-book'),
@@ -34,10 +34,6 @@ class Icon extends Type
 		if(Str::startsWith($icon, 'http')) {
 			return '<img src="'.$icon.'" style="max-height: '.$height.'" class="'.$classes.' '.$class.' '.$this->extra_class.'" alt="" />';
 		}
-        if(Str::startsWith($icon, '<svg')) {
-			return $icon;
-		}
-
 		return '<i class="'.$icon.' '.$classes.' '.$class.' '.$this->extra_class.'" style="font-size: '.$height.'"></i>';
 	}
 
