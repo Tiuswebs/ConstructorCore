@@ -177,12 +177,17 @@ class QueryFields
 		$values = [];
 
 		// Save values
-		$this->get()->each(function($item) use (&$values) {
+		$this->get()->each(function ($item) use (&$values) {
 			$column = $item->column;
-			if(isset($item->is_group) && $item->is_group && isset($item->column_new)) {
-				$column = $item->column_new.'.'.$item->column;
+			if (isset($item->is_group) && $item->is_group && isset($item->column_new)) {
+				$column = $item->column_new . '.' . $item->column;
 			}
-			$value = $this->core->replaceResults($item->formatValue());
+			if (isset($item->value)) {
+				$item->setValue($this->core->replaceResults($item->value));
+			}
+
+			$value = $item->formatValue();
+
 			Arr::set($values, $column, $value);
 		});
 
