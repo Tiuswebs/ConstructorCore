@@ -35,6 +35,7 @@ class FontFamily extends Select
 			Font::make('Laila')->url('https://fonts.googleapis.com/css2?family=Laila:wght@300;400;500;600;700&display=swap'),
 			Font::make('Arvo')->url('https://fonts.googleapis.com/css2?family=Arvo:wght@300;400;500;600;700&display=swap'),
             Font::make('Merriweather Sans')->url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300;400;500;600;700;800&display=swap'),
+            Font::make('Open Sans')->url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap'),
 		]);
 	}
 }
