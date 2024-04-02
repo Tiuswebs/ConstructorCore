@@ -16,9 +16,6 @@ trait InputRules
 	{
 		$rules = $this->rules ?? [];
 		$rules = is_string($rules) ? [$rules] : $rules;
-		if(!$this->validateConditional(request())) {
-			return [];
-		}
 		return $rules;
 	}
 }
