@@ -1,4 +1,4 @@
-@if(get_class($core) == 'Tiuswebs\Modules\Elements\Tiuswebs\Content')
+@if(!$core->have_section)
 	{!! $value !!}
 @else
 	<section 
