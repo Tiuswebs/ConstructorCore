@@ -10,13 +10,11 @@ use Illuminate\Support\Arr;
  */
 class Type
 {
-	public $default;
+	public $default, $original_title, $values, $copy_from, $title, $column, $column_new;
 	public $is_group = true;
 	public $main_field = 'text';
 	public $ignore = [];
 	public $only = [];
-	public $values;
-	public $copy_from;
 	public $default_classes = '';
 
 	public function __construct($title = null, $column = null)

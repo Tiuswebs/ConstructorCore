@@ -9,7 +9,7 @@ class Logo extends Text
 	public function formatValue()
 	{
 		$value = parent::formatValue();
-		if(strlen($value)>0) {
+		if(!is_null($value) && strlen($value)>0) {
             return $value;
         }
         if(!is_object($this->component->team)) {

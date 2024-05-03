@@ -463,8 +463,11 @@ abstract class Core
 	 */
 	public function hide($field)
 	{
+		if(is_null($field)) {
+			return;
+		}
 		$value = property_exists($this->values, $field) ? $this->values->$field : $field;
-		if (!is_bool($value) && strlen($value) == 0) {
+		if (!is_null($value) && !is_bool($value) && strlen($value) == 0) {
 			return "hidden";
 		}
 	}
@@ -477,6 +480,9 @@ abstract class Core
 	 */
 	public function checkLink($field)
 	{
+		if(is_null($field)) {
+			return;
+		}
 		$value = property_exists($this->values, $field) ? $this->values->$field : $field;
 		if ((empty($value)) || (is_string($value) && strlen($value) <= 1) || (is_bool($field) && !$field)) {
 			return "cursor-default pointer-events-none";

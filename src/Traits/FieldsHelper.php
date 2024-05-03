@@ -9,6 +9,8 @@ use Tiuswebs\ConstructorCore\QueryFields;
 
 trait FieldsHelper 
 {
+	public $return_fields;
+	
 	public function getDefaults()
 	{
 		$default_values = collect([

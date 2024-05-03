@@ -8,9 +8,9 @@ use Tiuswebs\ConstructorCore\Inputs\Text;
 
 class Panel extends Component
 {
+	public $show_before, $values;
 	public $is_panel = true;
 	public $repeat = false;
-	public $values;
 	
 	public function load()
 	{

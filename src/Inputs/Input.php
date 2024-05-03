@@ -15,6 +15,7 @@ class Input
 {
 	use InputSetters, InputRules, WithWidth;
 
+	public $original_column;
 	public $is_input = true;
 	public $show = true;
 	public $is_panel = false;
