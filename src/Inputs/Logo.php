@@ -12,7 +12,6 @@ class Logo extends Select
 			'photo_url' => __('Main Logo'),
 			'white_logo_url' => __('White Logo'),
 		];
-		$this->default_value = 'photo_url';
 	}
 
 	public function formatValue()
@@ -24,6 +23,9 @@ class Logo extends Select
         if(!is_object($this->component->team)) {
         	return;
         }
+		if(is_null($value)) {
+			$value = 'photo_url';
+		}
         return $this->component->team->$value;
 	}
 }
