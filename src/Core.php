@@ -467,7 +467,7 @@ abstract class Core
 			return;
 		}
 		$value = property_exists($this->values, $field) ? $this->values->$field : $field;
-		if (is_null($value)|| is_bool($value) || (is_string($value) && strlen($value) == 0)) {
+		if (is_null($value) || is_bool($value) || (is_string($value) && strlen($value) == 0)) {
 			return "hidden";
 		}
 	}

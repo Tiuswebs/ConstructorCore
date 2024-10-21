@@ -27,7 +27,7 @@ class Icon extends Type
         if (is_null($icon)) {
             return '';
         }
-        $height = $this->getValue('height', 'inherit');
+        $height = $this->getValue('height');
         $classes = $this->getValue('classes');
         $class = $this->copy_from ?? $this->column;
         $class = str_replace('_', '-', $class) . '-class';
@@ -38,7 +38,8 @@ class Icon extends Type
             return $icon;
         }
 
-        return '<i class="' . $icon . ' ' . $classes . ' ' . $class . ' ' . $this->extra_class . '" style="font-size: ' . $height . '"></i>';
+        $height = $height ? 'style="font-size: ' . $height . '"' : '';
+        return '<i class="' . $icon . ' ' . $classes . ' ' . $class . ' ' . $this->extra_class . '"' . $height . '></i>';
     }
 
     public function addExtraClass($class)
