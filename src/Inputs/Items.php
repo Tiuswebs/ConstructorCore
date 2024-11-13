@@ -14,6 +14,9 @@ class Items extends Textarea
 	public function formatValue()
 	{
 		$value = parent::formatValue();
+		if(is_null($value)) {
+			return collect([]);
+		}
 		return collect(explode("\n", $value))->filter(function($item) {
 			return strlen($item) > 0;
 		})->map(function($item) {

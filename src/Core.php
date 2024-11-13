@@ -68,7 +68,7 @@ abstract class Core
 		if (isset($this->constructor)) {
 			$data = collect($data)->merge($this->constructor->data)->all();
 		}
-		if (!$this->show_view) {
+		if (!$this->show_view || !isset($this->view)) {
 			return;
 		}
 		$value = view($this->view, $data)->render();
