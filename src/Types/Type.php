@@ -4,12 +4,15 @@ namespace Tiuswebs\ConstructorCore\Types;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
+use Tiuswebs\ConstructorCore\Traits\UseCss;
 
 /**
  * The Types are group of inputs that return many variables to use on the views
  */
 class Type
 {
+    use UseCss;
+    
 	public $default, $original_title, $values, $copy_from, $title, $column, $column_new;
 	public $is_group = true;
 	public $main_field = 'text';
@@ -103,6 +106,12 @@ class Type
 			if(isset($defaults[$column])) {
 				$item = $item->default($defaults[$column]);
 			};
+
+            // Inherits CSS styles
+            if (\method_exists($item, 'cssType')) {
+                $item->cssType($this->css_load);
+            }
+
 			return $item;
 		});
 	}
