@@ -693,6 +693,8 @@ So if the text color name is `background_color_hover` it will show the next css
 }
 ```
 
+Learn more about this behavior on [CSS States/Pseudo-Classes](#css-statespseudo-classes).
+
 #### BackgroundColor
 ```php
 BackgroundColor::make('Background Color')->default('#f1f1f1');
@@ -820,6 +822,38 @@ This input injects the value set by the user to the html to the selected class.
 
 ```php
 TailwindClass::make('Classes');
+```
+
+## CSS States/Pseudo-Classes
+
+`Inputs` which generate CSS through the `UseCss` trait, will do it depending on their title.
+
+Any title that contains `Hover`
+
+```php
+BackgroundColor::make('My Background Hover Style')->default('#f1f1f1');
+```
+
+Will generate the following CSS selector
+
+```css
+.my-background-hover-style:hover {
+    background-color: #f1f1f1;
+}
+```
+
+If you need to override this automatic generation, you can use the `cssType` function, with the following options
+
+```php
+BackgroundColor::make('My Background Hover Style')->cssType('automatic'); // The default automatic detection by title
+BackgroundColor::make('My Background Hover Style')->cssType('normal'); // Will NEVER inject :hover
+BackgroundColor::make('My Background Style')->cssType('hover'); // Will ALWAYS inject :hover
+```
+
+You can also use this function on `Types`, in order to inherit the same option to their inputs.
+
+```php
+Title::make('Title Hover')->cssType('normal');
 ```
 
 ## Good to know
