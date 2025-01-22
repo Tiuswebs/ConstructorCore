@@ -22,18 +22,10 @@ class Input
 	public $form_before = '';
 	public $form_after = '';
 	public $data_classes = '';
-	public $original_title;
-	public $title_nt;
-	public $title;
+	public $original_title, $title_nt, $title;
 	public $set_title_executed = false;
 	public $needs_to_be_on_panel = true;
-	public $column;
-	public $extra;
-	public $source; 
-	public $value;
-	public $size;
-	public $parent;
-	public $component;
+	public $column, $extra, $source, $value, $size, $parent, $component, $attributes;
 
 	public function __construct($title = null, $column = null, $extra = null, $source = null)
 	{
@@ -43,6 +35,7 @@ class Input
 		$this->column = $column;
 		$this->extra = $extra;
 		$this->source = $source;
+		$this->attributes = config('front.default_input_attributes');
 		$this->load();
 	}
 

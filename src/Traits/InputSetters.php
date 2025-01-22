@@ -5,7 +5,6 @@ namespace Tiuswebs\ConstructorCore\Traits;
 trait InputSetters
 {
 	public $default_value = null, $help;
-	public $attributes = ['class' => 'form-control form-control-sm'];
 	public $conditional;
 	public $resource;
 	public $display_using;
